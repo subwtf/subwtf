@@ -1,5 +1,1 @@
 nohup: ignoring input
-  File "/root/subwtf-repo/generator.py", line 226
-    function toggleDrawer() { document.getElementById('catDrawer').classList.toggle('open'); }
-                                                                                           ^
-SyntaxError: f-string: expecting '=', or '!', or ':', or '}'
