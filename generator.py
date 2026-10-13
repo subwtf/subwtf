@@ -6,17 +6,14 @@ REPO_DIR = "/root/subwtf-repo"
 
 def generate():
     if not os.path.exists(DB_FILE):
-        print("База данных не найдена!")
         return
 
     try:
         with open(DB_FILE, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
-    except Exception as e:
-        print(f"Ошибка чтения JSON: {e}")
+    except Exception:
         return
 
-    # Достаем список приложений из ключа 'apps' или используем корень, если это список
     if isinstance(raw_data, dict):
         db = raw_data.get("apps", [])
     elif isinstance(raw_data, list):
@@ -67,7 +64,7 @@ def generate():
         .section-title {{ font-size: 18px; font-weight: 600; margin: 20px 16px 12px; max-width: 800px; margin-left: auto; margin-right: auto; }}
         
         .grid {{
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 16px; padding: 0 16px; max-width: 800px; margin: 0 auto;
         }}
         .card {{
@@ -109,10 +106,10 @@ def generate():
     </header>
 
     <div class="search-container">
-        <input type="text" class="search-box" id="search" placeholder="Поиск по 159 приложениям..." oninput="filterApps()">
+        <input type="text" class="search-box" id="search" placeholder="Поиск по каталогу..." oninput="filterApps()">
     </div>
 
-    <div class="section-title">🔥 Популярные релизы</div>
+    <div class="section-title">🔥 Доступные приложения</div>
 
     <div class="grid" id="app-grid">
 """
@@ -133,7 +130,6 @@ def generate():
         category = app.get("category", "Утилиты")
         size = app.get("file_size", "15 MB")
         
-        # Берем первую букву для стильной иконки-бейджа
         first_letter = name[0] if name else "A"
         grad = gradients[idx % len(gradients)]
 
@@ -158,10 +154,6 @@ def generate():
             <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             Поиск
         </a>
-        <a href="#" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            О системе
-        </a>
     </div>
 
     <script>
@@ -181,7 +173,6 @@ def generate():
     output_path = os.path.join(REPO_DIR, "index.html")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print("Современный каталог успешно сгенерирован (159 приложений)!")
 
 if __name__ == "__main__":
     generate()
