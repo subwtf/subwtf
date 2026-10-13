@@ -41,7 +41,7 @@ footer { text-align: center; padding: 1.5rem; font-size: 0.75rem; color: #64748b
 cards_html = ""
 for app in APPS:
     cards_html += f"""
-    <a href="{app[slug]}.html" class="card">
+    <a href="{app.get("slug", "")}.html" class="card">
         <div>
             <div class="card-top">
                 <div class="icon">{app.get(icon, )}</div>
@@ -116,6 +116,6 @@ for app in APPS:
     <footer>&copy; 2026 Git App WTF 🤨</footer>
 </body>
 </html>"""
-    open(f"{app[slug]}.html", "w", encoding="utf-8").write(app_html)
+    open(f"{app.get("slug", "")}.html", "w", encoding="utf-8").write(app_html)
 
 print("Генерация завершена успешно!")

@@ -1,6 +1,1 @@
 nohup: ignoring input
-Traceback (most recent call last):
-  File "/root/subwtf-repo/generator.py", line 44, in <module>
-    <a href="{app[slug]}.html" class="card">
-                  ^^^^
-NameError: name 'slug' is not defined

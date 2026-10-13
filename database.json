@@ -1565,7 +1565,10 @@
   ],
   "sent": [
     "smarttube",
-    "ivi-player"
+    "ivi-player",
+    "briefklar-android",
+    "kov-sec",
+    "android-mod-apk-security-guide"
   ],
   "archive": [
     {
@@ -1589,6 +1592,39 @@
       "date": "14.10.2026",
       "fallback_apk": "https://github.com/search",
       "desc": "Удобный проигрыватель для пользовательских M3U и M8U плейлистов высокой стабильности."
+    },
+    {
+      "slug": "briefklar-android",
+      "name": "briefklar-android",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "45.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/azimrakh-cmyk/briefklar-android/releases",
+      "desc": "Briefklar Android app (APK builds)"
+    },
+    {
+      "slug": "kov-sec",
+      "name": "Kov-Sec",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "37.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/UnknownDev2018/Kov-Sec/releases",
+      "desc": "Kov-Sec - Anti-Reverse Engineering APK Protection Platform. Protect Android apps against reverse engineering, tampering and hackin..."
+    },
+    {
+      "slug": "android-mod-apk-security-guide",
+      "name": "android-mod-apk-security-guide",
+      "category": "Системные",
+      "rating": "5.0",
+      "icon": "[APP]",
+      "file_size": "35.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Lorcan8920/android-mod-apk-security-guide/releases",
+      "desc": "Analyze the security risks of modded APKs and learn how threat actors inject malicious code to compromise mobile devices."
     }
   ],
   "total_scraped": 142,
