@@ -1,64 +1,63 @@
 import json
 import urllib.request
-import datetime
 
 REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
 
 APPS_DATA = [
     {
         "slug": "televizo",
-        "name": "Televizo — IPTV Player",
-        "tag": "Топ выбор",
-        "category": "Android & TV",
-        "rating": "4.8",
+        "name": "Televizo",
+        "badge": "TOP 🔥",
+        "category": "IPTV Плееры",
+        "rating": "4.9",
         "icon": "📺",
-        "github_repo": "alexelec/Televizo",  # Репозиторий для отслеживания
+        "github_repo": "alexelec/Televizo",
         "fallback_apk": "https://github.com/alexelec/Televizo/releases",
-        "desc": "Удобный и функциональный IPTV плеер для Android телефонов, планшетов и TV-приставок. Поддерживает M3U и Xtream Codes API."
+        "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов. Полная поддержка M3U и Xtream Codes API."
     },
     {
         "slug": "ott-navigator",
-        "name": "OTT Navigator IPTV",
-        "tag": "Продвинутый",
-        "category": "Android TV / Box",
-        "rating": "4.9",
+        "name": "OTT Navigator",
+        "badge": "PRO ✨",
+        "category": "Медиацентры",
+        "rating": "4.8",
         "icon": "⚡",
         "github_repo": "",
         "fallback_apk": "https://ott-navigator.ru",
-        "desc": "Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов, картинка-в-картинке и детальным EPG гидом."
+        "desc": "Продвинутый плеер с функцией архива передач, поддержкой нескольких плейлистов, картинкой-в-картинке и детальным EPG."
     },
     {
         "slug": "tvimate",
-        "name": "TiviMate IPTV Player",
-        "tag": "Популярное",
-        "category": "Smart TV & Box",
-        "rating": "4.9",
+        "name": "TiviMate",
+        "badge": "BEST 👑",
+        "category": "Smart TV",
+        "rating": "5.0",
         "icon": "🎬",
         "github_repo": "",
         "fallback_apk": "https://tvimate.com",
-        "desc": "Премиальный интерфейс в стиле кабельного ТВ. Идеален для Android TV приставок и телевизоров с пультом ДУ."
+        "desc": "Премиальный интерфейс в стиле кабельного ТВ. Разработан специально для приставок и телевизоров с пультом ДУ."
     },
     {
         "slug": "iptv-smarters",
         "name": "IPTV Smarters Pro",
-        "tag": "Мультиплатформа",
-        "category": "Android / iOS / Windows",
+        "badge": "MULTI 📱",
+        "category": "Android & Box",
         "rating": "4.7",
-        "icon": "📱",
+        "icon": "📲",
         "github_repo": "",
         "fallback_apk": "https://www.iptvsmarters.com",
-        "desc": "Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов, родительского контроля и встроенного плеера."
+        "desc": "Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов и встроенного родительского контроля."
     },
     {
         "slug": "perfect-player",
-        "name": "Perfect Player IPTV",
-        "tag": "Классика",
+        "name": "Perfect Player",
+        "badge": "LITE 🚀",
         "category": "Android TV",
         "rating": "4.6",
         "icon": "📡",
         "github_repo": "",
         "fallback_apk": "http://www.niklabs.com",
-        "desc": "Надежный и легкий плеер для слабых ТВ-приставок. Минимальное потребление ресурсов и быстрая загрузка M3U."
+        "desc": "Легковесный плеер для слабых ТВ-приставок. Минимальный расход ресурсов и мгновенный запуск M3U каналов."
     }
 ]
 
@@ -83,111 +82,123 @@ HTML_HEAD = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV Market — Скачать плееры и M3U плейлисты 2026</title>
+    <title>TV Store APK — Магазин приложений для Smart TV и Android Box</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #090d16;
+            color: #f1f5f9;
             line-height: 1.5;
             min-height: 100vh;
         }
         a { color: inherit; text-decoration: none; }
 
-        /* Шапка */
+        /* Навбар */
         .header {
             position: sticky; top: 0; z-index: 50;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.85rem 1.25rem;
+            padding: 1rem 1.5rem;
             display: flex; align-items: center; justify-content: space-between; gap: 1rem;
         }
         .logo {
-            display: flex; align-items: center; gap: 0.6rem;
-            font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;
+            display: flex; align-items: center; gap: 0.75rem;
+            font-weight: 800; font-size: 1.25rem; tracking: -0.02em;
         }
         .logo-box {
-            width: 2.2rem; height: 2.2rem; border-radius: 0.6rem;
-            background: linear-gradient(135deg, #10b981, #059669);
+            width: 2.4rem; height: 2.4rem; border-radius: 0.75rem;
+            background: linear-gradient(135deg, #6366f1, #3b82f6);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+            font-size: 1.2rem; box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
         }
         
-        .search-box {
-            flex-grow: 1; max-width: 400px; position: relative;
-            display: none;
+        .search-container {
+            flex-grow: 1; max-width: 380px; position: relative;
         }
-        @media (min-width: 640px) { .search-box { display: block; } }
         .search-input {
-            width: 100%; padding: 0.55rem 1rem 0.55rem 2.2rem;
-            border-radius: 0.75rem; background: rgba(30, 41, 59, 0.8);
+            width: 100%; padding: 0.6rem 1rem 0.6rem 2.4rem;
+            border-radius: 0.75rem; background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
-            font-size: 0.85rem; outline: none;
+            font-size: 0.875rem; outline: none; transition: all 0.2s;
         }
+        .search-input:focus { border-color: #6366f1; background: rgba(30, 41, 59, 0.95); }
 
-        .cta-header-btn {
-            background: #10b981; color: #fff; padding: 0.5rem 1rem;
-            border-radius: 0.65rem; font-weight: 600; font-size: 0.85rem;
-            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
+        .burger-btn {
+            background: transparent; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; display: block;
         }
-        .cta-header-btn:hover { background: #059669; }
+        @media (min-width: 768px) { .burger-btn { display: none; } }
+
+        .nav-links { display: none; gap: 1.5rem; font-weight: 600; font-size: 0.9rem; color: #94a3b8; }
+        @media (min-width: 768px) { .nav-links { display: flex; align-items: center; } }
+        .nav-links a:hover { color: #6366f1; }
+
+        /* Мобильное меню */
+        .mobile-menu {
+            display: none; position: fixed; top: 4.1rem; left: 0; right: 0;
+            background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1.25rem; z-index: 40; flex-direction: column; gap: 1rem;
+        }
+        .mobile-menu.active { display: flex; }
 
         /* Баннер Рефералки iSeeTV */
-        .promo-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.4));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 1.25rem; padding: 1.5rem; margin: 1.5rem 0 2rem;
-            display: flex; flex-col; gap: 1rem; align-items: flex-start; justify-content: space-between;
+        .promo-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(30, 41, 59, 0.8));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 1.25rem; padding: 1.75rem; margin: 1.5rem 0 2rem;
+            display: flex; flex-direction: column; gap: 1.25rem; justify-content: space-between;
         }
-        @media (min-width: 768px) { .promo-banner { flex-direction: row; align-items: center; } }
-        .promo-title { font-size: 1.15rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.3rem; }
-        .promo-desc { font-size: 0.875rem; color: #94a3b8; }
+        @media (min-width: 768px) { .promo-card { flex-direction: row; align-items: center; } }
+        .promo-title { font-size: 1.2rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.4rem; }
+        .promo-sub { font-size: 0.9rem; color: #94a3b8; }
         .promo-btn {
-            background: #10b981; color: #fff; padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem;
-            white-space: nowrap; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-            transition: transform 0.2s;
+            background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;
+            padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
+            white-space: nowrap; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+            transition: all 0.2s; text-align: center;
         }
-        .promo-btn:hover { transform: translateY(-2px); }
+        .promo-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
 
-        /* Сетка APK Маркета */
+        /* Сетка Карт */
         .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
-        .section-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; color: #f8fafc; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem; }
 
-        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-        
         .app-card {
-            background: rgba(30, 41, 59, 0.6);
+            background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.1rem; padding: 1.25rem;
-            display: flex; gap: 1rem; transition: all 0.2s ease;
+            border-radius: 1.25rem; padding: 1.25rem;
+            display: flex; gap: 1rem; transition: all 0.25s ease; position: relative;
         }
         .app-card:hover {
-            background: rgba(30, 41, 59, 0.9);
-            border-color: rgba(16, 185, 129, 0.4);
-            transform: translateY(-3px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px -10px rgba(0, 0, 0, 0.5);
+        }
+        .app-badge {
+            position: absolute; top: 1rem; right: 1rem;
+            font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem;
+            border-radius: 0.4rem; background: rgba(99, 102, 241, 0.2); color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
         .app-icon {
-            width: 3.5rem; height: 3.5rem; border-radius: 0.85rem;
-            background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 3.75rem; height: 3.75rem; border-radius: 1rem;
+            background: #020617; border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.75rem; flex-shrink: 0;
+            font-size: 1.8rem; flex-shrink: 0;
         }
-        .app-info { flex-grow: 1; min-width: 0; }
-        .app-name { font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .app-meta { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center; }
-        .app-rating { color: #fbbf24; font-weight: 600; }
-        .app-desc { font-size: 0.8rem; color: #94a3b8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .app-body { flex-grow: 1; min-width: 0; }
+        .app-title { font-size: 1.05rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; }
+        .app-category { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-bottom: 0.5rem; }
+        .app-desc { font-size: 0.825rem; color: #94a3b8; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* Футер */
         .footer {
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2rem 1.25rem; text-align: center; color: #64748b; font-size: 0.85rem;
+            padding: 2.5rem 1.25rem; text-align: center; color: #64748b; font-size: 0.85rem;
         }
     </style>
 </head>
@@ -195,30 +206,39 @@ HTML_HEAD = """<!DOCTYPE html>
     <header class="header">
         <a href="index.html" class="logo">
             <div class="logo-box">📺</div>
-            <div>IPTV<span style="color:#10b981">.Market</span></div>
+            <div>TV Store<span style="color:#6366f1">.APK</span></div>
         </a>
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="Поиск плеера или приложения...">
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск приложений для TV...">
         </div>
-        <a href="{REFRAL_LINK}" target="_blank" class="cta-header-btn">
-            <span>🎁 Тест плейлиста</span>
-        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="#catalog">Каталог</a>
+            <a href="{REFRAL_LINK}" target="_blank" style="color: #818cf8;">🎁 Плейлист iSeeTV</a>
+        </nav>
+
+        <button class="burger-btn" onclick="toggleMenu()">☰</button>
     </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" style="color:#fff; font-weight:700;">Главная</a>
+        <a href="#catalog" style="color:#94a3b8;">Каталог APK</a>
+        <a href="{REFRAL_LINK}" target="_blank" style="color:#818cf8; font-weight:700;">🎁 Получить тест M3U</a>
+    </div>
 """
 
 def generate_index():
     cards = ""
     for app in APPS_DATA:
         cards += f"""
-        <a href="{app['slug']}.html" class="app-card">
+        <a href="{app['slug']}.html" class="app-card" data-name="{app['name'].lower()}">
+            <span class="app-badge">{app['badge']}</span>
             <div class="app-icon">{app['icon']}</div>
-            <div class="app-info">
-                <div class="app-name">{app['name']}</div>
-                <div class="app-meta">
-                    <span class="app-rating">★ {app['rating']}</span>
-                    <span>•</span>
-                    <span>{app['category']}</span>
-                </div>
+            <div class="app-body">
+                <div class="app-title">{app['name']}</div>
+                <div class="app-category">{app['category']} &bull; ★ {app['rating']}</div>
                 <div class="app-desc">{app['desc']}</div>
             </div>
         </a>
@@ -226,24 +246,48 @@ def generate_index():
 
     html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
     <main class="container">
-        <!-- Реферальный Блок iSeeTV -->
-        <div class="promo-banner">
+        <!-- Главный Промо-Блок iSeeTV -->
+        <div class="promo-card">
             <div>
-                <div class="promo-title">🔥 Стабильный M3U Плейлист без лагов и задержек</div>
-                <div class="promo-desc">Более 1000+ каналов в 4K/FullHD, архив передач за 7 дней. Бесплатный тест для всех плееров!</div>
+                <div class="promo-title">🔥 Стабильный M3U Плейлист для всех приложений TV Store</div>
+                <div class="promo-sub">Более 1000+ каналов в UltraHD/4K качество, архив 7 дней и мгновенное переключение. Заберите бесплатный тест!</div>
             </div>
-            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить тест &rarr;</a>
+            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Тестировать бесплатно &rarr;</a>
         </div>
 
-        <div class="section-title">Каталог IPTV Плееров &amp; APK</div>
-        <div class="apps-grid">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" id="catalog">
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;">Каталог приложений</h2>
+            <span style="font-size: 0.85rem; color: #64748b;">Обновлено 2026</span>
+        </div>
+
+        <div class="grid" id="appsGrid">
             {cards}
         </div>
     </main>
 
     <footer class="footer">
-        &copy; 2026 IPTV Market — Автоматизированный каталог плееров и плейлистов.
+        &copy; 2026 TV Store APK — Каталог дистрибутивов для Smart TV и Android устройств.
     </footer>
+
+    <script>
+        function toggleMenu() {{
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }}
+
+        // Поиск в реальном времени
+        document.getElementById('searchInput').addEventListener('input', function(e) {{
+            const val = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach(card => {{
+                const name = card.getAttribute('data-name');
+                if (name.includes(val)) {{
+                    card.style.display = 'flex';
+                }} else {{
+                    card.style.display = 'none';
+                }}
+            }});
+        }});
+    </script>
 </body>
 </html>
 """
@@ -256,16 +300,16 @@ def generate_app_page(app):
 
     html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
     <main class="container" style="max-width: 800px;">
-        <a href="index.html" style="color: #10b981; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; Назад в каталог</a>
+        <a href="index.html" style="color: #818cf8; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; Назад в каталог TV Store</a>
         
         <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem;">
-            <div style="width: 5rem; height: 5rem; border-radius: 1.2rem; background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">
+            <div style="width: 5rem; height: 5rem; border-radius: 1.25rem; background: #020617; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">
                 {app['icon']}
             </div>
             <div>
-                <h1 style="font-size: 1.75rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.3rem;">{app['name']}</h1>
+                <h1 style="font-size: 1.85rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.3rem;">{app['name']}</h1>
                 <div style="display: flex; gap: 0.75rem; font-size: 0.85rem; color: #94a3b8;">
-                    <span style="color: #fbbf24;">★ {app['rating']}</span>
+                    <span style="color: #fbbf24; font-weight: 700;">★ {app['rating']}</span>
                     <span>•</span>
                     <span>{app['category']}</span>
                 </div>
@@ -273,41 +317,45 @@ def generate_app_page(app):
         </div>
 
         <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
-            <a href="{download_url}" target="_blank" style="background: #10b981; color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; shadow: 0 4px 14px rgba(16,185,129,0.3);">
-                <span>📥 Скачать APK (Официальный)</span>
+            <a href="{download_url}" target="_blank" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(99,102,241,0.35);">
+                <span>📥 Скачать APK (Прямая ссылка)</span>
             </a>
-            <a href="{REFRAL_LINK}" target="_blank" style="background: rgba(30,41,59,0.8); color: #34d399; border: 1px solid rgba(16,185,129,0.3); padding: 0.85rem 1.5rem; border-radius: 0.85rem; font-weight: 600;">
-                <span>🎁 Забрать плейлист для плеера</span>
+            <a href="{REFRAL_LINK}" target="_blank" style="background: rgba(30,41,59,0.8); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); padding: 0.85rem 1.5rem; border-radius: 0.85rem; font-weight: 600;">
+                <span>🎁 Плейлист iSeeTV для {app['name']}</span>
             </a>
         </div>
 
-        <!-- Описание и Инструкция -->
-        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 2rem;">
-            <h2 style="font-size: 1.2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">О приложении</h2>
-            <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">{app['desc']}</p>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 2rem; line-height: 1.7;">
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Описание приложения</h2>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem;">{app['desc']}</p>
 
-            <h2 style="font-size: 1.2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Как настроить M3U плейлист в {app['name']}</h2>
-            <ol style="color: #cbd5e1; font-size: 0.9rem; padding-left: 1.2rem; line-height: 1.8;">
-                <li>Зарегистрируйтесь и получите ссылку на ваш M3U плейлист в <a href="{REFRAL_LINK}" target="_blank" style="color: #10b981; font-weight: 600;">сервисе iSeeTV</a>.</li>
-                <li>Установите и откройте приложение {app['name']} на вашем устройстве.</li>
-                <li>Перейдите в раздел <b>Настройки &rarr; Плейлисты &rarr; Добавить плейлист</b>.</li>
-                <li>Вставьте вашу M3U ссылку или параметры Xtream Codes и нажмите <b>Сохранить</b>.</li>
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Как подключить M3U плейлист в {app['name']}</h2>
+            <ol style="color: #cbd5e1; font-size: 0.9rem; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <li>Получите персональную M3U-ссылку или параметры подключения в <a href="{REFRAL_LINK}" target="_blank" style="color: #818cf8; font-weight: 700;">сервисе iSeeTV</a>.</li>
+                <li>Запустите {app['name']} на телевизоре или ТВ-приставке.</li>
+                <li>Перейдите в меню <b>Настройки &rarr; Плейлисты &rarr; Добавить</b>.</li>
+                <li>Вставьте вашу ссылку и сохраните изменения.</li>
             </ol>
         </div>
 
-        <!-- Промо Блок -->
-        <div class="promo-banner">
+        <div class="promo-card">
             <div>
-                <div class="promo-title">Нужен качественный плейлист?</div>
-                <div class="promo-desc">Подключите iSeeTV — более 1000 каналов, архив и высокая скорость без буферизации.</div>
+                <div class="promo-title">Нужен проверенный список каналов?</div>
+                <div class="promo-desc">Подключите iSeeTV — более 1000+ каналов без буферизации, с архивом и идеальным качеством.</div>
             </div>
             <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить &rarr;</a>
         </div>
     </main>
 
     <footer class="footer">
-        &copy; 2026 IPTV Market — Инструкции и загрузки.
+        &copy; 2026 TV Store APK — Официальные сборки и инструкции.
     </footer>
+
+    <script>
+        function toggleMenu() {{
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }}
+    </script>
 </body>
 </html>
 """
@@ -318,4 +366,4 @@ generate_index()
 for app in APPS_DATA:
     generate_app_page(app)
 
-print("IPTV Play Market с интеграцией GitHub API успешно сформирован!")
+print("Проект TV Store APK скомпилирован и готов!")
