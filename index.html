@@ -3,191 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Store APK — Магазин приложений для Smart TV и Android Box</title>
+    <title>TV Store APK — Каталог приложений для Smart TV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #090d16;
-            color: #f1f5f9;
-            line-height: 1.5;
-            min-height: 100vh;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #f1f5f9; line-height: 1.5; min-height: 100vh; }
         a { color: inherit; text-decoration: none; }
-        .header {
-            position: sticky; top: 0; z-index: 50;
-            background: rgba(9, 13, 22, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 1rem 1.5rem;
-            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-        }
-        .logo {
-            display: flex; align-items: center; gap: 0.75rem;
-            font-weight: 800; font-size: 1.25rem;
-        }
-        .logo-box {
-            width: 2.4rem; height: 2.4rem; border-radius: 0.75rem;
-            background: linear-gradient(135deg, #6366f1, #3b82f6);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
-        }
-        .search-container { flex-grow: 1; max-width: 380px; position: relative; }
-        .search-input {
-            width: 100%; padding: 0.6rem 1rem 0.6rem 2.4rem;
-            border-radius: 0.75rem; background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
-            font-size: 0.875rem; outline: none;
-        }
-        .burger-btn { background: transparent; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; display: block; }
-        @media (min-width: 768px) { .burger-btn { display: none; } }
-        .nav-links { display: none; gap: 1.5rem; font-weight: 600; font-size: 0.9rem; color: #94a3b8; }
-        @media (min-width: 768px) { .nav-links { display: flex; align-items: center; } }
-        .mobile-menu {
-            display: none; position: fixed; top: 4.1rem; left: 0; right: 0;
-            background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 1.25rem; z-index: 40; flex-direction: column; gap: 1rem;
-        }
-        .mobile-menu.active { display: flex; }
-        .promo-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(30, 41, 59, 0.8));
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 1.25rem; padding: 1.75rem; margin: 1.5rem 0 2rem;
-            display: flex; flex-direction: column; gap: 1.25rem; justify-content: space-between;
-        }
+        .header { position: sticky; top: 0; z-index: 50; background: rgba(9, 13, 22, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; }
+        .logo-box { width: 2.4rem; height: 2.4rem; border-radius: 0.75rem; background: linear-gradient(135deg, #6366f1, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .search-container { flex-grow: 1; max-width: 380px; }
+        .search-input { width: 100%; padding: 0.6rem 1rem; border-radius: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 0.875rem; outline: none; }
+        .cat-scroll { display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem 0; margin-bottom: 1.5rem; scrollbar-width: none; }
+        .cat-chip { padding: 0.4rem 0.85rem; border-radius: 2rem; background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; font-weight: 600; white-space: nowrap; color: #94a3b8; cursor: pointer; }
+        .cat-chip:hover, .cat-chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+        .promo-card { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(30, 41, 59, 0.8)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 1.25rem; padding: 1.5rem; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; justify-content: space-between; }
         @media (min-width: 768px) { .promo-card { flex-direction: row; align-items: center; } }
-        .promo-title { font-size: 1.2rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.4rem; }
-        .promo-sub { font-size: 0.9rem; color: #94a3b8; }
-        .promo-btn {
-            background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;
-            padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-            white-space: nowrap; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35); text-align: center;
-        }
+        .promo-title { font-size: 1.15rem; font-weight: 800; color: #f8fafc; }
+        .promo-sub { font-size: 0.85rem; color: #94a3b8; }
+        .promo-btn { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; white-space: nowrap; text-align: center; }
         .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem; }
-        .app-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.25rem; padding: 1.25rem;
-            display: flex; gap: 1rem; transition: all 0.25s ease; position: relative;
-        }
-        .app-card:hover {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(99, 102, 241, 0.4);
-            transform: translateY(-4px);
-        }
-        .app-badge {
-            position: absolute; top: 1rem; right: 1rem;
-            font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem;
-            border-radius: 0.4rem; background: rgba(99, 102, 241, 0.2); color: #818cf8;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-        .app-icon {
-            width: 3.75rem; height: 3.75rem; border-radius: 1rem;
-            background: #020617; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+        .app-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.25rem; padding: 1.25rem; display: flex; gap: 1rem; transition: all 0.2s; }
+        .app-card:hover { background: rgba(30, 41, 59, 0.8); border-color: rgba(99, 102, 241, 0.4); transform: translateY(-3px); }
+        .app-icon { width: 3.5rem; height: 3.5rem; border-radius: 1rem; background: #020617; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
         .app-body { flex-grow: 1; min-width: 0; }
-        .app-title { font-size: 1.05rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; }
-        .app-category { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-bottom: 0.5rem; }
-        .app-desc { font-size: 0.825rem; color: #94a3b8; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .app-title { font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; }
+        .app-category { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-bottom: 0.4rem; }
+        .app-desc { font-size: 0.8rem; color: #94a3b8; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 2.5rem 1.25rem; text-align: center; color: #64748b; font-size: 0.85rem; }
     </style>
 </head>
 <body>
     <header class="header">
         <a href="index.html" class="logo">
-            <div class="logo-box">📺</div>
+            <div class="logo-box">📱</div>
             <div>TV Store<span style="color:#6366f1">.APK</span></div>
         </a>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Поиск приложений для TV...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск приложений...">
         </div>
-        <nav class="nav-links">
-            <a href="index.html">Главная</a>
-            <a href="#catalog">Каталог</a>
-            <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" style="color: #818cf8;">🎁 Плейлист iSeeTV</a>
-        </nav>
-        <button class="burger-btn" onclick="toggleMenu()">☰</button>
     </header>
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html" style="color:#fff; font-weight:700;">Главная</a>
-        <a href="#catalog" style="color:#94a3b8;">Каталог APK</a>
-        <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" style="color:#818cf8; font-weight:700;">🎁 Получить тест M3U</a>
-    </div>
 
     <main class="container">
         <div class="promo-card">
             <div>
-                <div class="promo-title">🔥 Стабильный M3U Плейлист для всех приложений TV Store</div>
-                <div class="promo-sub">Более 1000+ каналов в UltraHD/4K качество, архив 7 дней и мгновенное переключение. Заберите бесплатный тест!</div>
+                <div class="promo-title">🔥 Стабильный M3U Плейлист для всех ТВ-плееров</div>
+                <div class="promo-sub">1000+ каналов в 4K/FullHD качества, архив передач и мгновенное переключение. Заберите бесплатный тест!</div>
             </div>
-            <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" class="promo-btn">Тестировать бесплатно &rarr;</a>
+            <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" class="promo-btn">Подключить тест &rarr;</a>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" id="catalog">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;">Каталог приложений</h2>
-            <span style="font-size: 0.85rem; color: #64748b;">Каталог проверенного софта</span>
+
+        <div class="cat-scroll">
+            <div class="cat-chip active" onclick="filterCat('all')">Все (18)</div><div class="cat-chip" onclick="filterCat('IPTV Плееры')">IPTV Плееры</div><div class="cat-chip" onclick="filterCat('Медиацентры')">Медиацентры</div><div class="cat-chip" onclick="filterCat('Smart TV')">Smart TV</div><div class="cat-chip" onclick="filterCat('Кино и Сериалы')">Кино и Сериалы</div><div class="cat-chip" onclick="filterCat('Видеоплееры')">Видеоплееры</div><div class="cat-chip" onclick="filterCat('Аудио и Радио')">Аудио и Радио</div><div class="cat-chip" onclick="filterCat('Утилиты TV')">Утилиты TV</div><div class="cat-chip" onclick="filterCat('Файловые менеджеры')">Файловые менеджеры</div><div class="cat-chip" onclick="filterCat('Браузеры')">Браузеры</div><div class="cat-chip" onclick="filterCat('Лаунчеры')">Лаунчеры</div><div class="cat-chip" onclick="filterCat('Оптимизация')">Оптимизация</div><div class="cat-chip" onclick="filterCat('Безопасность')">Безопасность</div><div class="cat-chip" onclick="filterCat('Тесты скорости')">Тесты скорости</div><div class="cat-chip" onclick="filterCat('Управление ДУ')">Управление ДУ</div><div class="cat-chip" onclick="filterCat('Инструменты')">Инструменты</div><div class="cat-chip" onclick="filterCat('Системные')">Системные</div><div class="cat-chip" onclick="filterCat('Игровые эмуляторы')">Игровые эмуляторы</div><div class="cat-chip" onclick="filterCat('Другое')">Другое</div>
         </div>
+
         <div class="grid" id="appsGrid">
             
-        <a href="televizo.html" class="app-card" data-name="televizo">
-            <span class="app-badge">TOP 🔥</span>
+        <a href="televizo.html" class="app-card" data-name="televizo" data-cat="IPTV Плееры">
             <div class="app-icon">📺</div>
             <div class="app-body">
                 <div class="app-title">Televizo</div>
                 <div class="app-category">IPTV Плееры &bull; ★ 4.9</div>
-                <div class="app-desc">Современный и мощный IPTV плеер для Android TV и смартфонов. Полная поддержка M3U и Xtream Codes API.</div>
+                <div class="app-desc">Современный и мощный IPTV плеер для Android TV и смартфонов. Поддержка M3U и Xtream Codes.</div>
             </div>
         </a>
         
-        <a href="ott-navigator.html" class="app-card" data-name="ott navigator">
-            <span class="app-badge">PRO ✨</span>
+        <a href="smarttube.html" class="app-card" data-name="smarttube" data-cat="Smart TV">
+            <div class="app-icon">🔴</div>
+            <div class="app-body">
+                <div class="app-title">SmartTube</div>
+                <div class="app-category">Smart TV &bull; ★ 5.0</div>
+                <div class="app-desc">Продвинутый клиент YouTube для Android TV и приставок с автопропуском интеграций и без рекламы.</div>
+            </div>
+        </a>
+        
+        <a href="ott-navigator.html" class="app-card" data-name="ott navigator" data-cat="Медиацентры">
             <div class="app-icon">⚡</div>
             <div class="app-body">
                 <div class="app-title">OTT Navigator</div>
                 <div class="app-category">Медиацентры &bull; ★ 4.8</div>
-                <div class="app-desc">Продвинутый плеер с функцией архива передач, поддержкой нескольких плейлистов, картинкой-в-картинке и детальным EPG.</div>
+                <div class="app-desc">Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов и детальным EPG гидом.</div>
             </div>
         </a>
         
-        <a href="tvimate.html" class="app-card" data-name="tivimate">
-            <span class="app-badge">BEST 👑</span>
+        <a href="tvimate.html" class="app-card" data-name="tivimate" data-cat="IPTV Плееры">
             <div class="app-icon">🎬</div>
             <div class="app-body">
                 <div class="app-title">TiviMate</div>
-                <div class="app-category">Smart TV &bull; ★ 5.0</div>
-                <div class="app-desc">Премиальный интерфейс в стиле кабельного ТВ. Разработан специально для приставок и телевизоров с пультом ДУ.</div>
+                <div class="app-category">IPTV Плееры &bull; ★ 4.9</div>
+                <div class="app-desc">Премиальный интерфейс в стиле кабельного ТВ. Идеален для ТВ-приставок и пультов ДУ.</div>
             </div>
         </a>
         
-        <a href="iptv-smarters.html" class="app-card" data-name="iptv smarters pro">
-            <span class="app-badge">MULTI 📱</span>
-            <div class="app-icon">📲</div>
+        <a href="kodi.html" class="app-card" data-name="kodi media center" data-cat="Медиацентры">
+            <div class="app-icon">📦</div>
             <div class="app-body">
-                <div class="app-title">IPTV Smarters Pro</div>
-                <div class="app-category">Android & Box &bull; ★ 4.7</div>
-                <div class="app-desc">Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов и встроенного родительского контроля.</div>
+                <div class="app-title">Kodi Media Center</div>
+                <div class="app-category">Медиацентры &bull; ★ 4.7</div>
+                <div class="app-desc">Бесплатный кроссплатформенный медиацентр с открытым исходным кодом для воспроизведения видео и ТВ.</div>
             </div>
         </a>
         
-        <a href="perfect-player.html" class="app-card" data-name="perfect player">
-            <span class="app-badge">LITE 🚀</span>
-            <div class="app-icon">📡</div>
+        <a href="vlc-android.html" class="app-card" data-name="vlc for android" data-cat="Видеоплееры">
+            <div class="app-icon">🧡</div>
             <div class="app-body">
-                <div class="app-title">Perfect Player</div>
-                <div class="app-category">Android TV &bull; ★ 4.6</div>
-                <div class="app-desc">Легковесный плеер для слабых ТВ-приставок. Минимальный расход ресурсов и мгновенный запуск M3U каналов.</div>
+                <div class="app-title">VLC for Android</div>
+                <div class="app-category">Видеоплееры &bull; ★ 4.8</div>
+                <div class="app-desc">Универсальный медиаплеер, воспроизводящий большинство локальных видео и аудио файлов, а также сетевые потоки.</div>
             </div>
         </a>
         
         </div>
     </main>
-    <footer class="footer">&copy; 2026 TV Store APK — Каталог дистрибутивов для Smart TV и Android устройств.</footer>
+    <footer class="footer">&copy; 2026 TV Store APK — Каталог APK приложений.</footer>
     <script>
-        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+        function filterCat(cat) {
+            document.querySelectorAll('.cat-chip').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.app-card').forEach(card => {
+                if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const val = e.target.value.toLowerCase();
             document.querySelectorAll('.app-card').forEach(card => {
