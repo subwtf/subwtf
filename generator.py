@@ -1,6 +1,7 @@
 import json
 import urllib.request
 import urllib.parse
+import re
 import os
 
 REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
@@ -13,7 +14,7 @@ CATEGORIES = [
     "Игровые эмуляторы", "Другое"
 ]
 
-# База проверенных топов (на случай если поиск вернет мало)
+# Базовая элитная подборка
 APPS_DATA = [
     {
         "slug": "televizo",
@@ -32,76 +33,65 @@ APPS_DATA = [
         "icon": "🔴",
         "fallback_apk": "https://github.com/yuliskov/SmartTube/releases",
         "desc": "Продвинутый клиент YouTube для Android TV и приставок с автопропуском интеграций и без рекламы."
-    },
-    {
-        "slug": "ott-navigator",
-        "name": "OTT Navigator",
-        "category": "Медиацентры",
-        "rating": "4.8",
-        "icon": "⚡",
-        "fallback_apk": "https://ott-navigator.com",
-        "desc": "Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов и детальным EPG гидом."
     }
 ]
 
-def search_github_apks():
-    """Бороздит GitHub в поисках свежих репозиториев с APK"""
-    queries = ["filename:*.apk android", "extension:apk tv", "client apk release", "iptv apk github"]
-    new_apps = []
+def aggressive_github_parser():
+    """Жесткий парсер GitHub без разбора на закрытость/открытость"""
+    queries = ["android apk release", "smarttv apk", "iptv player apk", "tools apk repository"]
+    scraped = []
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/vnd.github.v3+json'
+    }
     
     for q in queries:
         try:
-            encoded_q = urllib.parse.quote(q)
-            url = f"https://api.github.com/search/repositories?q={encoded_q}&sort=updated&per_page=10"
-            req = urllib.request.Request(url, headers={'User-Agent': 'GitAppWTF-Bot/1.0'})
-            
-            with urllib.request.urlopen(req, timeout=10) as response:
+            url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(q)}&sort=stars&per_page=15"
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=8) as response:
                 data = json.loads(response.read().decode())
                 for item in data.get('items', []):
                     name = item.get('name')
-                    full_name = item.get('full_name')
-                    desc = item.get('description') or "Автоматически найденный APK с GitHub репозитория."
                     html_url = item.get('html_url')
+                    desc = item.get('description') or "Автоматически извлеченный APK с репозитория."
                     
-                    # Проверяем на дубликаты по имени
-                    slug = name.lower().replace(" ", "-").replace("_", "-")
-                    if any(a['slug'] == slug for a in APPS_DATA + new_apps):
+                    slug = re.sub(r'[^a-zA-Z0-9]', '-', name).lower().strip('-')
+                    if not slug or any(a['slug'] == slug for a in APPS_DATA + scraped):
                         continue
-                        
-                    # Определяем категорию по ключевым словам
+                    
+                    # Категоризация на лету
                     cat = "Другое"
-                    lower_desc = (name + " " + desc).lower()
-                    if "iptv" in lower_desc: cat = "IPTV Плееры"
-                    elif "media" in lower_desc or "kodi" in lower_desc: cat = "Медиацентры"
-                    elif "tv" in lower_desc or "remote" in lower_desc: cat = "Smart TV"
-                    elif "player" in lower_desc: cat = "Видеоплееры"
-                    elif "launcher" in lower_desc: cat = "Лаунчеры"
-                    elif "tool" in lower_desc or "utils" in lower_desc: cat = "Утилиты TV"
+                    txt = (name + " " + desc).lower()
+                    if "iptv" in txt or "player" in txt: cat = "IPTV Плееры"
+                    elif "media" in txt or "kodi" in txt: cat = "Медиацентры"
+                    elif "tv" in txt or "remote" in txt: cat = "Smart TV"
+                    elif "launcher" in txt: cat = "Лаунчеры"
+                    elif "tool" in txt: cat = "Утилиты TV"
 
-                    new_apps.append({
+                    scraped.append({
                         "slug": slug,
                         "name": name,
                         "category": cat,
                         "rating": "4.8",
-                        "icon": "📦",
+                        "icon": "⚡",
                         "fallback_apk": f"{html_url}/releases",
-                        "desc": desc[:120] + "..."
+                        "desc": desc[:130] + "..."
                     })
         except Exception as e:
-            print(f"Ошибка поиска GitHub: {e}")
+            print(f"Парсер пробил защиту, но поймал ошибку (не критично): {e}")
             
-    return new_apps
+    return scraped
 
-# Добавляем найденное на GitHub к нашему списку
-scanned_apps = search_github_apks()
-ALL_APPS = APPS_DATA + scanned_apps
+ALL_APPS = APPS_DATA + aggressive_github_parser()
 
 HTML_HEAD = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git App WTF 🤨 — Дикий архив APK с GitHub</title>
+    <title>Git App WTF 🤨 — Безжалостный парсер APK</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -116,12 +106,7 @@ HTML_HEAD = """<!DOCTYPE html>
         .search-input { width: 100%; padding: 0.6rem 1rem; border-radius: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 0.875rem; outline: none; }
         .burger-btn { background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 0.5rem 0.75rem; border-radius: 0.55rem; cursor: pointer; font-size: 1.2rem; }
         
-        /* Выпадающее меню категорий (Бургер) */
-        .drawer {
-            position: fixed; top: 0; right: -300px; width: 300px; height: 100vh;
-            background: #0f172a; border-left: 1px solid rgba(255,255,255,0.08);
-            z-index: 100; transition: right 0.3s ease; padding: 1.5rem; overflow-y: auto;
-        }
+        .drawer { position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; background: #0f172a; border-left: 1px solid rgba(255,255,255,0.08); z-index: 100; transition: right 0.3s ease; padding: 1.5rem; overflow-y: auto; }
         .drawer.open { right: 0; }
         .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-weight: 800; font-size: 1.1rem; }
         .close-btn { background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
@@ -153,7 +138,7 @@ HTML_HEAD = """<!DOCTYPE html>
             <div>Git App <span style="color:#f43f5e">WTF</span></div>
         </a>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по архиву APK...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по выкопанным APK...">
         </div>
         <button class="burger-btn" onclick="toggleDrawer()">☰ Категории</button>
     </header>
@@ -197,19 +182,17 @@ def generate_index():
             <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Получить тест &rarr;</a>
         </div>
 
-        <div style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #64748b;" id="currentCatTitle">Показаны все приложения из базы GitHub</div>
+        <div style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #64748b;" id="currentCatTitle">Автономный архив выкопанного софта (Всего: {len(ALL_APPS)})</div>
 
         <div class="grid" id="appsGrid">
             {cards}
         </div>
     </main>
-    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Автономный парсер APK репозиториев GitHub.</footer>
+    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Бескомпромиссный парсер APK.</footer>
     <script>
-        function toggleDrawer() {
-            document.getElementById('catDrawer').classList.toggle('open');
-        }
+        function toggleDrawer() { document.getElementById('catDrawer').classList.toggle('open'); }
         function filterCat(cat) {
-            document.getElementById('currentCatTitle').innerText = cat === 'all' ? 'Показаны все приложения из базы GitHub' : 'Категория: ' + cat;
+            document.getElementById('currentCatTitle').innerText = cat === 'all' ? 'Все выкопанные приложения' : 'Категория: ' + cat;
             document.querySelectorAll('.app-card').forEach(card => {
                 if (cat === 'all' || card.getAttribute('data-cat') === cat) {
                     card.style.display = 'flex';
@@ -245,15 +228,15 @@ def generate_app_page(app):
             </div>
         </div>
         <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
-            <a href="{app['fallback_apk']}" target="_blank" style="background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(244,63,94,0.35);">📥 Скачать / Релизы GitHub</a>
+            <a href="{app['fallback_apk']}" target="_blank" style="background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(244,63,94,0.35);">📥 Скачать APK (Прямой источник)</a>
             <a href="{REFRAL_LINK}" target="_blank" style="background: rgba(30,41,59,0.8); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); padding: 0.85rem 1.5rem; border-radius: 0.85rem; font-weight: 600;">🎁 Плейлист iSeeTV</a>
         </div>
         <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 2rem; line-height: 1.7;">
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Описание из репозитория</h2>
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Описание из источника</h2>
             <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem;">{app['desc']}</p>
         </div>
     </main>
-    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Автономный каталог APK.</footer>
+    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Автономный архив.</footer>
     <script>function toggleDrawer() { document.getElementById('catDrawer').classList.toggle('open'); }</script>
 </body>
 </html>
@@ -265,4 +248,4 @@ generate_index()
 for app in ALL_APPS:
     generate_app_page(app)
 
-print(f"Собрано приложений: {len(ALL_APPS)}")
+print(f"Парсер отработал жестко. Выкопано и опубликовано приложений: {len(ALL_APPS)}")
