@@ -1561,6 +1561,83 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/kuafuai/andee/releases",
       "desc": "An agent that moves into your Android phone and becomes its soul — not an assistant, not a tool. Any app, no integrations, on-devi..."
+    },
+    {
+      "slug": "chaincheck",
+      "name": "chaincheck",
+      "category": "Утилиты",
+      "rating": "5.0",
+      "icon": "📦",
+      "file_size": "18.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/nicglazkov/chaincheck/releases",
+      "desc": "Live Caltrans chain controls, road closures, pass weather, and resort snow for the Sierra Nevada passes to Lake Tahoe. Android APK..."
+    },
+    {
+      "slug": "github-workflows-build-yml",
+      "name": ".github-workflows-build.yml",
+      "category": "Утилиты",
+      "rating": "4.9",
+      "icon": "🛡",
+      "file_size": "40.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/salemzakarti12-eng/.github-workflows-build.yml/releases",
+      "desc": "name: Build Android APK  on:   push:     branches: [ main, master ]   workflow_dispatch:  jobs:   build:     runs-on: ubuntu-lates..."
+    },
+    {
+      "slug": "physics-ii-course",
+      "name": "physics-ii-course",
+      "category": "Утилиты",
+      "rating": "5.0",
+      "icon": "🚀",
+      "file_size": "27.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/asadbek31415-alt/physics-ii-course/releases",
+      "desc": "Physics II Interactive Course by Turin Prepnik | online course, offline computer ZIP, optional Android APK"
+    },
+    {
+      "slug": "linkscrub-releases",
+      "name": "linkscrub-releases",
+      "category": "Утилиты",
+      "rating": "4.7",
+      "icon": "⚡",
+      "file_size": "15.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/edench/linkscrub-releases/releases",
+      "desc": "Link Scrub Android APK releases (source is private)"
+    },
+    {
+      "slug": "verified-android-apps",
+      "name": "verified-android-apps",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "💎",
+      "file_size": "40.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/2113apps/verified-android-apps/releases",
+      "desc": "Open-source Android apps whose APKs are signature-checked and scanned for trackers. Updated automatically from 2113 Apps."
+    },
+    {
+      "slug": "acc-android-builder",
+      "name": "ACC-Android-Builder",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "🔥",
+      "file_size": "6.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/balinightlife666-web/ACC-Android-Builder/releases",
+      "desc": "Apk"
+    },
+    {
+      "slug": "ottplay-foss",
+      "name": "ottplay-foss",
+      "category": "Smart TV",
+      "rating": "4.7",
+      "icon": "⚡",
+      "file_size": "58.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/open-ott-play/ottplay-foss/releases",
+      "desc": "IPTV/OTT set-top-box player — HLS/DASH playback, EPG, M3U/Xtream/Stalker providers, webhook push commands"
     }
   ],
   "sent": [
@@ -1574,7 +1651,13 @@
     "audiophiles-dream",
     "naari-os-app",
     "telos-android-test-downloads",
-    "iran-news-apk"
+    "iran-news-apk",
+    "muhammet-tekin-web",
+    "massiptv-surumler",
+    "bingwa-bot-apk",
+    "obfuscan",
+    "real-apk-leecher",
+    "mayerstore-android-downloads"
   ],
   "archive": [
     {
@@ -1697,9 +1780,75 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/nrmnnkkhh-svg/iran-news-apk/releases",
       "desc": "Native Android shell for the Iran news app"
+    },
+    {
+      "slug": "muhammet-tekin-web",
+      "name": "muhammet-tekin-web",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "18.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Tekin4124/muhammet-tekin-web/releases",
+      "desc": "Muhammet Tekin — Android ve web projeleri, canlı uygulamalar ve APK bağlantıları."
+    },
+    {
+      "slug": "massiptv-surumler",
+      "name": "massiptv-surumler",
+      "category": "Системные",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "21.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/masskot/massiptv-surumler/releases",
+      "desc": "MASSIPTV sürümleri: Android APK, Windows kurulumu, her sürümün kaynak kodu (GPLv3). Uygulama güncellemeleri buradan alır."
+    },
+    {
+      "slug": "bingwa-bot-apk",
+      "name": "Bingwa-Bot-APK",
+      "category": "Smart TV",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "44.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/kenyawriters/Bingwa-Bot-APK/releases",
+      "desc": ": Bingwa Bot Android Application"
+    },
+    {
+      "slug": "obfuscan",
+      "name": "ObfuScan",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "34.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/kundan0575/ObfuScan/releases",
+      "desc": "Scan Android APK native SO files to flag obfuscation, loaders, and high-value targets before reverse engineering"
+    },
+    {
+      "slug": "real-apk-leecher",
+      "name": "Real-Apk-Leecher",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "11.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
+      "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
+    },
+    {
+      "slug": "mayerstore-android-downloads",
+      "name": "mayerstore-android-downloads",
+      "category": "Smart TV",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "42.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/mayerstore/mayerstore-android-downloads/releases",
+      "desc": "Public Android APK releases for Mayer Stores NG"
     }
   ],
-  "total_scraped": 142,
+  "total_scraped": 149,
   "sources": [
     "github.com/search"
   ]

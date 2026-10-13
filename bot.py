@@ -28,17 +28,17 @@ def clean_text(text):
     cleaned = text.strip()
     return (cleaned[:130] + "...") if len(cleaned) > 130 else (cleaned or "APK пакет.")
 
-def industrial_parser(chat_id):
+def industrial_parser(chat_id, custom_query=None):
     db = load_db()
     existing_slugs = {app["slug"] for app in db["apps"]} | {app["slug"] for app in db.get("archive", [])}
     if chat_id:
         try:
-            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "<b>[INDUSTRIAL] Запущен глубокий сканер репозиториев...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
+            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "⚡ <b>[INDUSTRIAL] Запущен глубокий сканер репозиториев...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
     
     new_apps = []
     total_checked = 0
-    queries = ["android apk", "smarttv apk", "iptv player", "media center android", "launcher apk", "tool apk"]
+    queries = [custom_query] if custom_query else ["android apk", "smarttv apk", "iptv player", "media center android", "launcher apk", "tool apk"]
     
     for q in queries:
         try:
@@ -57,9 +57,9 @@ def industrial_parser(chat_id):
                     
                     new_apps.append({
                         "slug": slug, "name": name,
-                        "category": random.choice(["Smart TV", "Утилиты", "Мультимедиа", "Сеть", "Системные"]),
+                        "category": "Smart TV" if "tv" in q else ("Мультимедиа" if "iptv" in q or "media" in q else ("Сеть" if "proxy" in q or "vless" in q else "Утилиты")),
                         "rating": str(round(random.uniform(4.7, 5.0), 1)),
-                        "icon": "[APP]",
+                        "icon": random.choice(["🚀", "📦", "⚡", "🔥", "💎", "🎯", "🛡"]),
                         "file_size": f"{random.randint(6, 58)}.5 MB",
                         "date": datetime.now().strftime("%d.%m.%Y"),
                         "fallback_apk": f"{item.get('html_url')}/releases",
@@ -74,7 +74,7 @@ def industrial_parser(chat_id):
         rebuild_and_push()
     
     if chat_id:
-        rep = f"<b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Сайт пересобран и отправлен на GitHub Pages!"
+        rep = f"🏭 <b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Запрос: <b>{queries[0]}</b>\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Сайт пересобран и отправлен!"
         try:
             urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": rep, "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
@@ -91,17 +91,32 @@ def post_next_app():
             break
     if not target: return None
     
-    msg = f"<b>{target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF -- Автономный каталог APK</i>"
+    icon = target.get('icon', '📦')
+    msg = f"{icon} <b>{target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF 🤨 — Автономный каталог APK</i>"
+    banner_url = f"https://placehold.co/600x300/1e293b/38bdf8/png?text={urllib.parse.quote(target['name'])}"
     
     try:
-        res = urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": CHANNEL, "text": msg, "parse_mode": "HTML"}).encode(), timeout=5)
+        data = urllib.parse.urlencode({
+            "chat_id": CHANNEL,
+            "photo": banner_url,
+            "caption": msg,
+            "parse_mode": "HTML"
+        }).encode()
+        res = urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendPhoto", data=data, timeout=7)
         if res:
             db["sent"].append(target["slug"])
             if target not in db["archive"]: db["archive"].append(target)
             save_db(db)
             return target
     except Exception as e:
-        print("Post error:", e)
+        try:
+            res = urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": CHANNEL, "text": msg, "parse_mode": "HTML"}).encode(), timeout=5)
+            if res:
+                db["sent"].append(target["slug"])
+                if target not in db["archive"]: db["archive"].append(target)
+                save_db(db)
+                return target
+        except: pass
     return None
 
 def send_control_panel(chat_id):
@@ -112,13 +127,15 @@ def send_control_panel(chat_id):
     archive = len(db.get("archive", []))
     scraped_total = db.get("total_scraped", 0)
     
-    text = f"PROMPT: ПРОМЫШЛЕННЫЙ КОМБАЙН GIT APP WTF (PRO)\n=====================================\n📊 ТЕЛЕМЕТРИЯ СИСТЕМЫ:\n• Всего в базе: {total}\n• Опубликовано: {sent}\n• В очереди: {queue}\n• В архиве: {archive}\n• Всего выкачано: {scraped_total}\n• Канал: {CHANNEL}\n=====================================\nВыберите команду:"
+    text = f"🎛 <b>ПРОМЫШЛЕННЫЙ КОМБАЙН GIT APP WTF (PRO)</b>\n═════════════════════════════\n📊 <b>ТЕЛЕМЕТРИЯ СИСТЕМЫ:</b>\n• Всего в базе: <b>{total}</b>\n• Опубликовано: <b>{sent}</b>\n• В очереди: <b>{queue}</b>\n• В архиве: <b>{archive}</b>\n• Всего выкачано: <b>{scraped_total}</b>\n• Канал: <b>{CHANNEL}</b>\n═════════════════════════════\nВыберите режим работы или команду:"
 
     inline_kb = json.dumps({
         "inline_keyboard": [
-            [{"text": "Запустить полный парсинг", "callback_data": "run_parse"}],
-            [{"text": "Опубликовать в канал", "callback_data": "force_post"}, {"text": "Пересобрать сайт", "callback_data": "rebuild_site"}],
-            [{"text": "Обновить телеметрию", "callback_data": "refresh_stats"}, {"text": "Сбросить очередь", "callback_data": "reset_queue"}]
+            [{"text": "⚡ Глубокий парсинг (Все категории)", "callback_data": "run_parse"}],
+            [{"text": "📺 Smart TV APK", "callback_data": "parse_smarttv"}, {"text": "🎮 Игры / Эмуляторы", "callback_data": "parse_games"}],
+            [{"text": "📡 Сеть и Proxy", "callback_data": "parse_tools"}, {"text": "🎵 Мультимедиа / IPTV", "callback_data": "parse_media"}],
+            [{"text": "📢 Опубликовать в канал", "callback_data": "force_post"}, {"text": "🔄 Пересобрать сайт", "callback_data": "rebuild_site"}],
+            [{"text": "📊 Обновить статистику", "callback_data": "refresh_stats"}, {"text": "🧹 Сбросить очередь", "callback_data": "reset_queue"}]
         ]
     })
     
@@ -159,20 +176,28 @@ def main_loop():
                         if cid == ADMIN_ID:
                             if data_cb == "run_parse":
                                 industrial_parser(cid)
+                            elif data_cb == "parse_smarttv":
+                                industrial_parser(cid, custom_query="smarttv apk")
+                            elif data_cb == "parse_games":
+                                industrial_parser(cid, custom_query="android game apk")
+                            elif data_cb == "parse_tools":
+                                industrial_parser(cid, custom_query="vless xray proxy apk")
+                            elif data_cb == "parse_media":
+                                industrial_parser(cid, custom_query="iptv player apk")
                             elif data_cb == "force_post":
                                 posted = post_next_app()
-                                msg = f"Отправлено в канал: <b>{posted['name']}</b>" if posted else "Очередь пуста! Нажмите кнопку парсинга."
+                                msg = f"✅ Отправлено в канал: <b>{posted['name']}</b>" if posted else "⚠️ Очередь пуста!"
                                 urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": msg, "parse_mode": "HTML"}).encode())
                             elif data_cb == "rebuild_site":
                                 rebuild_and_push()
-                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "Сайт принудительно пересобран и отправлен в GitHub!", "parse_mode": "HTML"}).encode())
+                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "✅ Сайт пересобран и отправлен в GitHub!", "parse_mode": "HTML"}).encode())
                             elif data_cb == "refresh_stats":
                                 send_control_panel(cid)
                             elif data_cb == "reset_queue":
                                 db = load_db()
                                 db["sent"] = []
                                 save_db(db)
-                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "Очередь сброшена!", "parse_mode": "HTML"}).encode())
+                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "🧹 Очередь сброшена!", "parse_mode": "HTML"}).encode())
                                 
                         urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/answerCallbackQuery", data=urllib.parse.urlencode({"callback_query_id": cq["id"]}).encode())
         except Exception as e:
