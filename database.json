@@ -1657,7 +1657,18 @@
     "bingwa-bot-apk",
     "obfuscan",
     "real-apk-leecher",
-    "mayerstore-android-downloads"
+    "mayerstore-android-downloads",
+    "bliss",
+    "five-light-apk",
+    "pw-generator-app",
+    "apkprobe",
+    "github",
+    "reverse-skill-evolver",
+    "folk-games-app",
+    "notekar",
+    "fileadex-mobile-releases",
+    "levyra-deepsound",
+    "garmin2peak-apk"
   ],
   "archive": [
     {
@@ -1846,6 +1857,127 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/mayerstore/mayerstore-android-downloads/releases",
       "desc": "Public Android APK releases for Mayer Stores NG"
+    },
+    {
+      "slug": "bliss",
+      "name": "Bliss",
+      "category": "Сеть",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "28.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/godofchaos1998/Bliss/releases",
+      "desc": "Download Bliss — an Android emulator for Windows with free download. Experience a fully operational Android environment, install A..."
+    },
+    {
+      "slug": "five-light-apk",
+      "name": "five-light-apk",
+      "category": "Мультимедиа",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "58.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/justtmehfoozz/five-light-apk/releases",
+      "desc": "FiveLight — A modern Android application built with thoughtful design and purposeful functionality."
+    },
+    {
+      "slug": "pw-generator-app",
+      "name": "pw-generator-app",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "50.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/edoardosartori/pw-generator-app/releases",
+      "desc": "A lightweight password generation app built with Flutter, designed to create strong and customizable passwords locally."
+    },
+    {
+      "slug": "apkprobe",
+      "name": "apkprobe",
+      "category": "Системные",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "29.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/hrithoy/apkprobe/releases",
+      "desc": "1"
+    },
+    {
+      "slug": "github",
+      "name": ".github",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "10.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/neo-backup-root/.github/releases",
+      "desc": "Neo Backup copies app data and APKs on a rooted phone so you can restore them later. It is the maintained line that followed OAndB..."
+    },
+    {
+      "slug": "reverse-skill-evolver",
+      "name": "reverse-skill-evolver",
+      "category": "Сеть",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "39.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/2233admin/reverse-skill-evolver/releases",
+      "desc": "Reverse-engineering skills for AI coding agents, with IDA/MCP integration, APK and JavaScript workflows, bounded agent swarms, and..."
+    },
+    {
+      "slug": "folk-games-app",
+      "name": "folk-games-app",
+      "category": "Системные",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "55.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Nil20/folk-games-app/releases",
+      "desc": "Folk Games — Android releases (APK downloads)"
+    },
+    {
+      "slug": "notekar",
+      "name": "Notekar",
+      "category": "Smart TV",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "38.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/dheeraz101/Notekar/releases",
+      "desc": "A tiny, elegant timestamp logger (PWA-ready)/ Android App. Tap to record a moment, long-press to add a note, view history, and adj..."
+    },
+    {
+      "slug": "fileadex-mobile-releases",
+      "name": "fileadex-mobile-releases",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "26.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Fardin7864/fileadex-mobile-releases/releases",
+      "desc": "Official public Android APK releases for FileadeX"
+    },
+    {
+      "slug": "levyra-deepsound",
+      "name": "Levyra-deepsound",
+      "category": "Мультимедиа",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "30.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/LUC4N3X/Levyra-deepsound/releases",
+      "desc": "Open-source music player for Android and Windows with no accounts or tracking. Built for quick discovery, synced lyrics, radio, an..."
+    },
+    {
+      "slug": "garmin2peak-apk",
+      "name": "garmin2peak-apk",
+      "category": "Системные",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "22.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/2aaleeex2/garmin2peak-apk/releases",
+      "desc": "APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase"
     }
   ],
   "total_scraped": 149,

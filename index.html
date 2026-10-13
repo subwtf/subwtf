@@ -3,916 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git App WTF — Профессиональный каталог APK</title>
+    <title>Git App WTF — Каталог APK приложений</title>
     <style>
-        body { background: #0f172a; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #38bdf8; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: #1e293b; border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; display: block; border: 1px solid #334155; transition: 0.2s; }
-        .card:hover { border-color: #38bdf8; transform: translateY(-3px); }
-        .title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; color: #f1f5f9; }
-        .cat { font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px; }
-        .desc { font-size: 0.9rem; color: #cbd5e1; }
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --border: #e2e8f0;
+        }
+        body { background: var(--bg-color); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
+        header { background: #ffffff; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.25rem; font-weight: bold; color: #0f172a; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo span { color: var(--accent); }
+        .burger { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+        
+        /* Боковое меню */
+        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 1000; transition: 0.3s ease; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .sidebar.open { left: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 1.1rem; font-weight: bold; }
+        .close-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+        .cat-item { display: block; padding: 10px 15px; color: var(--text-main); text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.2s; font-weight: 500; }
+        .cat-item:hover { background: #f1f5f9; color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); border-left: 4px solid var(--accent); padding-left: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .card { background: var(--card-bg); border-radius: 14px; padding: 15px; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); border-color: var(--accent); }
+        
+        .app-icon { width: 68px; height: 68px; border-radius: 16px; object-fit: cover; margin-bottom: 10px; background: #e2e8f0; }
+        .app-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; width: 100%; }
+        .app-cat { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; }
+        .app-meta { font-size: 0.75rem; color: var(--accent); font-weight: 600; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
+        
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 999; }
+        .overlay.active { display: block; }
     </style>
 </head>
 <body>
-    <h1>Git App WTF 🤨</h1>
-    <div class="grid">
 
-        <a href="smarttube.html" class="card">
-            <div class="title">SmartTube</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Продвинутый клиент для просмотра видео на Android TV и медиаплеер без рекламы.</div>
-        </a>
-
-        <a href="ivi-player.html" class="card">
-            <div class="title">IPTV Pro</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Удобный проигрыватель для пользовательских M3U и M8U плейлистов высокой стабильности.</div>
-        </a>
-
-        <a href="briefklar-android.html" class="card">
-            <div class="title">briefklar-android</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Briefklar Android app (APK builds)</div>
-        </a>
-
-        <a href="kov-sec.html" class="card">
-            <div class="title">Kov-Sec</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Kov-Sec - Anti-Reverse Engineering APK Protection Platform. Protect Android apps against reverse engineering, tampering and hackin...</div>
-        </a>
-
-        <a href="android-mod-apk-security-guide.html" class="card">
-            <div class="title">android-mod-apk-security-guide</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Analyze the security risks of modded APKs and learn how threat actors inject malicious code to compromise mobile devices.</div>
-        </a>
-
-        <a href="media-download-apk.html" class="card">
-            <div class="title">media-download-apk</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Media Downloader Android App</div>
-        </a>
-
-        <a href="androidreverse.html" class="card">
-            <div class="title">androidReverse</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Reverse engineer APKs and analyze native binaries directly on your Android device without a PC or ADB.</div>
-        </a>
-
-        <a href="audiophiles-dream.html" class="card">
-            <div class="title">audiophiles-dream</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Play high-fidelity, bit-perfect local audio files on Android devices through a clean and capable player interface.</div>
-        </a>
-
-        <a href="naari-os-app.html" class="card">
-            <div class="title">Naari-os-app</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">ative Android companion application and installable APK for Naari OS : an open-source personal safety ecosystem connecting an ESP3...</div>
-        </a>
-
-        <a href="telos-android-test-downloads.html" class="card">
-            <div class="title">Telos-Android-Test-Downloads</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Public Android test APK releases for Télos Finance. The application source remains in a separate repository.</div>
-        </a>
-
-        <a href="iran-news-apk.html" class="card">
-            <div class="title">iran-news-apk</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Native Android shell for the Iran news app</div>
-        </a>
-
-        <a href="muhammet-tekin-web.html" class="card">
-            <div class="title">muhammet-tekin-web</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Muhammet Tekin — Android ve web projeleri, canlı uygulamalar ve APK bağlantıları.</div>
-        </a>
-
-        <a href="massiptv-surumler.html" class="card">
-            <div class="title">massiptv-surumler</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">MASSIPTV sürümleri: Android APK, Windows kurulumu, her sürümün kaynak kodu (GPLv3). Uygulama güncellemeleri buradan alır.</div>
-        </a>
-
-        <a href="bingwa-bot-apk.html" class="card">
-            <div class="title">Bingwa-Bot-APK</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">: Bingwa Bot Android Application</div>
-        </a>
-
-        <a href="obfuscan.html" class="card">
-            <div class="title">ObfuScan</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Scan Android APK native SO files to flag obfuscation, loaders, and high-value targets before reverse engineering</div>
-        </a>
-
-        <a href="real-apk-leecher.html" class="card">
-            <div class="title">Real-Apk-Leecher</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl...</div>
-        </a>
-
-        <a href="mayerstore-android-downloads.html" class="card">
-            <div class="title">mayerstore-android-downloads</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Public Android APK releases for Mayer Stores NG</div>
-        </a>
-
-        <a href="bliss.html" class="card">
-            <div class="title">Bliss</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Download Bliss — an Android emulator for Windows with free download. Experience a fully operational Android environment, install A...</div>
-        </a>
-
-        <a href="five-light-apk.html" class="card">
-            <div class="title">five-light-apk</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">FiveLight — A modern Android application built with thoughtful design and purposeful functionality.</div>
-        </a>
-
-        <a href="pw-generator-app.html" class="card">
-            <div class="title">pw-generator-app</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A lightweight password generation app built with Flutter, designed to create strong and customizable passwords locally.</div>
-        </a>
-
-        <a href="apkprobe.html" class="card">
-            <div class="title">apkprobe</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">1</div>
-        </a>
-
-        <a href="github.html" class="card">
-            <div class="title">.github</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Neo Backup copies app data and APKs on a rooted phone so you can restore them later. It is the maintained line that followed OAndB...</div>
-        </a>
-
-        <a href="reverse-skill-evolver.html" class="card">
-            <div class="title">reverse-skill-evolver</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Reverse-engineering skills for AI coding agents, with IDA/MCP integration, APK and JavaScript workflows, bounded agent swarms, and...</div>
-        </a>
-
-        <a href="folk-games-app.html" class="card">
-            <div class="title">folk-games-app</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Folk Games — Android releases (APK downloads)</div>
-        </a>
-
-        <a href="notekar.html" class="card">
-            <div class="title">Notekar</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A tiny, elegant timestamp logger (PWA-ready)/ Android App. Tap to record a moment, long-press to add a note, view history, and adj...</div>
-        </a>
-
-        <a href="fileadex-mobile-releases.html" class="card">
-            <div class="title">fileadex-mobile-releases</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Official public Android APK releases for FileadeX</div>
-        </a>
-
-        <a href="levyra-deepsound.html" class="card">
-            <div class="title">Levyra-deepsound</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Open-source music player for Android and Windows with no accounts or tracking. Built for quick discovery, synced lyrics, radio, an...</div>
-        </a>
-
-        <a href="garmin2peak-apk.html" class="card">
-            <div class="title">garmin2peak-apk</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase</div>
-        </a>
-
-        <a href="cmdix.html" class="card">
-            <div class="title">Cmdix</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">🖥️ Run scripts and manage commands easily with Cmdix, a user-friendly Android terminal app designed for Android 9+ devices.</div>
-        </a>
-
-        <a href="dbd-maps.html" class="card">
-            <div class="title">dbd-maps</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Telechargement public officiel de DBD MAP Mobile (Android APK)</div>
-        </a>
-
-        <a href="nova-apk-builder-v2.html" class="card">
-            <div class="title">Nova-APK-Builder-v2</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Description: Build Android APKs from native Gradle projects on Windows.</div>
-        </a>
-
-        <a href="syncdewvalley.html" class="card">
-            <div class="title">SyncdewValley</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs.</div>
-        </a>
-
-        <a href="apkstv.html" class="card">
-            <div class="title">ApksTV</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Des apps pour SmartTV</div>
-        </a>
-
-        <a href="pelisjuanita-smarttv-apk--21-1.html" class="card">
-            <div class="title">PelisJuanita_SmartTV_Apk_-21.1-</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">📺 App nativa para Android TV con cursor virtual y control remoto para PelisJuanita.</div>
-        </a>
-
-        <a href="relay-player.html" class="card">
-            <div class="title">relay-player</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A general-purpose media player that relays a stream from whatever source you point it at - a Plex server, a NAS or local files, or...</div>
-        </a>
-
-        <a href="joy-iptv-player.html" class="card">
-            <div class="title">JOY-IPTV-PLAYER</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Профессиональный APK пакет из проверенных источников.</div>
-        </a>
-
-        <a href="tvgarden.html" class="card">
-            <div class="title">TVGarden</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">IPTV & Webcam player for Android</div>
-        </a>
-
-        <a href="atlasproclientrework.html" class="card">
-            <div class="title">AtlasProClientRework</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Reworked player for AtlasPro IPTV</div>
-        </a>
-
-        <a href="iptv-player-macos.html" class="card">
-            <div class="title">iptv-player-macos</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Tuner — a native macOS IPTV player (SwiftUI, AVFoundation + libmpv) with an Apple TV–style experience</div>
-        </a>
-
-        <a href="iptvbdlive.html" class="card">
-            <div class="title">Iptvbdlive</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Iptvbdlive Website Players</div>
-        </a>
-
-        <a href="tv2u.html" class="card">
-            <div class="title">tv2u</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A simple IPTV Player.</div>
-        </a>
-
-        <a href="bacalhau.html" class="card">
-            <div class="title">bacalhau</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">🐟 Stream live IPTV with bacalhau, a self-hosted player for NAS and Docker, featuring M3U playlist support and EPG integration for ...</div>
-        </a>
-
-        <a href="lazytv-android.html" class="card">
-            <div class="title">LazyTV-Android</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">LazyTV PRO – Native Android TV & Fire TV IPTV player with M3U, Xtream Codes, Stalker Portal, Live TV, Movies, Series, EPG and secu...</div>
-        </a>
-
-        <a href="mrstreamer.html" class="card">
-            <div class="title">MrStreamer</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A clean, fast, open-source IPTV player for macOS, Windows and Linux. Bring your own Xtream Codes or M3U subscription and watch liv...</div>
-        </a>
-
-        <a href="iptv-player-android.html" class="card">
-            <div class="title">iptv-player-android</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Профессиональный APK пакет из проверенных источников.</div>
-        </a>
-
-        <a href="iptv-player.html" class="card">
-            <div class="title">IPTV-Player</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Профессиональный APK пакет из проверенных источников.</div>
-        </a>
-
-        <a href="nullsports.html" class="card">
-            <div class="title">NullSports</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A focused, native sports IPTV player for Apple TV.</div>
-        </a>
-
-        <a href="glz-tv.html" class="card">
-            <div class="title">glz-tv</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">IPTV File Player</div>
-        </a>
-
-        <a href="lume.html" class="card">
-            <div class="title">Lume</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean...</div>
-        </a>
-
-        <a href="iptvnator.html" class="card">
-            <div class="title">iptvnator</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">:tv: Cross-platform IPTV player application with multiple features, such as support of m3u and m3u8 playlists, favorites, TV guide...</div>
-        </a>
-
-        <a href="testcard.html" class="card">
-            <div class="title">testcard</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A dark, watermark-free IPTV player for Windows.</div>
-        </a>
-
-        <a href="mitratv.html" class="card">
-            <div class="title">MitraTV</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Independent open-source IPTV player for Android TV / Google TV. Player only: no content included. Pre-alpha.</div>
-        </a>
-
-        <a href="couchzap.html" class="card">
-            <div class="title">CouchZap</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">A lightweight IPTV player for Android TV boxes and phones, built with Kotlin and Media3.</div>
-        </a>
-
-        <a href="signal.html" class="card">
-            <div class="title">Signal</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">IPTV player for the Nvidia Shield, with an optional NAS companion</div>
-        </a>
-
-        <a href="streamflow-tv.html" class="card">
-            <div class="title">StreamFlow-TV</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">StreamFlow TV — an IPTV player for Android TV and LG TV (webOS). Download the APK or IPK from Releases.</div>
-        </a>
-
-        <a href="lumina-tv-releases.html" class="card">
-            <div class="title">Lumina-TV-Releases</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">ערוץ הפצה רשמי, דף הורדות ועדכוני גרסה עבור Lumina TV (Android TV IPTV Player)</div>
-        </a>
-
-        <a href="streamvault-iptv.html" class="card">
-            <div class="title">StreamVault-IPTV</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">StreamVault is a TV-first free IPTV player for Android TV built with Kotlin, Jetpack Compose, Room, Hilt, and Media3.</div>
-        </a>
-
-        <a href="movena.html" class="card">
-            <div class="title">movena</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Private, cross-platform IPTV and VOD desktop player for Xtream Codes and M3U/M3U8, with XMLTV EPG, downloads, and native libmpv pl...</div>
-        </a>
-
-        <a href="forja.html" class="card">
-            <div class="title">Forja</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Open-source modular player platform Forja is a modular player platform for movies, series, anime, live sport, and IPTV. Native pla...</div>
-        </a>
-
-        <a href="xbmc.html" class="card">
-            <div class="title">xbmc</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Kodi is an award-winning free and open source home theater/media center software and entertainment hub for digital media. With its...</div>
-        </a>
-
-        <a href="musicmate.html" class="card">
-            <div class="title">musicmate</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">High-Res Audio management, playback, and streaming app for Android. Features Music Center for real-time Audio Route Path telemetry...</div>
-        </a>
-
-        <a href="media-center.html" class="card">
-            <div class="title">media_center</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">一个视频搜索服务以及一个运行在电视上的Android应用</div>
-        </a>
-
-        <a href="asset-ops-dispatch-platform.html" class="card">
-            <div class="title">asset-ops-dispatch-platform</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Streamline AJG and GH route logistics, manage fleet movements, and dispatch from a unified browser-based control center.</div>
-        </a>
-
-        <a href="octostream.html" class="card">
-            <div class="title">OctoStream</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Media center para Android y Android TV — películas, series, deportes en directo, torrents y sincronización LAN estilo LocalSend</div>
-        </a>
-
-        <a href="projectblue.html" class="card">
-            <div class="title">projectBlue</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">streaming music player for J River Media Center and Subsonic Servers</div>
-        </a>
-
-        <a href="zeekr-adapt.html" class="card">
-            <div class="title">zeekr-adapt</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">In-process runtime adapter that makes standard Android apps usable on the Zeekr DHU (ultrawide low-DPI head unit) — density/layout...</div>
-        </a>
-
-        <a href="nmc-companion-releases.html" class="card">
-            <div class="title">nmc-companion-releases</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Dépôt officiel des versions et manifestes de mise à jour pour l'application Android TV Nebula Media Center (NMC) Companion.</div>
-        </a>
-
-        <a href="exalere.html" class="card">
-            <div class="title">Exalere</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Next-generation cross-platform media center and streaming hub crafted with Flutter for Android Mobile, Android TV, and Windows Des...</div>
-        </a>
-
-        <a href="teachermovies.html" class="card">
-            <div class="title">teachermovies</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Android TV media center with BitTorrent client, libVLC player and English-learning assistant</div>
-        </a>
-
-        <a href="media-center-on-pc-with-no-screen-with-controller-on-android-tablet.html" class="card">
-            <div class="title">media-center-on-PC-with-no-screen-with-controller-on-android-tablet</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Профессиональный APK пакет из проверенных источников.</div>
-        </a>
-
-        <a href="iglootv.html" class="card">
-            <div class="title">IglooTV</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Igloo's self-hosted media center for Android TV and Fire TV, built with Kotlin and Compose for TV.</div>
-        </a>
-
-        <a href="mediacenter-jellyfin.html" class="card">
-            <div class="title">MediaCenter-Jellyfin</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Windows 7 Media Center–style Android TV client for Jellyfin</div>
-        </a>
-
-        <a href="mclauncher.html" class="card">
-            <div class="title">MCLauncher</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Android TV Launcher that pays tribute to Windows Media Center</div>
-        </a>
-
-        <a href="coolmuster-android-sync-hub.html" class="card">
-            <div class="title">coolmuster-android-sync-hub</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Coolmuster Android Assistant v5.2.21 delivers Windows-centered Android device management in 2026, combining backup, transfer, and ...</div>
-        </a>
-
-        <a href="viewer-android.html" class="card">
-            <div class="title">viewer-android</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Directory-driven local media center for Android, built with Kotlin, Jetpack Compose and LibVLC.</div>
-        </a>
-
-        <a href="wmc-controller.html" class="card">
-            <div class="title">WMC-Controller</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">用豆包AI生成的Windows Media Center遥控器，用于有红外发射器的安卓设备</div>
-        </a>
-
-        <a href="arrdeck.html" class="card">
-            <div class="title">arrdeck</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A self-hosted media-stack command center for the *arr stack (Sonarr/Radarr/SABnzbd/Prowlarr) — Android app + Docker web UI. AGPLv3...</div>
-        </a>
-
-        <a href="zentra-kodi.html" class="card">
-            <div class="title">ZENTRA-Kodi</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">ZENTRA Media Center - Kodi-based Android media center</div>
-        </a>
-
-        <a href="mediacenter.html" class="card">
-            <div class="title">MediaCenter</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">MediaCenter is an advanced film, series, and TV streaming application built using modern Android development tools. This app is de...</div>
-        </a>
-
-        <a href="obdash.html" class="card">
-            <div class="title">OBDash</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Android based obd dashboard and media center</div>
-        </a>
-
-        <a href="react-native-playback-controls.html" class="card">
-            <div class="title">react-native-playback-controls</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Control the system media UI (lock screen, Control Center, Android media notification, Bluetooth buttons) without playing audio you...</div>
-        </a>
-
-        <a href="cloudstream-web.html" class="card">
-            <div class="title">cloudstream-web</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">CloudStream for Web — extension-based media center ported from the Android app. TV-view layout, MainAPI contract in TypeScript, HL...</div>
-        </a>
-
-        <a href="android-aaos.html" class="card">
-            <div class="title">Android-AAOS</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">CarApp is a car dashboard application built for the Android Automotive OS (AAOS) platform. Digital instrument panel and control ce...</div>
-        </a>
-
-        <a href="aaos-car-custom-media-player.html" class="card">
-            <div class="title">AAOS-Car-custom-media-player</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A native media playback application designed specifically for Android Automotive OS (AAOS). It seamlessly integrates with the car'...</div>
-        </a>
-
-        <a href="kodi-remote-bridge.html" class="card">
-            <div class="title">kodi-remote-bridge</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Full-featured Android remote control application for Kodi media center with WebSocket communication, custom UI controls, and compl...</div>
-        </a>
-
-        <a href="liteboxtv.html" class="card">
-            <div class="title">liteboxTV</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Lightweight media center app for Android TV (Firestick-first). Apache 2.0.</div>
-        </a>
-
-        <a href="cloudstream-desktop.html" class="card">
-            <div class="title">cloudstream-desktop</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">A Python + CustomTkinter desktop media center inspired by the CloudStream Android app. Supports a plugin system compatible with Cl...</div>
-        </a>
-
-        <a href="nova-roleplay-downloads.html" class="card">
-            <div class="title">nova-roleplay-downloads</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Downloads oficiais do APK Nova Roleplay para o launcher</div>
-        </a>
-
-        <a href="launcheraiapk.html" class="card">
-            <div class="title">LauncherAIAPK</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Public APK distribution for the Aura launcher</div>
-        </a>
-
-        <a href="atl-shelf.html" class="card">
-            <div class="title">atl-shelf</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">A mobile Linux app manager for Android Translation Layer, with GitHub and F-Droid sources, runtime setup, updates and APK launcher...</div>
-        </a>
-
-        <a href="win10-launcher.html" class="card">
-            <div class="title">win10-launcher</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Windows 10 Mobile style Android launcher. Beta APK for sideload. No live tiles.</div>
-        </a>
-
-        <a href="tcs-launcher.html" class="card">
-            <div class="title">TCS-Launcher</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">mobile launcher apk</div>
-        </a>
-
-        <a href="nt-launcher.html" class="card">
-            <div class="title">NT-launcher</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">mobile launcher apk</div>
-        </a>
-
-        <a href="glass-os.html" class="card">
-            <div class="title">glass-os</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Glass OS: Apple TV–style Glass launcher packaged for Fire TV (APK, Magisk, ROM) — docs, build scripts, plans</div>
-        </a>
-
-        <a href="mindustry-launcher-android.html" class="card">
-            <div class="title">mindustry-launcher-android</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Mindustry（像素工厂）安卓多版本启动器：同时装多个游戏版本，各自的存档 / 地图 / 模组互不干扰。把官方 APK 原样当插件加载，不重打包、不重签名。</div>
-        </a>
-
-        <a href="nc-launcher.html" class="card">
-            <div class="title">NC-Launcher</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">mobile launcher apk</div>
-        </a>
-
-        <a href="hamstapp.html" class="card">
-            <div class="title">hamstapp</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A local-first Android app & APK manager, with a fully customisable launcher.</div>
-        </a>
-
-        <a href="beam-launcher.html" class="card">
-            <div class="title">beam-launcher</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Beam — Android TV launcher for TVs, projectors and TV boxes. Remote control, Tiles / Google TV layouts, content rows, custom wallp...</div>
-        </a>
-
-        <a href="duo-launcher-updates.html" class="card">
-            <div class="title">duo-launcher-updates</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">DUO Launcher AI Box APK updates and signed version metadata. Source code is maintained separately.</div>
-        </a>
-
-        <a href="devdeck.html" class="card">
-            <div class="title">DevDeck</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Open-source Android + Windows productivity remote for controlling your PC, launching apps, syncing clipboard, and automating devel...</div>
-        </a>
-
-        <a href="grand-city-rp-releases.html" class="card">
-            <div class="title">grand-city-rp-releases</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">GRAND CITY RP - official Android client APK releases and launcher data (public)</div>
-        </a>
-
-        <a href="m4-launcher.html" class="card">
-            <div class="title">m4-launcher</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">M4 Launcher APK downloads and updates.</div>
-        </a>
-
-        <a href="coredeck.html" class="card">
-            <div class="title">CoreDeck</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">A native desktop command center for the Android SDK. Create virtual devices, launch them, install system images, inspect APKs, and...</div>
-        </a>
-
-        <a href="meridian-launcher-releases.html" class="card">
-            <div class="title">meridian-launcher-releases</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Meridian Launcher release APKs: sideload downloads and an Obtainium update source</div>
-        </a>
-
-        <a href="meus-apks.html" class="card">
-            <div class="title">meus-apks</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Apks para launcher P2P e iptv</div>
-        </a>
-
-        <a href="otherworld.html" class="card">
-            <div class="title">OtherWorld</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">premium high quality Launcher APK</div>
-        </a>
-
-        <a href="fhome-releases.html" class="card">
-            <div class="title">fhome-releases</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">FHome (Android launcher) release APKs</div>
-        </a>
-
-        <a href="wm-launcher.html" class="card">
-            <div class="title">wm-launcher</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">威马轻量桌面：面向 Android 6.0.1 车机，APK 约 1.25 MiB，功能精简、大图标，支持横竖屏与第三方应用。</div>
-        </a>
-
-        <a href="learn-secbyte-ctf-labs-collection-android-malware-analysis-macos-persistence-labs.html" class="card">
-            <div class="title">Learn-SecByte-CTF-Labs-Collection-Android-Malware-Analysis-macOS-Persistence-Labs</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A curated index of hands-on mobile and macOS cybersecurity CTF labs covering Android APK Anatomy, Smali Reverse Engineering, Banki...</div>
-        </a>
-
-        <a href="dsh-launcher-android.html" class="card">
-            <div class="title">dsh-launcher-android</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">DshLauncher: single-APK Android launcher for DeepSeek Harness with embedded Node runtime</div>
-        </a>
-
-        <a href="launcherlayoutbackup.html" class="card">
-            <div class="title">LauncherLayoutBackup</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">LSPosed 模块：小米/HyperOS 桌面图标排版一键备份与恢复。只备份排版数据（约 300KB，不含 APK）。需要已 root + LSPosed；模块 App 自身不申请任何权限。</div>
-        </a>
-
-        <a href="dante-os.html" class="card">
-            <div class="title">Dante-OS</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Dante OS: root launcher for Android with per-app firewall, DNS filter and traffic analysis, no trackers. Signed APKs here (closed ...</div>
-        </a>
-
-        <a href="espiral-launcher-apk.html" class="card">
-            <div class="title">Espiral-Launcher-apk</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Spiral Launcher for Android — Android home screen launcher project.</div>
-        </a>
-
-        <a href="neverhide-empire.html" class="card">
-            <div class="title">neverhide-empire</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Neverhide Empire — 4-in-1 Android power suite (Screenshot, 3D Launcher, Live Wallpaper, APK Updater) + Adrenaline Lock Guardian</div>
-        </a>
-
-        <a href="iptvbox.html" class="card">
-            <div class="title">iptvbox</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">IPTV multicast player for Android set-top box (S905L2/arm64). Launches installed VLC to play udp/rtp multicast. Builds app-debug.a...</div>
-        </a>
-
-        <a href="cutelauncher-releases.html" class="card">
-            <div class="title">CuteLauncher-Releases</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Official CuteLauncher APK downloads and updates for Android TV</div>
-        </a>
-
-        <a href="offgrid-tools.html" class="card">
-            <div class="title">offgrid-tools</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Self-contained offline environment providing local AI chat, offline Wikipedia/content archives, IRC communication, audio streaming...</div>
-        </a>
-
-        <a href="ctoa-mc88.html" class="card">
-            <div class="title">CtoA-MC88</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">MC88 STUDIO — three personal tools that talk straight to GitHub: HTML→APK builder, phone↔repo file bridge, and one-tap issue captu...</div>
-        </a>
-
-        <a href="bear-tool.html" class="card">
-            <div class="title">Bear-Tool</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Self-custody wallet — web app (GitHub Pages) + Android APK (Capacitor), no backend, keys never leave the page. 23 EVM networks (17...</div>
-        </a>
-
-        <a href="wsa-toolbox-full-version-unlocked.html" class="card">
-            <div class="title">Wsa-Toolbox-Full-Version-Unlocked</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Get WSA Toolbox — a powerful Android emulator tool for Windows that allows easy APK installation, ADB Shell access, and support fo...</div>
-        </a>
-
-        <a href="bandizip.html" class="card">
-            <div class="title">Bandizip</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Download Bandizip — a file compression tool for Windows with free download. It supports over 30 formats, including ZIP, RAR, and A...</div>
-        </a>
-
-        <a href="360.html" class="card">
-            <div class="title">360</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">360 is a multi-tool search engine that has more utilities to out perform any browser and search engine through convienently organi...</div>
-        </a>
-
-        <a href="android-bash-tools.html" class="card">
-            <div class="title">Android-Bash-Tools</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Набор скриптов для продвинутых пользователей Android: мониторинг железа, установка APK, распаковка архивов, управление Android TV,...</div>
-        </a>
-
-        <a href="apk-downloader.html" class="card">
-            <div class="title">Apk-Downloader</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Get APK Downloader — a powerful tool for Windows that allows free download of Android applications. Download apps directly from Go...</div>
-        </a>
-
-        <a href="picxcraft-image-tools.html" class="card">
-            <div class="title">PicxCraft-Image-Tools</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Edit images with this open-source Android app featuring over 114 tools including compression, resizing, cropping, OCR, and PDF con...</div>
-        </a>
-
-        <a href="jordanian-labour-rights-calculator.html" class="card">
-            <div class="title">jordanian-labour-rights-calculator</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Calculate Jordanian labour rights based on the 1996 Labour Law with this bilingual, privacy-focused browser and Android tool.</div>
-        </a>
-
-        <a href="scanshield-india.html" class="card">
-            <div class="title">Scanshield-India</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">A tactical cybersecurity tool designed for India to detect phishing, fake DLT SMS headers, coercive deadlines, trojan APKs, and UP...</div>
-        </a>
-
-        <a href="dex-analyzer-for-llm.html" class="card">
-            <div class="title">dex-analyzer-for-llm</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">LLM-facing DEX/APK analyzer — DexKit Core (pybind11) + DAD-aligned C++ Java decompiler, MCP server, FastAPI/SSE backend for Claude...</div>
-        </a>
-
-        <a href="morphe-desktop.html" class="card">
-            <div class="title">morphe-desktop</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Morphe desktop patching tool</div>
-        </a>
-
-        <a href="citypulse-idp.html" class="card">
-            <div class="title">CITYPULSE-IDP</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Flood-aware, offline-first navigation research prototype for Chennai and Tamil Nadu: per-street flood belief, cautious routing, ch...</div>
-        </a>
-
-        <a href="qtandroidtools.html" class="card">
-            <div class="title">QtAndroidTools</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">A library to manage Android from QML</div>
-        </a>
-
-        <a href="wsa-toolbox.html" class="card">
-            <div class="title">Wsa-Toolbox</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Get WSA Toolbox — a powerful Android emulator tool for Windows that allows you to install and use Android apps seamlessly. Enjoy f...</div>
-        </a>
-
-        <a href="blaze.html" class="card">
-            <div class="title">blaze</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">Audio and video downloads for Windows, macOS, Linux and Android. Free desktop tools and an Android APK preview.</div>
-        </a>
-
-        <a href="hexvero.html" class="card">
-            <div class="title">hexvero</div>
-            <div class="cat">📂 Системные</div>
-            <div class="desc">The first look at a binary or app bundle: static, execution-free analysis with evidence. CLI, 15-tool MCP server and local web UI,...</div>
-        </a>
-
-        <a href="apklens.html" class="card">
-            <div class="title">APKLens</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">A local-first Android APK inspection tool for analyzing app metadata, permissions, components, signatures, and archive contents wi...</div>
-        </a>
-
-        <a href="pixelboard.html" class="card">
-            <div class="title">PixelBoard</div>
-            <div class="cat">📂 Сеть</div>
-            <div class="desc">Unlock Google 11's Gemini "Rambler" Natural Voice Dictation & AI Writing Tools on ANY Android phone. No root required.</div>
-        </a>
-
-        <a href="tool-tree.html" class="card">
-            <div class="title">Tool-Tree</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Unpack and repack ROMs and APKs for Android, Supports both root and non-root devices.</div>
-        </a>
-
-        <a href="apktool.html" class="card">
-            <div class="title">Apktool</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">A tool for reverse engineering Android apk files</div>
-        </a>
-
-        <a href="rekit.html" class="card">
-            <div class="title">rekit</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">Read-only reverse-engineering toolkit: CLI + MCP server for triage, strings, IOCs, disassembly, APK/firmware/PCAP/JS analysis, Ghi...</div>
-        </a>
-
-        <a href="rx-tools-apk.html" class="card">
-            <div class="title">RX-TOOLS-APK</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">Build APK RX TOOLS Android</div>
-        </a>
-
-        <a href="dsh-rea.html" class="card">
-            <div class="title">dsh-rea</div>
-            <div class="cat">📂 Мультимедиа</div>
-            <div class="desc">DSH plugin for REA (Reverse Engineer Anything) — Native Binary, Android APK, and Web/Electron static reverse engineering tools for...</div>
-        </a>
-
-        <a href="andee.html" class="card">
-            <div class="title">andee</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">An agent that moves into your Android phone and becomes its soul — not an assistant, not a tool. Any app, no integrations, on-devi...</div>
-        </a>
-
-        <a href="chaincheck.html" class="card">
-            <div class="title">chaincheck</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Live Caltrans chain controls, road closures, pass weather, and resort snow for the Sierra Nevada passes to Lake Tahoe. Android APK...</div>
-        </a>
-
-        <a href="github-workflows-build-yml.html" class="card">
-            <div class="title">.github-workflows-build.yml</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">name: Build Android APK  on:   push:     branches: [ main, master ]   workflow_dispatch:  jobs:   build:     runs-on: ubuntu-lates...</div>
-        </a>
-
-        <a href="physics-ii-course.html" class="card">
-            <div class="title">physics-ii-course</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Physics II Interactive Course by Turin Prepnik | online course, offline computer ZIP, optional Android APK</div>
-        </a>
-
-        <a href="linkscrub-releases.html" class="card">
-            <div class="title">linkscrub-releases</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Link Scrub Android APK releases (source is private)</div>
-        </a>
-
-        <a href="verified-android-apps.html" class="card">
-            <div class="title">verified-android-apps</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Open-source Android apps whose APKs are signature-checked and scanned for trackers. Updated automatically from 2113 Apps.</div>
-        </a>
-
-        <a href="acc-android-builder.html" class="card">
-            <div class="title">ACC-Android-Builder</div>
-            <div class="cat">📂 Утилиты</div>
-            <div class="desc">Apk</div>
-        </a>
-
-        <a href="ottplay-foss.html" class="card">
-            <div class="title">ottplay-foss</div>
-            <div class="cat">📂 Smart TV</div>
-            <div class="desc">IPTV/OTT set-top-box player — HLS/DASH playback, EPG, M3U/Xtream/Stalker providers, webhook push commands</div>
-        </a>
+    <header>
+        <button class="burger" onclick="toggleMenu()">☰</button>
+        <a href="index.html" class="logo">Git App <span>WTF</span></a>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span>Категории</span>
+            <button class="close-btn" onclick="toggleMenu()">✕</button>
+        </div>
+        <a href="index.html" class="cat-item">🏠 Все приложения</a>
+        <a href="#cat-Smart TV" class="cat-item" onclick="toggleMenu()">📂 Smart TV</a>
+        <a href="#cat-Мультимедиа" class="cat-item" onclick="toggleMenu()">📂 Мультимедиа</a>
+        <a href="#cat-Сеть" class="cat-item" onclick="toggleMenu()">📂 Сеть</a>
+        <a href="#cat-Системные" class="cat-item" onclick="toggleMenu()">📂 Системные</a>
+        <a href="#cat-Утилиты" class="cat-item" onclick="toggleMenu()">📂 Утилиты</a>
 
     </div>
+
+    <div class="container">
+        <h2>🔥 Топ скачиваемых APK (Топ-50)</h2>
+        <div class="grid">
+
+            <a href="smarttube.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="SmartTube">
+                <div class="app-name">SmartTube</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">24.5 MB</div>
+            </a>
+
+            <a href="ivi-player.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="IPTV Pro">
+                <div class="app-name">IPTV Pro</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">18.2 MB</div>
+            </a>
+
+            <a href="briefklar-android.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="briefklar-android">
+                <div class="app-name">briefklar-android</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">45.5 MB</div>
+            </a>
+
+            <a href="kov-sec.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Kov-Sec">
+                <div class="app-name">Kov-Sec</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">37.5 MB</div>
+            </a>
+
+            <a href="android-mod-apk-security-guide.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="android-mod-apk-security-guide">
+                <div class="app-name">android-mod-apk-security-guide</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">35.5 MB</div>
+            </a>
+
+            <a href="media-download-apk.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="media-download-apk">
+                <div class="app-name">media-download-apk</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">41.5 MB</div>
+            </a>
+
+            <a href="androidreverse.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="androidReverse">
+                <div class="app-name">androidReverse</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">36.5 MB</div>
+            </a>
+
+            <a href="audiophiles-dream.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="audiophiles-dream">
+                <div class="app-name">audiophiles-dream</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">9.5 MB</div>
+            </a>
+
+            <a href="naari-os-app.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Naari-os-app">
+                <div class="app-name">Naari-os-app</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">48.5 MB</div>
+            </a>
+
+            <a href="telos-android-test-downloads.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Telos-Android-Test-Downloads">
+                <div class="app-name">Telos-Android-Test-Downloads</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">44.5 MB</div>
+            </a>
+
+            <a href="iran-news-apk.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iran-news-apk">
+                <div class="app-name">iran-news-apk</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">22.5 MB</div>
+            </a>
+
+            <a href="muhammet-tekin-web.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="muhammet-tekin-web">
+                <div class="app-name">muhammet-tekin-web</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">18.5 MB</div>
+            </a>
+
+            <a href="massiptv-surumler.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="massiptv-surumler">
+                <div class="app-name">massiptv-surumler</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">21.5 MB</div>
+            </a>
+
+            <a href="bingwa-bot-apk.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Bingwa-Bot-APK">
+                <div class="app-name">Bingwa-Bot-APK</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">44.5 MB</div>
+            </a>
+
+            <a href="obfuscan.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="ObfuScan">
+                <div class="app-name">ObfuScan</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">34.5 MB</div>
+            </a>
+
+            <a href="real-apk-leecher.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Real-Apk-Leecher">
+                <div class="app-name">Real-Apk-Leecher</div>
+                <div class="app-cat">Утилиты</div>
+                <div class="app-meta">11.5 MB</div>
+            </a>
+
+            <a href="mayerstore-android-downloads.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="mayerstore-android-downloads">
+                <div class="app-name">mayerstore-android-downloads</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">42.5 MB</div>
+            </a>
+
+            <a href="bliss.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Bliss">
+                <div class="app-name">Bliss</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">28.5 MB</div>
+            </a>
+
+            <a href="five-light-apk.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="five-light-apk">
+                <div class="app-name">five-light-apk</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">58.5 MB</div>
+            </a>
+
+            <a href="pw-generator-app.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="pw-generator-app">
+                <div class="app-name">pw-generator-app</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">50.5 MB</div>
+            </a>
+
+            <a href="apkprobe.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="apkprobe">
+                <div class="app-name">apkprobe</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">29.5 MB</div>
+            </a>
+
+            <a href="github.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt=".github">
+                <div class="app-name">.github</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">10.5 MB</div>
+            </a>
+
+            <a href="reverse-skill-evolver.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="reverse-skill-evolver">
+                <div class="app-name">reverse-skill-evolver</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">39.5 MB</div>
+            </a>
+
+            <a href="folk-games-app.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="folk-games-app">
+                <div class="app-name">folk-games-app</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">55.5 MB</div>
+            </a>
+
+            <a href="notekar.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Notekar">
+                <div class="app-name">Notekar</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">38.5 MB</div>
+            </a>
+
+            <a href="fileadex-mobile-releases.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="fileadex-mobile-releases">
+                <div class="app-name">fileadex-mobile-releases</div>
+                <div class="app-cat">Утилиты</div>
+                <div class="app-meta">26.5 MB</div>
+            </a>
+
+            <a href="levyra-deepsound.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Levyra-deepsound">
+                <div class="app-name">Levyra-deepsound</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">30.5 MB</div>
+            </a>
+
+            <a href="garmin2peak-apk.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="garmin2peak-apk">
+                <div class="app-name">garmin2peak-apk</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">22.5 MB</div>
+            </a>
+
+            <a href="cmdix.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Cmdix">
+                <div class="app-name">Cmdix</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">48.5 MB</div>
+            </a>
+
+            <a href="dbd-maps.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="dbd-maps">
+                <div class="app-name">dbd-maps</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">46.5 MB</div>
+            </a>
+
+            <a href="nova-apk-builder-v2.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Nova-APK-Builder-v2">
+                <div class="app-name">Nova-APK-Builder-v2</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">50.5 MB</div>
+            </a>
+
+            <a href="syncdewvalley.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="SyncdewValley">
+                <div class="app-name">SyncdewValley</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">33.5 MB</div>
+            </a>
+
+            <a href="apkstv.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="ApksTV">
+                <div class="app-name">ApksTV</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">40.5 MB</div>
+            </a>
+
+            <a href="pelisjuanita-smarttv-apk--21-1.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="PelisJuanita_SmartTV_Apk_-21.1-">
+                <div class="app-name">PelisJuanita_SmartTV_Apk_-21.1-</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">8.5 MB</div>
+            </a>
+
+            <a href="relay-player.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="relay-player">
+                <div class="app-name">relay-player</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">57.5 MB</div>
+            </a>
+
+            <a href="joy-iptv-player.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="JOY-IPTV-PLAYER">
+                <div class="app-name">JOY-IPTV-PLAYER</div>
+                <div class="app-cat">Утилиты</div>
+                <div class="app-meta">48.5 MB</div>
+            </a>
+
+            <a href="tvgarden.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="TVGarden">
+                <div class="app-name">TVGarden</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">12.5 MB</div>
+            </a>
+
+            <a href="atlasproclientrework.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="AtlasProClientRework">
+                <div class="app-name">AtlasProClientRework</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">56.5 MB</div>
+            </a>
+
+            <a href="iptv-player-macos.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptv-player-macos">
+                <div class="app-name">iptv-player-macos</div>
+                <div class="app-cat">Утилиты</div>
+                <div class="app-meta">35.5 MB</div>
+            </a>
+
+            <a href="iptvbdlive.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Iptvbdlive">
+                <div class="app-name">Iptvbdlive</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">55.5 MB</div>
+            </a>
+
+            <a href="tv2u.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="tv2u">
+                <div class="app-name">tv2u</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">20.5 MB</div>
+            </a>
+
+            <a href="bacalhau.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="bacalhau">
+                <div class="app-name">bacalhau</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">43.5 MB</div>
+            </a>
+
+            <a href="lazytv-android.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="LazyTV-Android">
+                <div class="app-name">LazyTV-Android</div>
+                <div class="app-cat">Smart TV</div>
+                <div class="app-meta">16.5 MB</div>
+            </a>
+
+            <a href="mrstreamer.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="MrStreamer">
+                <div class="app-name">MrStreamer</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">45.5 MB</div>
+            </a>
+
+            <a href="iptv-player-android.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptv-player-android">
+                <div class="app-name">iptv-player-android</div>
+                <div class="app-cat">Системные</div>
+                <div class="app-meta">26.5 MB</div>
+            </a>
+
+            <a href="iptv-player.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="IPTV-Player">
+                <div class="app-name">IPTV-Player</div>
+                <div class="app-cat">Утилиты</div>
+                <div class="app-meta">16.5 MB</div>
+            </a>
+
+            <a href="nullsports.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="NullSports">
+                <div class="app-name">NullSports</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">45.5 MB</div>
+            </a>
+
+            <a href="glz-tv.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="glz-tv">
+                <div class="app-name">glz-tv</div>
+                <div class="app-cat">Сеть</div>
+                <div class="app-meta">31.5 MB</div>
+            </a>
+
+            <a href="lume.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Lume">
+                <div class="app-name">Lume</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">53.5 MB</div>
+            </a>
+
+            <a href="iptvnator.html" class="card">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptvnator">
+                <div class="app-name">iptvnator</div>
+                <div class="app-cat">Мультимедиа</div>
+                <div class="app-meta">19.5 MB</div>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

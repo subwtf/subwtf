@@ -33,7 +33,7 @@ def industrial_parser(chat_id, custom_query=None):
     existing_slugs = {app["slug"] for app in db["apps"]} | {app["slug"] for app in db.get("archive", [])}
     if chat_id:
         try:
-            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "⚡ <b>[INDUSTRIAL] Запущен глубокий сканер репозиториев...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
+            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "⚡ <b>[INDUSTRIAL] Запущен глубокий сканер с извлечением иконок...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
     
     new_apps = []
@@ -55,11 +55,15 @@ def industrial_parser(chat_id, custom_query=None):
                     raw_desc = item.get("description") or ""
                     if "t.me" in raw_desc.lower() or "join" in raw_desc.lower() or "channel" in raw_desc.lower(): continue
                     
+                    # Извлекаем прямую ссылку на аватар/иконку репозитория
+                    owner = item.get("owner", {})
+                    icon_url = owner.get("avatar_url", "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
+                    
                     new_apps.append({
                         "slug": slug, "name": name,
                         "category": "Smart TV" if "tv" in q else ("Мультимедиа" if "iptv" in q or "media" in q else ("Сеть" if "proxy" in q or "vless" in q else "Утилиты")),
                         "rating": str(round(random.uniform(4.7, 5.0), 1)),
-                        "icon": random.choice(["🚀", "📦", "⚡", "🔥", "💎", "🎯", "🛡"]),
+                        "icon_url": icon_url,
                         "file_size": f"{random.randint(6, 58)}.5 MB",
                         "date": datetime.now().strftime("%d.%m.%Y"),
                         "fallback_apk": f"{item.get('html_url')}/releases",
@@ -74,7 +78,7 @@ def industrial_parser(chat_id, custom_query=None):
         rebuild_and_push()
     
     if chat_id:
-        rep = f"🏭 <b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Запрос: <b>{queries[0]}</b>\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Сайт пересобран и отправлен!"
+        rep = f"🏭 <b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Запрос: <b>{queries[0]}</b>\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Настоящие иконки привязаны!"
         try:
             urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": rep, "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
@@ -91,14 +95,15 @@ def post_next_app():
             break
     if not target: return None
     
-    icon = target.get('icon', '📦')
-    msg = f"{icon} <b>{target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF 🤨 — Автономный каталог APK</i>"
-    banner_url = f"https://placehold.co/600x300/1e293b/38bdf8/png?text={urllib.parse.quote(target['name'])}"
+    msg = f"📱 <b>{target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF 🤨 — Автономный каталог APK</i>"
+    
+    # Берем реальную иконку приложения из базы
+    icon_photo = target.get("icon_url", "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
     
     try:
         data = urllib.parse.urlencode({
             "chat_id": CHANNEL,
-            "photo": banner_url,
+            "photo": icon_photo,
             "caption": msg,
             "parse_mode": "HTML"
         }).encode()
@@ -109,6 +114,7 @@ def post_next_app():
             save_db(db)
             return target
     except Exception as e:
+        print("Photo send error, fallback to text:", e)
         try:
             res = urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": CHANNEL, "text": msg, "parse_mode": "HTML"}).encode(), timeout=5)
             if res:
@@ -131,7 +137,7 @@ def send_control_panel(chat_id):
 
     inline_kb = json.dumps({
         "inline_keyboard": [
-            [{"text": "⚡ Глубокий парсинг (Все категории)", "callback_data": "run_parse"}],
+            [{"text": "⚡ Глубокий парсинг (С иконками)", "callback_data": "run_parse"}],
             [{"text": "📺 Smart TV APK", "callback_data": "parse_smarttv"}, {"text": "🎮 Игры / Эмуляторы", "callback_data": "parse_games"}],
             [{"text": "📡 Сеть и Proxy", "callback_data": "parse_tools"}, {"text": "🎵 Мультимедиа / IPTV", "callback_data": "parse_media"}],
             [{"text": "📢 Опубликовать в канал", "callback_data": "force_post"}, {"text": "🔄 Пересобрать сайт", "callback_data": "rebuild_site"}],
@@ -186,7 +192,7 @@ def main_loop():
                                 industrial_parser(cid, custom_query="iptv player apk")
                             elif data_cb == "force_post":
                                 posted = post_next_app()
-                                msg = f"✅ Отправлено в канал: <b>{posted['name']}</b>" if posted else "⚠️ Очередь пуста!"
+                                msg = f"✅ Отправлено в канал с иконкой: <b>{posted['name']}</b>" if posted else "⚠️ Очередь пуста! Запустите парсинг."
                                 urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": msg, "parse_mode": "HTML"}).encode())
                             elif data_cb == "rebuild_site":
                                 rebuild_and_push()
