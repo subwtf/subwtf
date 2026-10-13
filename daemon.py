@@ -10,29 +10,24 @@ TOKEN = "8794166379:AAGsYMxjmfSRvfR7dDoF0qfv-yFRaM-df-g"
 CHANNEL_ID = "@semenkicha"
 
 def log(msg):
-    print(f"[DAEMON] {msg}")
+    print(f"[DAEMON 24/7] {msg}")
     with open(os.path.join(REPO_PATH, "daemon.log"), "a", encoding="utf-8") as f:
         f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {msg}\n")
 
 def job():
-    log("Запуск цикла сканирования GitHub и обновления каталога...")
+    log("Штурм GitHub: запуск поиска и обновления...")
     
-    # 1. Запуск генератора / парсера (предполагаем, что generator.py или отдельный скрипт парсинга обновляет database.json)
-    # Если у вас есть отдельный скрипт парсинга (например parser.py), вызывайте его. Сейчас вызываем генератор и git sync.
+    # 1. Запуск генератора / парсера
     res_gen = os.system(f"python3 {os.path.join(REPO_PATH, 'generator.py')}")
     if res_gen != 0:
-        log("Ошибка при выполнении генератора.")
+        log("Ошибка генератора, повторим попытку в следующем цикле.")
         return
 
-    # 2. Автоматический Git Commit & Push на GitHub
-    git_cmd = f"cd {REPO_PATH} && git add . && git commit -m 'Auto-daemon: update database and site' && git push origin main"
-    res_git = os.system(git_cmd)
-    if res_git == 0:
-        log("Сайт успешно пересобран и отправлен на GitHub.")
-    else:
-        log("Ошибка отправки изменений в Git (возможно, нет новых коммитов).")
+    # 2. Автоматический Git Commit & Push
+    git_cmd = f"cd {REPO_PATH} && git add . && git commit -m 'Daemon 24/7: auto-sync database and site' && git push origin main"
+    os.system(git_cmd)
 
-    # 3. Автоматическая публикация свежего приложения в Telegram-канал
+    # 3. Публикация в канал
     try:
         if os.path.exists(DB_PATH):
             with open(DB_PATH, "r", encoding="utf-8") as f:
@@ -40,7 +35,6 @@ def job():
             apps = data.get("apps", []) if isinstance(data, dict) else data
             
             if apps and isinstance(apps, list):
-                # Берем первое или самое свежее приложение
                 app = apps[0]
                 name = app.get('name', 'App')
                 cat = app.get('category', 'Утилиты')
@@ -53,25 +47,25 @@ def job():
                     f"📂 Категория: {cat}\n"
                     f"⭐ Рейтинг: {rating} | 📦 Размер: {size}\n\n"
                     f"📝 {desc}...\n\n"
-                    f"👉 Скачать и найти другие приложения можно на нашем сайте!"
+                    f"👉 Скачать: https://subwtf.github.io/subwtf/"
                 )
                 
                 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
                 requests.post(url, json={"chat_id": CHANNEL_ID, "text": text, "parse_mode": "Markdown"})
-                log(f"Пост о приложении '{name}' успешно отправлен в канал {CHANNEL_ID}.")
+                log(f"Пост о приложении '{name}' отправлен в канал.")
     except Exception as e:
-        log(f"Ошибка автопубликации в канал: {e}")
+        log(f"Ошибка публикации: {e}")
 
 def main():
-    log("Демон автопилота запущен и готов рвать GitHub.")
+    log("Демон 24/7 запущен на полную мощность. Погнали!")
     while True:
         try:
             job()
         except Exception as e:
-            log(f"Ошибка в цикле демона: {e}")
+            log(f"Ошибка в цикле: {e}")
         
-        # Интервал проверки (например, каждые 2 часа = 7200 секунд)
-        time.sleep(7200)
+        # Небольшая пауза в 60 секунд между итерациями, чтобы не упереться в лимиты API GitHub
+        time.sleep(60)
 
 if __name__ == "__main__":
     main()
