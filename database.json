@@ -1732,7 +1732,7 @@
       "name": "VitaIPTV",
       "category": "Smart TV",
       "rating": "4.9",
-      "icon_url": "h"https://avatars.githubusercontent.com/u/5989787?v=4",
+      "icon_url": "https://avatars.githubusercontent.com/u/5989787?v=4",
       "file_size": "29.5 MB",
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/emrhky/VitaIPTV/releases",
@@ -1788,7 +1788,11 @@
     "relay-player",
     "joy-iptv-player",
     "tvgarden",
-    "atlasproclientrework"
+    "atlasproclientrework",
+    "iptv-player-macos",
+    "iptvbdlive",
+    "tv2u",
+    "bacalhau"
   ],
   "archive": [
     {
@@ -1965,7 +1969,7 @@
       "file_size": "11.5 MB",
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
-      "desc""D"Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
+      "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
     },
     {
       "slug": "mayerstore-android-downloads",
@@ -2208,6 +2212,50 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/Hysteryx/AtlasProClientRework/releases",
       "desc": "Reworked player for AtlasPro IPTV"
+    },
+    {
+      "slug": "iptv-player-macos",
+      "name": "iptv-player-macos",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "35.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/AhmedEzzat12/iptv-player-macos/releases",
+      "desc": "Tuner — a native macOS IPTV player (SwiftUI, AVFoundation + libmpv) with an Apple TV–style experience"
+    },
+    {
+      "slug": "iptvbdlive",
+      "name": "Iptvbdlive",
+      "category": "Мультимедиа",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "55.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/ahmedstore75/Iptvbdlive/releases",
+      "desc": "Iptvbdlive Website Players"
+    },
+    {
+      "slug": "tv2u",
+      "name": "tv2u",
+      "category": "Сеть",
+      "rating": "5.0",
+      "icon": "[APP]",
+      "file_size": "20.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/sirazymamun/tv2u/releases",
+      "desc": "A simple IPTV Player."
+    },
+    {
+      "slug": "bacalhau",
+      "name": "bacalhau",
+      "category": "Системные",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "43.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/renfuji12/bacalhau/releases",
+      "desc": "🐟 Stream live IPTV with bacalhau, a self-hosted player for NAS and Docker, featuring M3U playlist support and EPG integration for ..."
     }
   ],
   "total_scraped": 159,

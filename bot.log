@@ -1,5 +1,5 @@
 nohup: ignoring input
-  File "/root/subwtf-repo/generator.py", line 90
-    index_html += f'        <a href="#cat-{cat}" class="cat-item" onclick="toggleMenu()">📂 {cat}</a>
-                  ^
-SyntaxError: unterminated f-string literal (detected at line 90)
+  File "/root/subwtf-repo/bot.py", line 37
+    await asyncio.sleep(5)  мощный старт после запуска
+                            ^^^^^^
+SyntaxError: invalid syntax

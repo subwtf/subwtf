@@ -3,431 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git App WTF — Каталог APK приложений</title>
+    <title>Git App WTF — Современный каталог APK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-secondary: #64748b;
+            --bg-color: #0f1115;
+            --card-bg: #181c24;
+            --text-main: #f3f4f6;
+            --text-secondary: #9ca3af;
             --accent: #10b981;
-            --accent-hover: #059669;
-            --border: #e2e8f0;
+            --accent-glow: rgba(16, 185, 129, 0.2);
+            --border: #2d3748;
         }
-        body { background: var(--bg-color); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
-        header { background: #ffffff; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.25rem; font-weight: bold; color: #0f172a; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 70px; }
+        
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(15, 17, 21, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); padding: 12px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--accent); }
-        .burger { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
         
-        /* Боковое меню */
-        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 1000; transition: 0.3s ease; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .sidebar.open { left: 0; }
-        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 1.1rem; font-weight: bold; }
-        .close-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
-        .cat-item { display: block; padding: 10px 15px; color: var(--text-main); text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.2s; font-weight: 500; }
-        .cat-item:hover { background: #f1f5f9; color: var(--accent); }
+        .search-container { padding: 16px; max-width: 600px; margin: 0 auto; }
+        .search-box {
+            width: 100%; padding: 12px 16px 12px 42px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; color: #fff; font-size: 15px; outline: none;
+            transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: 14px center; background-size: 20px;
+        }
+        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
-        h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); border-left: 4px solid var(--accent); padding-left: 10px; }
+        .section-title { font-size: 18px; font-weight: 600; margin: 20px 16px 12px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
-        .card { background: var(--card-bg); border-radius: 14px; padding: 15px; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); border-color: var(--accent); }
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 16px; padding: 0 16px; max-width: 800px; margin: 0 auto;
+        }
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 12px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none; color: inherit;
+        }
+        .card:hover { transform: translateY(-3px); border-color: var(--accent); }
         
-        .app-icon { width: 68px; height: 68px; border-radius: 16px; object-fit: cover; margin-bottom: 10px; background: #e2e8f0; }
-        .app-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; width: 100%; }
-        .app-cat { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; }
-        .app-meta { font-size: 0.75rem; color: var(--accent); font-weight: 600; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
-        
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 999; }
-        .overlay.active { display: block; }
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 16px;
+            object-fit: cover; background: #222; margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .app-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-bottom: 4px; }
+        .app-cat { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }
+        .app-size { font-size: 11px; background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 600; }
+
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(15, 17, 21, 0.9); backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border); display: flex; justify-content: space-around;
+            padding: 10px 0; z-index: 100;
+        }
+        .nav-item { color: var(--text-secondary); text-align: center; font-size: 10px; text-decoration: none; }
+        .nav-item.active { color: var(--accent); }
+        .nav-item svg { width: 22px; height: 22px; display: block; margin: 0 auto 2px; fill: currentColor; }
     </style>
 </head>
 <body>
 
     <header>
-        <button class="burger" onclick="toggleMenu()">☰</button>
-        <a href="index.html" class="logo">Git App <span>WTF</span></a>
-        <div style="width: 24px;"></div>
+        <div class="logo">⚡ GitApp <span>WTF</span></div>
     </header>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span>Категории</span>
-            <button class="close-btn" onclick="toggleMenu()">✕</button>
-        </div>
-        <a href="index.html" class="cat-item">🏠 Все приложения</a>
-        <a href="#cat-Smart TV" class="cat-item" onclick="toggleMenu()">📂 Smart TV</a>
-        <a href="#cat-Мультимедиа" class="cat-item" onclick="toggleMenu()">📂 Мультимедиа</a>
-        <a href="#cat-Сеть" class="cat-item" onclick="toggleMenu()">📂 Сеть</a>
-        <a href="#cat-Системные" class="cat-item" onclick="toggleMenu()">📂 Системные</a>
-        <a href="#cat-Утилиты" class="cat-item" onclick="toggleMenu()">📂 Утилиты</a>
+    <div class="search-container">
+        <input type="text" class="search-box" id="search" placeholder="Поиск приложений и игр..." oninput="filterApps()">
+    </div>
+
+    <div class="section-title">🔥 Популярные релизы</div>
+
+    <div class="grid" id="app-grid">
 
     </div>
 
-    <div class="container">
-        <h2>🔥 Топ скачиваемых APK (Топ-50)</h2>
-        <div class="grid">
-
-            <a href="smarttube.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="SmartTube">
-                <div class="app-name">SmartTube</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">24.5 MB</div>
-            </a>
-
-            <a href="ivi-player.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="IPTV Pro">
-                <div class="app-name">IPTV Pro</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">18.2 MB</div>
-            </a>
-
-            <a href="briefklar-android.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="briefklar-android">
-                <div class="app-name">briefklar-android</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">45.5 MB</div>
-            </a>
-
-            <a href="kov-sec.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Kov-Sec">
-                <div class="app-name">Kov-Sec</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">37.5 MB</div>
-            </a>
-
-            <a href="android-mod-apk-security-guide.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="android-mod-apk-security-guide">
-                <div class="app-name">android-mod-apk-security-guide</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">35.5 MB</div>
-            </a>
-
-            <a href="media-download-apk.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="media-download-apk">
-                <div class="app-name">media-download-apk</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">41.5 MB</div>
-            </a>
-
-            <a href="androidreverse.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="androidReverse">
-                <div class="app-name">androidReverse</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">36.5 MB</div>
-            </a>
-
-            <a href="audiophiles-dream.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="audiophiles-dream">
-                <div class="app-name">audiophiles-dream</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">9.5 MB</div>
-            </a>
-
-            <a href="naari-os-app.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Naari-os-app">
-                <div class="app-name">Naari-os-app</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">48.5 MB</div>
-            </a>
-
-            <a href="telos-android-test-downloads.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Telos-Android-Test-Downloads">
-                <div class="app-name">Telos-Android-Test-Downloads</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">44.5 MB</div>
-            </a>
-
-            <a href="iran-news-apk.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iran-news-apk">
-                <div class="app-name">iran-news-apk</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">22.5 MB</div>
-            </a>
-
-            <a href="muhammet-tekin-web.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="muhammet-tekin-web">
-                <div class="app-name">muhammet-tekin-web</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">18.5 MB</div>
-            </a>
-
-            <a href="massiptv-surumler.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="massiptv-surumler">
-                <div class="app-name">massiptv-surumler</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">21.5 MB</div>
-            </a>
-
-            <a href="bingwa-bot-apk.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Bingwa-Bot-APK">
-                <div class="app-name">Bingwa-Bot-APK</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">44.5 MB</div>
-            </a>
-
-            <a href="obfuscan.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="ObfuScan">
-                <div class="app-name">ObfuScan</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">34.5 MB</div>
-            </a>
-
-            <a href="real-apk-leecher.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Real-Apk-Leecher">
-                <div class="app-name">Real-Apk-Leecher</div>
-                <div class="app-cat">Утилиты</div>
-                <div class="app-meta">11.5 MB</div>
-            </a>
-
-            <a href="mayerstore-android-downloads.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="mayerstore-android-downloads">
-                <div class="app-name">mayerstore-android-downloads</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">42.5 MB</div>
-            </a>
-
-            <a href="bliss.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Bliss">
-                <div class="app-name">Bliss</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">28.5 MB</div>
-            </a>
-
-            <a href="five-light-apk.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="five-light-apk">
-                <div class="app-name">five-light-apk</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">58.5 MB</div>
-            </a>
-
-            <a href="pw-generator-app.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="pw-generator-app">
-                <div class="app-name">pw-generator-app</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">50.5 MB</div>
-            </a>
-
-            <a href="apkprobe.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="apkprobe">
-                <div class="app-name">apkprobe</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">29.5 MB</div>
-            </a>
-
-            <a href="github.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt=".github">
-                <div class="app-name">.github</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">10.5 MB</div>
-            </a>
-
-            <a href="reverse-skill-evolver.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="reverse-skill-evolver">
-                <div class="app-name">reverse-skill-evolver</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">39.5 MB</div>
-            </a>
-
-            <a href="folk-games-app.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="folk-games-app">
-                <div class="app-name">folk-games-app</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">55.5 MB</div>
-            </a>
-
-            <a href="notekar.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Notekar">
-                <div class="app-name">Notekar</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">38.5 MB</div>
-            </a>
-
-            <a href="fileadex-mobile-releases.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="fileadex-mobile-releases">
-                <div class="app-name">fileadex-mobile-releases</div>
-                <div class="app-cat">Утилиты</div>
-                <div class="app-meta">26.5 MB</div>
-            </a>
-
-            <a href="levyra-deepsound.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Levyra-deepsound">
-                <div class="app-name">Levyra-deepsound</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">30.5 MB</div>
-            </a>
-
-            <a href="garmin2peak-apk.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="garmin2peak-apk">
-                <div class="app-name">garmin2peak-apk</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">22.5 MB</div>
-            </a>
-
-            <a href="cmdix.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Cmdix">
-                <div class="app-name">Cmdix</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">48.5 MB</div>
-            </a>
-
-            <a href="dbd-maps.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="dbd-maps">
-                <div class="app-name">dbd-maps</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">46.5 MB</div>
-            </a>
-
-            <a href="nova-apk-builder-v2.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Nova-APK-Builder-v2">
-                <div class="app-name">Nova-APK-Builder-v2</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">50.5 MB</div>
-            </a>
-
-            <a href="syncdewvalley.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="SyncdewValley">
-                <div class="app-name">SyncdewValley</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">33.5 MB</div>
-            </a>
-
-            <a href="apkstv.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="ApksTV">
-                <div class="app-name">ApksTV</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">40.5 MB</div>
-            </a>
-
-            <a href="pelisjuanita-smarttv-apk--21-1.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="PelisJuanita_SmartTV_Apk_-21.1-">
-                <div class="app-name">PelisJuanita_SmartTV_Apk_-21.1-</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">8.5 MB</div>
-            </a>
-
-            <a href="relay-player.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="relay-player">
-                <div class="app-name">relay-player</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">57.5 MB</div>
-            </a>
-
-            <a href="joy-iptv-player.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="JOY-IPTV-PLAYER">
-                <div class="app-name">JOY-IPTV-PLAYER</div>
-                <div class="app-cat">Утилиты</div>
-                <div class="app-meta">48.5 MB</div>
-            </a>
-
-            <a href="tvgarden.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="TVGarden">
-                <div class="app-name">TVGarden</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">12.5 MB</div>
-            </a>
-
-            <a href="atlasproclientrework.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="AtlasProClientRework">
-                <div class="app-name">AtlasProClientRework</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">56.5 MB</div>
-            </a>
-
-            <a href="iptv-player-macos.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptv-player-macos">
-                <div class="app-name">iptv-player-macos</div>
-                <div class="app-cat">Утилиты</div>
-                <div class="app-meta">35.5 MB</div>
-            </a>
-
-            <a href="iptvbdlive.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Iptvbdlive">
-                <div class="app-name">Iptvbdlive</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">55.5 MB</div>
-            </a>
-
-            <a href="tv2u.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="tv2u">
-                <div class="app-name">tv2u</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">20.5 MB</div>
-            </a>
-
-            <a href="bacalhau.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="bacalhau">
-                <div class="app-name">bacalhau</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">43.5 MB</div>
-            </a>
-
-            <a href="lazytv-android.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="LazyTV-Android">
-                <div class="app-name">LazyTV-Android</div>
-                <div class="app-cat">Smart TV</div>
-                <div class="app-meta">16.5 MB</div>
-            </a>
-
-            <a href="mrstreamer.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="MrStreamer">
-                <div class="app-name">MrStreamer</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">45.5 MB</div>
-            </a>
-
-            <a href="iptv-player-android.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptv-player-android">
-                <div class="app-name">iptv-player-android</div>
-                <div class="app-cat">Системные</div>
-                <div class="app-meta">26.5 MB</div>
-            </a>
-
-            <a href="iptv-player.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="IPTV-Player">
-                <div class="app-name">IPTV-Player</div>
-                <div class="app-cat">Утилиты</div>
-                <div class="app-meta">16.5 MB</div>
-            </a>
-
-            <a href="nullsports.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="NullSports">
-                <div class="app-name">NullSports</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">45.5 MB</div>
-            </a>
-
-            <a href="glz-tv.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="glz-tv">
-                <div class="app-name">glz-tv</div>
-                <div class="app-cat">Сеть</div>
-                <div class="app-meta">31.5 MB</div>
-            </a>
-
-            <a href="lume.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="Lume">
-                <div class="app-name">Lume</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">53.5 MB</div>
-            </a>
-
-            <a href="iptvnator.html" class="card">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="app-icon" alt="iptvnator">
-                <div class="app-name">iptvnator</div>
-                <div class="app-cat">Мультимедиа</div>
-                <div class="app-meta">19.5 MB</div>
-            </a>
-
-        </div>
+    <div class="nav-bar">
+        <a href="#" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Главная
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Поиск
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            О системе
+        </a>
     </div>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('active');
+        function filterApps() {
+            let query = document.getElementById('search').value.toLowerCase();
+            let cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                let name = card.querySelector('.app-name').innerText.toLowerCase();
+                card.style.display = name.includes(query) ? 'flex' : 'none';
+            });
         }
     </script>
 </body>

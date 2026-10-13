@@ -1,225 +1,170 @@
-import json, os
+import os
+import json
 
-DB_FILE = "database.json"
-
-def get_smart_icon(app):
-    icon_url = app.get("icon_url", "")
-    if icon_url and "githubassets.com" not in icon_url and "avatars.githubusercontent.com" not in icon_url:
-        return icon_url
-    name = app.get("name", "APK")
-    colors = ["10b981", "3b82f6", "6366f1", "8b5cf6", "ec4899", "f59e0b", "14b8a6"]
-    bg_color = colors[len(name) % len(colors)]
-    return f"https://ui-avatars.com/api/?name={urllib_quote(name)}&background={bg_color}&color=fff&size=128&bold=true&font-size=0.55&rounded=true"
-
-import urllib.parse
-def urllib_quote(s):
-    return urllib.parse.quote(s)
+DB_FILE = "/root/subwtf-repo/database.json"
+REPO_DIR = "/root/subwtf-repo"
 
 def generate():
     if not os.path.exists(DB_FILE):
+        print("База данных не найдена!")
         return
 
-    with open(DB_FILE, "r", encoding="utf-8") as f:
-        db = json.load(f)
+    try:
+        with open(DB_FILE, "r", encoding="utf-8") as f:
+            db = json.load(f)
+    except Exception as e:
+        print(f"Ошибка чтения JSON: {e}")
+        return
 
-    apps = db.get("apps", [])
-    categories = sorted(list(set(app.get("category", "Утилиты") for app in apps)))
+    # Защита от кривой структуры: если элементы не словари, отфильтровываем их
+    if isinstance(db, list):
+        db = [item for item in db if isinstance(item, dict)]
+    else:
+        db = []
 
-    index_html = f"""<!DOCTYPE html>
+    html_content = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APKPure Style — Каталог приложений APK</title>
+    <title>Git App WTF — Современный каталог APK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {{
-            --bg: #f5f6f7;
-            --card-bg: #ffffff;
-            --text: #222222;
-            --text-light: #777777;
-            --accent: #00ce84;
-            --accent-hover: #00b372;
-            --border: #e6e6e6;
+            --bg-color: #0f1115;
+            --card-bg: #181c24;
+            --text-main: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.2);
+            --border: #2d3748;
         }}
-        body {{ background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }}
+        body {{ background-color: var(--bg-color); color: var(--text-main); padding-bottom: 70px; }}
         
-        /* Шапка в стиле APKPure */
-        header {{ background: #ffffff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }}
-        .header-left {{ display: flex; align-items: center; gap: 15px; }}
-        .burger {{ background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text); }}
-        .logo {{ font-size: 1.25rem; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; }}
-        .logo span {{ color: var(--accent); margin-left: 2px; }}
+        header {{
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(15, 17, 21, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); padding: 12px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+        }}
+        .logo {{ font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }}
+        .logo span {{ color: var(--accent); }}
         
-        /* Поиск */
-        .search-container {{ flex: 1; max-width: 500px; margin: 0 20px; position: relative; }}
-        .search-input {{ width: 100%; padding: 10px 15px 10px 40px; border: 1px solid var(--border); border-radius: 24px; background: #f8f9fa; font-size: 0.95rem; outline: none; transition: 0.2s; box-sizing: border-box; }}
-        .search-input:focus {{ border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(0,206,132,0.1); }}
-        .search-icon {{ position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 0.95rem; }}
+        .search-container {{ padding: 16px; max-width: 600px; margin: 0 auto; }}
+        .search-box {{
+            width: 100%; padding: 12px 16px 12px 42px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; color: #fff; font-size: 15px; outline: none;
+            transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: 14px center; background-size: 20px;
+        }}
+        .search-box:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }}
 
-        /* Бургер меню */
-        .sidebar {{ position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: #ffffff; box-shadow: 5px 0 20px rgba(0,0,0,0.1); z-index: 1000; transition: 0.3s ease; padding: 20px; box-sizing: border-box; overflow-y: auto; }}
-        .sidebar.open {{ left: 0; }}
-        .sidebar-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--border); padding-bottom: 10px; }}
-        .close-btn {{ background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-light); }}
-        .cat-item {{ display: flex; align-items: center; gap: 10px; padding: 12px 15px; color: var(--text); text-decoration: none; border-radius: 10px; margin-bottom: 6px; font-weight: 500; transition: 0.2s; }}
-        .cat-item:hover {{ background: #f0fdf4; color: var(--accent); }}
+        .section-title {{ font-size: 18px; font-weight: 600; margin: 20px 16px 12px; }}
+        
+        .grid {{
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 16px; padding: 0 16px; max-width: 800px; margin: 0 auto;
+        }}
+        .card {{
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 12px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none; color: inherit;
+        }}
+        .card:hover {{ transform: translateY(-3px); border-color: var(--accent); }}
+        
+        .app-icon {{
+            width: 64px; height: 64px; border-radius: 16px;
+            object-fit: cover; background: #222; margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }}
+        .app-name {{ font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-bottom: 4px; }}
+        .app-cat {{ font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }}
+        .app-size {{ font-size: 11px; background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 600; }}
 
-        .container {{ max-width: 1200px; margin: 20px auto; padding: 0 15px; }}
-        .section-title {{ font-size: 1.15rem; font-weight: 700; margin: 25px 0 15px 0; display: flex; align-items: center; justify-content: space-between; }}
-        
-        /* Сетка карточек в стиле APKPure */
-        .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 15px; }}
-        .card {{ background: var(--card-bg); border-radius: 14px; padding: 16px; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid var(--border); transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }}
-        .card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: var(--accent); }}
-        
-        .app-icon {{ width: 72px; height: 72px; border-radius: 16px; object-fit: cover; margin-bottom: 12px; background: #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }}
-        .app-name {{ font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; color: var(--text); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; width: 100%; }}
-        .app-cat {{ font-size: 0.75rem; color: var(--text-light); margin-bottom: 10px; }}
-        .app-meta {{ font-size: 0.75rem; color: var(--accent); font-weight: 700; background: #f0fdf4; padding: 4px 10px; border-radius: 20px; width: 100%; box-sizing: border-box; }}
-        
-        .overlay {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 999; }}
-        .overlay.active {{ display: block; }}
+        .nav-bar {{
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(15, 17, 21, 0.9); backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border); display: flex; justify-content: space-around;
+            padding: 10px 0; z-index: 100;
+        }}
+        .nav-item {{ color: var(--text-secondary); text-align: center; font-size: 10px; text-decoration: none; }}
+        .nav-item.active {{ color: var(--accent); }}
+        .nav-item svg {{ width: 22px; height: 22px; display: block; margin: 0 auto 2px; fill: currentColor; }}
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-left">
-            <button class="burger" onclick="toggleMenu()">☰</button>
-            <a href="index.html" class="logo">APK<span>Pure</span></a>
-        </div>
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Поиск приложений (happ, v2rayng, nekobox...)" onkeyup="filterApps()">
-        </div>
-        <div style="width: 24px;"></div>
+        <div class="logo">⚡ GitApp <span>WTF</span></div>
     </header>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span>Категории</span>
-            <button class="close-btn" onclick="toggleMenu()">✕</button>
-        </div>
-        <a href="index.html" class="cat-item">🏠 Все приложения</a>
-"""
-
-    for cat in categories:
-        index_html += f'        <a href="index.html?cat={urllib_quote(cat)}" class="cat-item">📂 {cat}</a>\n'
-
-    index_html += """
+    <div class="search-container">
+        <input type="text" class="search-box" id="search" placeholder="Поиск приложений и игр..." oninput="filterApps()">
     </div>
 
-    <div class="container">
-        <div class="section-title">🔥 Топ-50 скачиваемых APK</div>
-        <div class="grid" id="appGrid">
+    <div class="section-title">🔥 Популярные релизы</div>
+
+    <div class="grid" id="app-grid">
 """
 
-    for app in apps[:50]:
-        slug = app.get("slug", "")
+    for app in db:
         name = app.get("name", "App")
         category = app.get("category", "Утилиты")
         size = app.get("file_size", "15 MB")
-        icon = get_smart_icon(app)
-        
-        index_html += f"""
-            <a href="{slug}.html" class="card" data-name="{name.lower()}" data-cat="{category.lower()}">
-                <img src="{icon}" class="app-icon" alt="{name}">
-                <div class="app-name">{name}</div>
-                <div class="app-cat">{category}</div>
-                <div class="app-meta">{size}</div>
-            </a>
-"""
+        icon = app.get("icon_url", "")
+        if not icon or "githubusercontent" in icon or not icon.startswith("http"):
+            icon = "https://cdn-icons-png.flaticon.com/512/1055/1055687.png"
 
-    index_html += """
-        </div>
+        html_content += f"""
+        <a class="card" href="#">
+            <img class="app-icon" src="{icon}" alt="{name}" loading="lazy">
+            <div class="app-name">{name}</div>
+            <div class="app-cat">{category}</div>
+            <div class="app-size">{size}</div>
+        </a>
+        """
+
+    html_content += f"""
+    </div>
+
+    <div class="nav-bar">
+        <a href="#" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Главная
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Поиск
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            О системе
+        </a>
     </div>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-
-        function filterApps() {
-            let query = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            for (let card of cards) {
-                let name = card.getAttribute('data-name');
-                let cat = card.getAttribute('data-cat');
-                if (name.includes(query) || cat.includes(query)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            }
-        }
+        function filterApps() {{
+            let query = document.getElementById('search').value.toLowerCase();
+            let cards = document.querySelectorAll('.card');
+            cards.forEach(card => {{
+                let name = card.querySelector('.app-name').innerText.toLowerCase();
+                card.style.display = name.includes(query) ? 'flex' : 'none';
+            }});
+        }}
     </script>
 </body>
 </html>
 """
 
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(index_html)
-
-    # Генерация страниц приложений в том же чистом стиле
-    for app in apps:
-        slug = app.get("slug", "")
-        name = app.get("name", "App")
-        category = app.get("category", "Утилиты")
-        rating = app.get("rating", "4.8")
-        size = app.get("file_size", "15 MB")
-        date = app.get("date", "14.10.2026")
-        fallback = app.get("fallback_apk", "#")
-        desc = app.get("desc", "")
-        icon = get_smart_icon(app)
-
-        app_html = f"""<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{name} — Скачать APK бесплатно</title>
-    <style>
-        body {{ background: #f5f6f7; color: #222; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }}
-        .container {{ background: #ffffff; border-radius: 20px; padding: 30px; max-width: 480px; width: 100%; border: 1px solid #e6e6e6; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }}
-        .header {{ display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }}
-        .app-icon {{ width: 84px; height: 84px; border-radius: 20px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }}
-        h1 {{ margin: 0 0 6px 0; font-size: 1.35rem; color: #222; }}
-        .cat {{ color: #777; font-size: 0.9rem; }}
-        .info-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; background: #f8f9fa; padding: 14px; border-radius: 12px; font-size: 0.9rem; }}
-        .desc {{ margin: 20px 0; color: #444; line-height: 1.6; font-size: 0.95rem; }}
-        .btn {{ display: block; background: #00ce84; color: white; text-align: center; padding: 14px; border-radius: 14px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: 0.2s; box-shadow: 0 4px 14px rgba(0,206,132,0.3); font-size: 1rem; }}
-        .btn:hover {{ background: #00b372; }}
-        .back {{ display: block; text-align: center; margin-top: 15px; color: #777; text-decoration: none; font-size: 0.9rem; }}
-        .back:hover {{ color: #222; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="{icon}" class="app-icon" alt="{name}">
-            <div>
-                <h1>{name}</h1>
-                <div class="cat">📂 {category}</div>
-            </div>
-        </div>
-        <div class="info-grid">
-            <div>⭐ Рейтинг: <b>{rating}</b></div>
-            <div>💾 Размер: <b>{size}</b></div>
-            <div style="grid-column: span 2;">📅 Обновлено: <b>{date}</b></div>
-        </div>
-        <div class="desc">{desc}</div>
-        <a href="{fallback}" class="btn" target="_blank">📥 Скачать APK (Прямая ссылка)</a>
-        <a href="index.html" class="back">← На главную каталог</a>
-    </div>
-</body>
-</html>
-"""
-        with open(f"{slug}.html", "w", encoding="utf-8") as f:
-            f.write(app_html)
-
-    print("APKPure style generated!")
+    output_path = os.path.join(REPO_DIR, "index.html")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print("Современный сайт успешно сгенерирован!")
 
 if __name__ == "__main__":
     generate()
