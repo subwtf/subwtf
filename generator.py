@@ -11,8 +11,7 @@ APPS_DATA = [
         "category": "IPTV Плееры",
         "rating": "4.9",
         "icon": "📺",
-        "github_repo": "alexelec/Televizo",
-        "fallback_apk": "https://github.com/alexelec/Televizo/releases",
+        "fallback_apk": "https://televizo.net/apk/televizo.apk",
         "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов. Полная поддержка M3U и Xtream Codes API."
     },
     {
@@ -22,8 +21,7 @@ APPS_DATA = [
         "category": "Медиацентры",
         "rating": "4.8",
         "icon": "⚡",
-        "github_repo": "",
-        "fallback_apk": "https://ott-navigator.ru",
+        "fallback_apk": "https://ott-navigator.com",
         "desc": "Продвинутый плеер с функцией архива передач, поддержкой нескольких плейлистов, картинкой-в-картинке и детальным EPG."
     },
     {
@@ -33,7 +31,6 @@ APPS_DATA = [
         "category": "Smart TV",
         "rating": "5.0",
         "icon": "🎬",
-        "github_repo": "",
         "fallback_apk": "https://tvimate.com",
         "desc": "Премиальный интерфейс в стиле кабельного ТВ. Разработан специально для приставок и телевизоров с пультом ДУ."
     },
@@ -44,8 +41,7 @@ APPS_DATA = [
         "category": "Android & Box",
         "rating": "4.7",
         "icon": "📲",
-        "github_repo": "",
-        "fallback_apk": "https://www.iptvsmarters.com",
+        "fallback_apk": "https://www.iptvsmarters.com/smarters.apk",
         "desc": "Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов и встроенного родительского контроля."
     },
     {
@@ -55,27 +51,10 @@ APPS_DATA = [
         "category": "Android TV",
         "rating": "4.6",
         "icon": "📡",
-        "github_repo": "",
-        "fallback_apk": "http://www.niklabs.com",
+        "fallback_apk": "http://www.niklabs.com/downloads/",
         "desc": "Легковесный плеер для слабых ТВ-приставок. Минимальный расход ресурсов и мгновенный запуск M3U каналов."
     }
 ]
-
-def fetch_github_release(repo):
-    if not repo:
-        return None
-    try:
-        url = f"https://api.github.com/repos/{repo}/releases/latest"
-        req = urllib.request.Request(url, headers={'User-Agent': 'TVStoreBot/1.0'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            data = json.loads(response.read().decode())
-            for asset in data.get('assets', []):
-                if asset['name'].endswith('.apk'):
-                    return asset['browser_download_url']
-            return data.get('html_url')
-    except Exception as e:
-        print(f"Ошибка GitHub API для {repo}: {e}")
-    return None
 
 HTML_HEAD = """<!DOCTYPE html>
 <html lang="ru">
@@ -224,7 +203,7 @@ def generate_index():
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" id="catalog">
             <h2 style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;">Каталог приложений</h2>
-            <span style="font-size: 0.85rem; color: #64748b;">Авто-обновление релизов</span>
+            <span style="font-size: 0.85rem; color: #64748b;">Каталог проверенного софта</span>
         </div>
         <div class="grid" id="appsGrid">
             {cards}
@@ -247,7 +226,7 @@ def generate_index():
         f.write(html)
 
 def generate_app_page(app):
-    download_url = fetch_github_release(app['github_repo']) or app['fallback_apk']
+    download_url = app['fallback_apk']
     html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
     <main class="container" style="max-width: 800px;">
         <a href="index.html" style="color: #818cf8; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; Назад в каталог TV Store</a>
@@ -295,4 +274,4 @@ generate_index()
 for app in APPS_DATA:
     generate_app_page(app)
 
-print("Генерация TV Store завершена успешно!")
+print("Обновление каталога с прямыми надежными ссылками выполнено!")
