@@ -1568,7 +1568,11 @@
     "ivi-player",
     "briefklar-android",
     "kov-sec",
-    "android-mod-apk-security-guide"
+    "android-mod-apk-security-guide",
+    "media-download-apk",
+    "androidreverse",
+    "audiophiles-dream",
+    "naari-os-app"
   ],
   "archive": [
     {
@@ -1625,6 +1629,50 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/Lorcan8920/android-mod-apk-security-guide/releases",
       "desc": "Analyze the security risks of modded APKs and learn how threat actors inject malicious code to compromise mobile devices."
+    },
+    {
+      "slug": "media-download-apk",
+      "name": "media-download-apk",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "41.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Khhhgh/media-download-apk/releases",
+      "desc": "Media Downloader Android App"
+    },
+    {
+      "slug": "androidreverse",
+      "name": "androidReverse",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "36.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Acousticdevicemercouri734/androidReverse/releases",
+      "desc": "Reverse engineer APKs and analyze native binaries directly on your Android device without a PC or ADB."
+    },
+    {
+      "slug": "audiophiles-dream",
+      "name": "audiophiles-dream",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "9.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Pointcosmologist787/audiophiles-dream/releases",
+      "desc": "Play high-fidelity, bit-perfect local audio files on Android devices through a clean and capable player interface."
+    },
+    {
+      "slug": "naari-os-app",
+      "name": "Naari-os-app",
+      "category": "Системные",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "48.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Abhishek-Ag-1112/Naari-os-app/releases",
+      "desc": "ative Android companion application and installable APK for Naari OS : an open-source personal safety ecosystem connecting an ESP3..."
     }
   ],
   "total_scraped": 142,
