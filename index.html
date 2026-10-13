@@ -1,97 +1,213 @@
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexTech Lab — Инженерный блогинг, инфраструктура и сетевые технологии нового поколения</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <title>IPTV Market — Скачать плееры и M3U плейлисты 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* Шапка */
+        .header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 1.25rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;
+        }
+        .logo-box {
+            width: 2.2rem; height: 2.2rem; border-radius: 0.6rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .search-box {
+            flex-grow: 1; max-width: 400px; position: relative;
+            display: none;
+        }
+        @media (min-width: 640px) { .search-box { display: block; } }
+        .search-input {
+            width: 100%; padding: 0.55rem 1rem 0.55rem 2.2rem;
+            border-radius: 0.75rem; background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
+            font-size: 0.85rem; outline: none;
+        }
+
+        .cta-header-btn {
+            background: #10b981; color: #fff; padding: 0.5rem 1rem;
+            border-radius: 0.65rem; font-weight: 600; font-size: 0.85rem;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
+        }
+        .cta-header-btn:hover { background: #059669; }
+
+        /* Баннер Рефералки iSeeTV */
+        .promo-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.4));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 1.25rem; padding: 1.5rem; margin: 1.5rem 0 2rem;
+            display: flex; flex-col; gap: 1rem; align-items: flex-start; justify-content: space-between;
+        }
+        @media (min-width: 768px) { .promo-banner { flex-direction: row; align-items: center; } }
+        .promo-title { font-size: 1.15rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.3rem; }
+        .promo-desc { font-size: 0.875rem; color: #94a3b8; }
+        .promo-btn {
+            background: #10b981; color: #fff; padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem;
+            white-space: nowrap; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s;
+        }
+        .promo-btn:hover { transform: translateY(-2px); }
+
+        /* Сетка APK Маркета */
+        .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
+        .section-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; color: #f8fafc; }
+
+        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+        
+        .app-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.1rem; padding: 1.25rem;
+            display: flex; gap: 1rem; transition: all 0.2s ease;
+        }
+        .app-card:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px);
+        }
+        .app-icon {
+            width: 3.5rem; height: 3.5rem; border-radius: 0.85rem;
+            background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; flex-shrink: 0;
+        }
+        .app-info { flex-grow: 1; min-width: 0; }
+        .app-name { font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .app-meta { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center; }
+        .app-rating { color: #fbbf24; font-weight: 600; }
+        .app-desc { font-size: 0.8rem; color: #94a3b8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Футер */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.25rem; text-align: center; color: #64748b; font-size: 0.85rem;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-bolt text-lg"></i>
-                </div>
-                <span class="text-xl font-extrabold tracking-tight text-slate-900">NexTech<span class="text-emerald-600">.Lab</span></span>
-            </a>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-box">📺</div>
+            <div>IPTV<span style="color:#10b981">.Market</span></div>
+        </a>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Поиск плеера или приложения...">
         </div>
+        <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" class="cta-header-btn">
+            <span>🎁 Тест плейлиста</span>
+        </a>
     </header>
-    <section class="relative overflow-hidden pt-20 pb-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
-                Автономный хаб инженерных <span class="text-emerald-600">решений</span>
-            </h1>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">Свежие практические материалы и руководства по настройке серверов и сетей.</p>
-        </div>
-    </section>
-    <section class="py-12 bg-white border-t border-slate-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-2xl font-bold text-slate-900 mb-8">Все публикации</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <article class="group rounded-2xl bg-slate-50 border border-slate-200/80 p-6 hover:bg-white hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/5 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-lg bg-emerald-100/80 text-emerald-800 text-xs font-semibold">Инфраструктура</span>
-                            <span class="text-xs text-slate-400">2026</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors mb-3">
-                            Настройка прокси и обхода блокировок через Xray
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                            Полное руководство по развертыванию протоколов нового поколения для безопасной передачи данных.
-                        </p>
-                    </div>
-                    <a href="xray-guide.html" class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        <span>Читать статью</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                    </a>
-                </article>
 
-                <article class="group rounded-2xl bg-slate-50 border border-slate-200/80 p-6 hover:bg-white hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/5 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-lg bg-emerald-100/80 text-emerald-800 text-xs font-semibold">Инфраструктура</span>
-                            <span class="text-xs text-slate-400">2026</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors mb-3">
-                            Оптимизация производительности Ubuntu VPS 1GB RAM
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                            Тонкая настройка ядра Linux, отключение лишних служб и управление SWAP-памятью для слабой виртуальной машины.
-                        </p>
-                    </div>
-                    <a href="ubuntu-optimization.html" class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        <span>Читать статью</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                    </a>
-                </article>
-
-                <article class="group rounded-2xl bg-slate-50 border border-slate-200/80 p-6 hover:bg-white hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/5 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-lg bg-emerald-100/80 text-emerald-800 text-xs font-semibold">Инфраструктура</span>
-                            <span class="text-xs text-slate-400">2026</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors mb-3">
-                            Автоматизация бэкапов в Docker: практические примеры
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                            Надежные скрипты для ежедневного сохранения баз данных и конфигураций без потери производительности.
-                        </p>
-                    </div>
-                    <a href="docker-backups.html" class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        <span>Читать статью</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                    </a>
-                </article>
-
+    <main class="container">
+        <!-- Реферальный Блок iSeeTV -->
+        <div class="promo-banner">
+            <div>
+                <div class="promo-title">🔥 Стабильный M3U Плейлист без лагов и задержек</div>
+                <div class="promo-desc">Более 1000+ каналов в 4K/FullHD, архив передач за 7 дней. Бесплатный тест для всех плееров!</div>
             </div>
+            <a href="https://iseetv.net/welcome/signup/cb26f9e15332cb38" target="_blank" class="promo-btn">Подключить тест &rarr;</a>
         </div>
-    </section>
+
+        <div class="section-title">Каталог IPTV Плееров &amp; APK</div>
+        <div class="apps-grid">
+            
+        <a href="televizo.html" class="app-card">
+            <div class="app-icon">📺</div>
+            <div class="app-info">
+                <div class="app-name">Televizo — IPTV Player</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ 4.8</span>
+                    <span>•</span>
+                    <span>Android & TV</span>
+                </div>
+                <div class="app-desc">Удобный и функциональный IPTV плеер для Android телефонов, планшетов и TV-приставок. Поддерживает M3U и Xtream Codes API.</div>
+            </div>
+        </a>
+        
+        <a href="ott-navigator.html" class="app-card">
+            <div class="app-icon">⚡</div>
+            <div class="app-info">
+                <div class="app-name">OTT Navigator IPTV</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ 4.9</span>
+                    <span>•</span>
+                    <span>Android TV / Box</span>
+                </div>
+                <div class="app-desc">Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов, картинка-в-картинке и детальным EPG гидом.</div>
+            </div>
+        </a>
+        
+        <a href="tvimate.html" class="app-card">
+            <div class="app-icon">🎬</div>
+            <div class="app-info">
+                <div class="app-name">TiviMate IPTV Player</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ 4.9</span>
+                    <span>•</span>
+                    <span>Smart TV & Box</span>
+                </div>
+                <div class="app-desc">Премиальный интерфейс в стиле кабельного ТВ. Идеален для Android TV приставок и телевизоров с пультом ДУ.</div>
+            </div>
+        </a>
+        
+        <a href="iptv-smarters.html" class="app-card">
+            <div class="app-icon">📱</div>
+            <div class="app-info">
+                <div class="app-name">IPTV Smarters Pro</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ 4.7</span>
+                    <span>•</span>
+                    <span>Android / iOS / Windows</span>
+                </div>
+                <div class="app-desc">Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов, родительского контроля и встроенного плеера.</div>
+            </div>
+        </a>
+        
+        <a href="perfect-player.html" class="app-card">
+            <div class="app-icon">📡</div>
+            <div class="app-info">
+                <div class="app-name">Perfect Player IPTV</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ 4.6</span>
+                    <span>•</span>
+                    <span>Android TV</span>
+                </div>
+                <div class="app-desc">Надежный и легкий плеер для слабых ТВ-приставок. Минимальное потребление ресурсов и быстрая загрузка M3U.</div>
+            </div>
+        </a>
+        
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 IPTV Market — Автоматизированный каталог плееров и плейлистов.
+    </footer>
 </body>
 </html>

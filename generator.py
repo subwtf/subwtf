@@ -1,115 +1,321 @@
-import os
+import json
+import urllib.request
 import datetime
 
-TOPICS = [
-    ("Настройка прокси и обхода блокировок через Xray", "Полное руководство по развертыванию протоколов нового поколения для безопасной передачи данных.", "xray-guide.html"),
-    ("Оптимизация производительности Ubuntu VPS 1GB RAM", "Тонкая настройка ядра Linux, отключение лишних служб и управление SWAP-памятью для слабой виртуальной машины.", "ubuntu-optimization.html"),
-    ("Автоматизация бэкапов в Docker: практические примеры", "Надежные скрипты для ежедневного сохранения баз данных и конфигураций без потери производительности.", "docker-backups.html"),
+REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
+
+APPS_DATA = [
+    {
+        "slug": "televizo",
+        "name": "Televizo — IPTV Player",
+        "tag": "Топ выбор",
+        "category": "Android & TV",
+        "rating": "4.8",
+        "icon": "📺",
+        "github_repo": "alexelec/Televizo",  # Репозиторий для отслеживания
+        "fallback_apk": "https://github.com/alexelec/Televizo/releases",
+        "desc": "Удобный и функциональный IPTV плеер для Android телефонов, планшетов и TV-приставок. Поддерживает M3U и Xtream Codes API."
+    },
+    {
+        "slug": "ott-navigator",
+        "name": "OTT Navigator IPTV",
+        "tag": "Продвинутый",
+        "category": "Android TV / Box",
+        "rating": "4.9",
+        "icon": "⚡",
+        "github_repo": "",
+        "fallback_apk": "https://ott-navigator.ru",
+        "desc": "Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов, картинка-в-картинке и детальным EPG гидом."
+    },
+    {
+        "slug": "tvimate",
+        "name": "TiviMate IPTV Player",
+        "tag": "Популярное",
+        "category": "Smart TV & Box",
+        "rating": "4.9",
+        "icon": "🎬",
+        "github_repo": "",
+        "fallback_apk": "https://tvimate.com",
+        "desc": "Премиальный интерфейс в стиле кабельного ТВ. Идеален для Android TV приставок и телевизоров с пультом ДУ."
+    },
+    {
+        "slug": "iptv-smarters",
+        "name": "IPTV Smarters Pro",
+        "tag": "Мультиплатформа",
+        "category": "Android / iOS / Windows",
+        "rating": "4.7",
+        "icon": "📱",
+        "github_repo": "",
+        "fallback_apk": "https://www.iptvsmarters.com",
+        "desc": "Универсальный медиаплеер с поддержкой видео по запросу (VOD), сериалов, родительского контроля и встроенного плеера."
+    },
+    {
+        "slug": "perfect-player",
+        "name": "Perfect Player IPTV",
+        "tag": "Классика",
+        "category": "Android TV",
+        "rating": "4.6",
+        "icon": "📡",
+        "github_repo": "",
+        "fallback_apk": "http://www.niklabs.com",
+        "desc": "Надежный и легкий плеер для слабых ТВ-приставок. Минимальное потребление ресурсов и быстрая загрузка M3U."
+    }
 ]
 
-def generate_index(articles):
-    cards_html = ""
-    for title, desc, filename in articles:
-        cards_html += f"""
-                <article class="group rounded-2xl bg-slate-50 border border-slate-200/80 p-6 hover:bg-white hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/5 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-lg bg-emerald-100/80 text-emerald-800 text-xs font-semibold">Инфраструктура</span>
-                            <span class="text-xs text-slate-400">2026</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors mb-3">
-                            {title}
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                            {desc}
-                        </p>
-                    </div>
-                    <a href="{filename}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        <span>Читать статью</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                    </a>
-                </article>
-"""
+def fetch_github_release(repo):
+    if not repo:
+        return None
+    try:
+        url = f"https://api.github.com/repos/{repo}/releases/latest"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            for asset in data.get('assets', []):
+                if asset['name'].endswith('.apk'):
+                    return asset['browser_download_url']
+            return data.get('html_url')
+    except Exception as e:
+        print(f"Не удалось получить релиз с GitHub для {repo}: {e}")
+    return None
 
-    return f"""<!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexTech Lab — Инженерный блогинг, инфраструктура и сетевые технологии нового поколения</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-bolt text-lg"></i>
-                </div>
-                <span class="text-xl font-extrabold tracking-tight text-slate-900">NexTech<span class="text-emerald-600">.Lab</span></span>
-            </a>
-        </div>
-    </header>
-    <section class="relative overflow-hidden pt-20 pb-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
-                Автономный хаб инженерных <span class="text-emerald-600">решений</span>
-            </h1>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">Свежие практические материалы и руководства по настройке серверов и сетей.</p>
-        </div>
-    </section>
-    <section class="py-12 bg-white border-t border-slate-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-2xl font-bold text-slate-900 mb-8">Все публикации</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {cards_html}
-            </div>
-        </div>
-    </section>
-</body>
-</html>
-"""
-
-def generate_article(title, desc, filename):
-    html = f"""<!DOCTYPE html>
+HTML_HEAD = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} — NexTech Lab</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>IPTV Market — Скачать плееры и M3U плейлисты 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* Шапка */
+        .header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 1.25rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;
+        }
+        .logo-box {
+            width: 2.2rem; height: 2.2rem; border-radius: 0.6rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .search-box {
+            flex-grow: 1; max-width: 400px; position: relative;
+            display: none;
+        }
+        @media (min-width: 640px) { .search-box { display: block; } }
+        .search-input {
+            width: 100%; padding: 0.55rem 1rem 0.55rem 2.2rem;
+            border-radius: 0.75rem; background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
+            font-size: 0.85rem; outline: none;
+        }
+
+        .cta-header-btn {
+            background: #10b981; color: #fff; padding: 0.5rem 1rem;
+            border-radius: 0.65rem; font-weight: 600; font-size: 0.85rem;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
+        }
+        .cta-header-btn:hover { background: #059669; }
+
+        /* Баннер Рефералки iSeeTV */
+        .promo-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.4));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 1.25rem; padding: 1.5rem; margin: 1.5rem 0 2rem;
+            display: flex; flex-col; gap: 1rem; align-items: flex-start; justify-content: space-between;
+        }
+        @media (min-width: 768px) { .promo-banner { flex-direction: row; align-items: center; } }
+        .promo-title { font-size: 1.15rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.3rem; }
+        .promo-desc { font-size: 0.875rem; color: #94a3b8; }
+        .promo-btn {
+            background: #10b981; color: #fff; padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem;
+            white-space: nowrap; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s;
+        }
+        .promo-btn:hover { transform: translateY(-2px); }
+
+        /* Сетка APK Маркета */
+        .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
+        .section-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; color: #f8fafc; }
+
+        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+        
+        .app-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.1rem; padding: 1.25rem;
+            display: flex; gap: 1rem; transition: all 0.2s ease;
+        }
+        .app-card:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px);
+        }
+        .app-icon {
+            width: 3.5rem; height: 3.5rem; border-radius: 0.85rem;
+            background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; flex-shrink: 0;
+        }
+        .app-info { flex-grow: 1; min-width: 0; }
+        .app-name { font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .app-meta { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center; }
+        .app-rating { color: #fbbf24; font-weight: 600; }
+        .app-desc { font-size: 0.8rem; color: #94a3b8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Футер */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.25rem; text-align: center; color: #64748b; font-size: 0.85rem;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans">
-    <header class="bg-white border-b border-slate-100 py-4 px-8">
-        <a href="index.html" class="text-emerald-600 font-bold">&larr; На главную</a>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-box">📺</div>
+            <div>IPTV<span style="color:#10b981">.Market</span></div>
+        </a>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Поиск плеера или приложения...">
+        </div>
+        <a href="{REFRAL_LINK}" target="_blank" class="cta-header-btn">
+            <span>🎁 Тест плейлиста</span>
+        </a>
     </header>
-    <main class="max-w-3xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-extrabold text-slate-900 mb-4">{title}</h1>
-        <p class="text-lg text-slate-600 mb-8">{desc}</p>
-        <div class="bg-white p-8 rounded-2xl border border-slate-200 space-y-4">
-            <p>Детальный разбор архитектуры и пошаговая реализация поставленной задачи на практике.</p>
-            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-sm">
-                # Пример конфигурации<br>echo "Running automation task..."
+"""
+
+def generate_index():
+    cards = ""
+    for app in APPS_DATA:
+        cards += f"""
+        <a href="{app['slug']}.html" class="app-card">
+            <div class="app-icon">{app['icon']}</div>
+            <div class="app-info">
+                <div class="app-name">{app['name']}</div>
+                <div class="app-meta">
+                    <span class="app-rating">★ {app['rating']}</span>
+                    <span>•</span>
+                    <span>{app['category']}</span>
+                </div>
+                <div class="app-desc">{app['desc']}</div>
             </div>
+        </a>
+        """
+
+    html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
+    <main class="container">
+        <!-- Реферальный Блок iSeeTV -->
+        <div class="promo-banner">
+            <div>
+                <div class="promo-title">🔥 Стабильный M3U Плейлист без лагов и задержек</div>
+                <div class="promo-desc">Более 1000+ каналов в 4K/FullHD, архив передач за 7 дней. Бесплатный тест для всех плееров!</div>
+            </div>
+            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить тест &rarr;</a>
+        </div>
+
+        <div class="section-title">Каталог IPTV Плееров &amp; APK</div>
+        <div class="apps-grid">
+            {cards}
         </div>
     </main>
+
+    <footer class="footer">
+        &copy; 2026 IPTV Market — Автоматизированный каталог плееров и плейлистов.
+    </footer>
 </body>
 </html>
 """
-    with open(filename, "w", encoding="utf-8") as f:
+    with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-articles = []
-for title, desc, filename in TOPICS:
-    generate_article(title, desc, filename)
-    articles.append((title, desc, filename))
+def generate_app_page(app):
+    github_link = fetch_github_release(app['github_repo'])
+    download_url = github_link if github_link else app['fallback_apk']
 
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(generate_index(articles))
+    html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
+    <main class="container" style="max-width: 800px;">
+        <a href="index.html" style="color: #10b981; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; Назад в каталог</a>
+        
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem;">
+            <div style="width: 5rem; height: 5rem; border-radius: 1.2rem; background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">
+                {app['icon']}
+            </div>
+            <div>
+                <h1 style="font-size: 1.75rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.3rem;">{app['name']}</h1>
+                <div style="display: flex; gap: 0.75rem; font-size: 0.85rem; color: #94a3b8;">
+                    <span style="color: #fbbf24;">★ {app['rating']}</span>
+                    <span>•</span>
+                    <span>{app['category']}</span>
+                </div>
+            </div>
+        </div>
 
-print("Все статьи и главная страница сгенерированы!")
+        <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
+            <a href="{download_url}" target="_blank" style="background: #10b981; color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; shadow: 0 4px 14px rgba(16,185,129,0.3);">
+                <span>📥 Скачать APK (Официальный)</span>
+            </a>
+            <a href="{REFRAL_LINK}" target="_blank" style="background: rgba(30,41,59,0.8); color: #34d399; border: 1px solid rgba(16,185,129,0.3); padding: 0.85rem 1.5rem; border-radius: 0.85rem; font-weight: 600;">
+                <span>🎁 Забрать плейлист для плеера</span>
+            </a>
+        </div>
+
+        <!-- Описание и Инструкция -->
+        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 2rem;">
+            <h2 style="font-size: 1.2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">О приложении</h2>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">{app['desc']}</p>
+
+            <h2 style="font-size: 1.2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Как настроить M3U плейлист в {app['name']}</h2>
+            <ol style="color: #cbd5e1; font-size: 0.9rem; padding-left: 1.2rem; line-height: 1.8;">
+                <li>Зарегистрируйтесь и получите ссылку на ваш M3U плейлист в <a href="{REFRAL_LINK}" target="_blank" style="color: #10b981; font-weight: 600;">сервисе iSeeTV</a>.</li>
+                <li>Установите и откройте приложение {app['name']} на вашем устройстве.</li>
+                <li>Перейдите в раздел <b>Настройки &rarr; Плейлисты &rarr; Добавить плейлист</b>.</li>
+                <li>Вставьте вашу M3U ссылку или параметры Xtream Codes и нажмите <b>Сохранить</b>.</li>
+            </ol>
+        </div>
+
+        <!-- Промо Блок -->
+        <div class="promo-banner">
+            <div>
+                <div class="promo-title">Нужен качественный плейлист?</div>
+                <div class="promo-desc">Подключите iSeeTV — более 1000 каналов, архив и высокая скорость без буферизации.</div>
+            </div>
+            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить &rarr;</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 IPTV Market — Инструкции и загрузки.
+    </footer>
+</body>
+</html>
+"""
+    with open(f"{app['slug']}.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+generate_index()
+for app in APPS_DATA:
+    generate_app_page(app)
+
+print("IPTV Play Market с интеграцией GitHub API успешно сформирован!")
