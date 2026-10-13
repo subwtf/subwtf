@@ -1638,6 +1638,116 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/open-ott-play/ottplay-foss/releases",
       "desc": "IPTV/OTT set-top-box player — HLS/DASH playback, EPG, M3U/Xtream/Stalker providers, webhook push commands"
+    },
+    {
+      "slug": "dex2cxx",
+      "name": "Dex2cxx",
+      "category": "Утилиты",
+      "rating": "4.7",
+      "icon_url": "https://avatars.githubusercontent.com/u/342201159?v=4",
+      "file_size": "20.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/nullkrishn90/Dex2cxx/releases",
+      "desc": "Dex2cxx is a powerful tool for converting Android DEX files into C++ code. It automates the process of JNI wrapper generation APK ..."
+    },
+    {
+      "slug": "pythonhere",
+      "name": "pythonhere",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon_url": "https://avatars.githubusercontent.com/u/1408660?v=4",
+      "file_size": "7.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/b3b/pythonhere/releases",
+      "desc": "Run Python in a remote Kivy app from Jupyter"
+    },
+    {
+      "slug": "copyshot-ai",
+      "name": "copyshot-ai",
+      "category": "Утилиты",
+      "rating": "4.9",
+      "icon_url": "https://avatars.githubusercontent.com/u/105529746?v=4",
+      "file_size": "46.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Barcodehub/copyshot-ai/releases",
+      "desc": "CopyShot AI — OCR + IA (DeepSeek/Claude/OpenAI) para Android. Releases públicos del APK."
+    },
+    {
+      "slug": "felixonthebeats-studio",
+      "name": "felixonthebeats-studio",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon_url": "https://avatars.githubusercontent.com/u/341532094?v=4",
+      "file_size": "21.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/shio63683-debug/felixonthebeats-studio/releases",
+      "desc": "FELIXONTHEBEATS STUDIO – Android-App für den WhatsApp-Bot snapchat-wh-md. Die aktuelle APK steht unter Releases."
+    },
+    {
+      "slug": "archpal-beta",
+      "name": "archpal-beta",
+      "category": "Утилиты",
+      "rating": "5.0",
+      "icon_url": "https://avatars.githubusercontent.com/u/103792744?v=4",
+      "file_size": "6.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/budwhyy/archpal-beta/releases",
+      "desc": "ArchPal beta APK downloads (Android)"
+    },
+    {
+      "slug": "unim3u",
+      "name": "uniM3U",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon_url": "https://avatars.githubusercontent.com/u/25171221?v=4",
+      "file_size": "10.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/eivrok/uniM3U/releases",
+      "desc": "Fast IPTV player for M3U playlists (Windows, macOS, Linux)"
+    },
+    {
+      "slug": "tecno-player",
+      "name": "Tecno-player",
+      "category": "Smart TV",
+      "rating": "5.0",
+      "icon_url": "https://avatars.githubusercontent.com/u/271830759?v=4",
+      "file_size": "49.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/TecnoStore1987/Tecno-player/releases",
+      "desc": "reproductor iptv"
+    },
+    {
+      "slug": "lampa-samsung",
+      "name": "lampa-samsung",
+      "category": "Smart TV",
+      "rating": "4.9",
+      "icon_url": "https://avatars.githubusercontent.com/u/199752350?v=4",
+      "file_size": "10.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/sunic007/lampa-samsung/releases",
+      "desc": "Lampa media center for Samsung Smart TV (Tizen): auto-update,"
+    },
+    {
+      "slug": "vitaiptv",
+      "name": "VitaIPTV",
+      "category": "Smart TV",
+      "rating": "4.9",
+      "icon_url": "h"https://avatars.githubusercontent.com/u/5989787?v=4",
+      "file_size": "29.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/emrhky/VitaIPTV/releases",
+      "desc": "Native IPTV player for PS Vita / PS TV – M3U, Xtream, HLS, HTTPS"
+    },
+    {
+      "slug": "omatuner",
+      "name": "omatuner",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon_url": "https://avatars.githubusercontent.com/u/3694914?v=4",
+      "file_size": "28.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/rthoms334/omatuner/releases",
+      "desc": "Keyboard-first IPTV player for Omarchy — M3U, Xtream, XMLTV, catch-up (Rust + libmpv)"
     }
   ],
   "sent": [
@@ -1676,7 +1786,9 @@
     "apkstv",
     "pelisjuanita-smarttv-apk--21-1",
     "relay-player",
-    "joy-iptv-player"
+    "joy-iptv-player",
+    "tvgarden",
+    "atlasproclientrework"
   ],
   "archive": [
     {
@@ -1853,7 +1965,7 @@
       "file_size": "11.5 MB",
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
-      "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
+      "desc""D"Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
     },
     {
       "slug": "mayerstore-android-downloads",
@@ -2074,9 +2186,31 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/kaptan38/JOY-IPTV-PLAYER/releases",
       "desc": "Профессиональный APK пакет из проверенных источников."
+    },
+    {
+      "slug": "tvgarden",
+      "name": "TVGarden",
+      "category": "Smart TV",
+      "rating": "5.0",
+      "icon": "[APP]",
+      "file_size": "12.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/maxsassano/TVGarden/releases",
+      "desc": "IPTV & Webcam player for Android"
+    },
+    {
+      "slug": "atlasproclientrework",
+      "name": "AtlasProClientRework",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "56.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Hysteryx/AtlasProClientRework/releases",
+      "desc": "Reworked player for AtlasPro IPTV"
     }
   ],
-  "total_scraped": 149,
+  "total_scraped": 159,
   "sources": [
     "github.com/search"
   ]
