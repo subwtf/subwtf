@@ -1672,7 +1672,11 @@
     "cmdix",
     "dbd-maps",
     "nova-apk-builder-v2",
-    "syncdewvalley"
+    "syncdewvalley",
+    "apkstv",
+    "pelisjuanita-smarttv-apk--21-1",
+    "relay-player",
+    "joy-iptv-player"
   ],
   "archive": [
     {
@@ -2026,6 +2030,50 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/sonofskywalker3/SyncdewValley/releases",
       "desc": "Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs."
+    },
+    {
+      "slug": "apkstv",
+      "name": "ApksTV",
+      "category": "Системные",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "40.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Bouba974/ApksTV/releases",
+      "desc": "Des apps pour SmartTV"
+    },
+    {
+      "slug": "pelisjuanita-smarttv-apk--21-1",
+      "name": "PelisJuanita_SmartTV_Apk_-21.1-",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "8.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/TheHedonist01/PelisJuanita_SmartTV_Apk_-21.1-/releases",
+      "desc": "📺 App nativa para Android TV con cursor virtual y control remoto para PelisJuanita."
+    },
+    {
+      "slug": "relay-player",
+      "name": "relay-player",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "57.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/amitrke/relay-player/releases",
+      "desc": "A general-purpose media player that relays a stream from whatever source you point it at - a Plex server, a NAS or local files, or..."
+    },
+    {
+      "slug": "joy-iptv-player",
+      "name": "JOY-IPTV-PLAYER",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "48.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/kaptan38/JOY-IPTV-PLAYER/releases",
+      "desc": "Профессиональный APK пакет из проверенных источников."
     }
   ],
   "total_scraped": 149,
