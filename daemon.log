@@ -1,6 +1,2 @@
 nohup: ignoring input
-[main d6ccf90] Daemon: sync site
- 1 file changed, 1 insertion(+)
-To github.com:subwtf/subwtf.git
-   85bfd81..d6ccf90  main -> main
-2026-10-13 22:47:51 - Пост о 'SmartTube' отправлен в канал.
+2026-10-13 22:50:27 - Демон защиты от повторов запущен.
