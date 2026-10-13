@@ -1668,7 +1668,11 @@
     "notekar",
     "fileadex-mobile-releases",
     "levyra-deepsound",
-    "garmin2peak-apk"
+    "garmin2peak-apk",
+    "cmdix",
+    "dbd-maps",
+    "nova-apk-builder-v2",
+    "syncdewvalley"
   ],
   "archive": [
     {
@@ -1978,6 +1982,50 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/2aaleeex2/garmin2peak-apk/releases",
       "desc": "APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase"
+    },
+    {
+      "slug": "cmdix",
+      "name": "Cmdix",
+      "category": "Smart TV",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "48.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/ANONIMO1234576856/Cmdix/releases",
+      "desc": "🖥️ Run scripts and manage commands easily with Cmdix, a user-friendly Android terminal app designed for Android 9+ devices."
+    },
+    {
+      "slug": "dbd-maps",
+      "name": "dbd-maps",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "46.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Exprimes/dbd-maps/releases",
+      "desc": "Telechargement public officiel de DBD MAP Mobile (Android APK)"
+    },
+    {
+      "slug": "nova-apk-builder-v2",
+      "name": "Nova-APK-Builder-v2",
+      "category": "Системные",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "50.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Nova2585nd/Nova-APK-Builder-v2/releases",
+      "desc": "Description: Build Android APKs from native Gradle projects on Windows."
+    },
+    {
+      "slug": "syncdewvalley",
+      "name": "SyncdewValley",
+      "category": "Системные",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "33.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/sonofskywalker3/SyncdewValley/releases",
+      "desc": "Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs."
     }
   ],
   "total_scraped": 149,
