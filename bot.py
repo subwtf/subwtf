@@ -22,8 +22,8 @@ def save_db(db):
 
 def clean_text(text):
     if not text: return "Профессиональный APK пакет из проверенных источников."
-    text = re.sub(r"https?://\\S+|www\\.\S+", "", text)
-    text = re.sub(r"(@|t\.me/)\\w+", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"https?://\S+|www\.\S+", "", text)
+    text = re.sub(r"(@|t\.me/)\w+", "", text, flags=re.IGNORECASE)
     text = re.sub(r"(join|channel|subscribe|must join|telegram).*", "", text, flags=re.IGNORECASE)
     cleaned = text.strip()
     return (cleaned[:130] + "...") if len(cleaned) > 130 else (cleaned or "APK пакет.")
@@ -33,7 +33,7 @@ def industrial_parser(chat_id):
     existing_slugs = {app["slug"] for app in db["apps"]} | {app["slug"] for app in db.get("archive", [])}
     if chat_id:
         try:
-            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "⚡ <b>[INDUSTRIAL] Запущен глубокий сканер репозиториев...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
+            urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": "<b>[INDUSTRIAL] Запущен глубокий сканер репозиториев...</b>", "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
     
     new_apps = []
@@ -59,7 +59,7 @@ def industrial_parser(chat_id):
                         "slug": slug, "name": name,
                         "category": random.choice(["Smart TV", "Утилиты", "Мультимедиа", "Сеть", "Системные"]),
                         "rating": str(round(random.uniform(4.7, 5.0), 1)),
-                        "icon": random.choice(["🚀", "📦", "⚡", "🔥", "💎", "🎯", "🛡"]),
+                        "icon": "[APP]",
                         "file_size": f"{random.randint(6, 58)}.5 MB",
                         "date": datetime.now().strftime("%d.%m.%Y"),
                         "fallback_apk": f"{item.get('html_url')}/releases",
@@ -74,7 +74,7 @@ def industrial_parser(chat_id):
         rebuild_and_push()
     
     if chat_id:
-        rep = f"🏭 <b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Сайт пересобран и отправлен на GitHub Pages!"
+        rep = f"<b>[INDUSTRIAL] Сканирование завершено!</b>\n\n• Проверено: <b>{total_checked}</b>\n• Добавлено APK: <b>{len(new_apps)}</b>\n• Сайт пересобран и отправлен на GitHub Pages!"
         try:
             urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": chat_id, "text": rep, "parse_mode": "HTML"}).encode(), timeout=5)
         except: pass
@@ -91,7 +91,7 @@ def post_next_app():
             break
     if not target: return None
     
-    msg = f"<b>{target['icon']} {target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF 🤨 — Автономный каталог APK</i>"
+    msg = f"<b>{target['name']}</b>\n\n📂 Категория: {target['category']}\n⭐ Рейтинг: {target['rating']} | 💾 Размер: {target['file_size']}\n\n{target['desc']}\n\n📥 <b>Скачать APK (Прямая ссылка):</b>\n👉 {SITE_URL}/{target['slug']}.html\n\n<i>Git App WTF -- Автономный каталог APK</i>"
     
     try:
         res = urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": CHANNEL, "text": msg, "parse_mode": "HTML"}).encode(), timeout=5)
@@ -112,13 +112,13 @@ def send_control_panel(chat_id):
     archive = len(db.get("archive", []))
     scraped_total = db.get("total_scraped", 0)
     
-    text = f"🎛 <b>ПРОМЫШЛЕННЫЙ КОМБАЙН GIT APP WTF (PRO)</b>\n═════════════════════════════\n📊 <b>ТЕЛЕМЕТРИЯ СИСТЕМЫ:</b>\n• Всего в базе: <b>{total}</b>\n• Опубликовано в канал: <b>{sent}</b>\n• В очереди: <b>{queue}</b>\n• В архиве: <b>{archive}</b>\n• Всего выкачано: <b>{scraped_total}</b>\n• Канал: <b>{CHANNEL}</b>\n═════════════════════════════\nВыберите команду:"
+    text = f"PROMPT: ПРОМЫШЛЕННЫЙ КОМБАЙН GIT APP WTF (PRO)\n=====================================\n📊 ТЕЛЕМЕТРИЯ СИСТЕМЫ:\n• Всего в базе: {total}\n• Опубликовано: {sent}\n• В очереди: {queue}\n• В архиве: {archive}\n• Всего выкачано: {scraped_total}\n• Канал: {CHANNEL}\n=====================================\nВыберите команду:"
 
     inline_kb = json.dumps({
         "inline_keyboard": [
-            [{"text": "🔄 Запустить полный парсинг", "callback_data": "run_parse"}],
-            [{"text": "📢 Опубликовать в канал", "callback_data": "force_post"}, {"text": "🔄 Пересобрать сайт", "callback_data": "rebuild_site"}],
-            [{"text": "📊 Обновить телеметрию", "callback_data": "refresh_stats"}, {"text": "🧹 Сбросить очередь", "callback_data": "reset_queue"}]
+            [{"text": "Запустить полный парсинг", "callback_data": "run_parse"}],
+            [{"text": "Опубликовать в канал", "callback_data": "force_post"}, {"text": "Пересобрать сайт", "callback_data": "rebuild_site"}],
+            [{"text": "Обновить телеметрию", "callback_data": "refresh_stats"}, {"text": "Сбросить очередь", "callback_data": "reset_queue"}]
         ]
     })
     
@@ -148,7 +148,7 @@ def main_loop():
                     if "message" in r and r["message"].get("chat", {}).get("id") == ADMIN_ID:
                         txt = r["message"].get("text", "")
                         cid = r["message"]["chat"]["id"]
-                        if txt in ["/start", "🎛 Панель управления", "📊 Статус"]:
+                        if txt in ["/start", "Панель управления", "Статус"]:
                             send_control_panel(cid)
                             
                     elif "callback_query" in r:
@@ -161,18 +161,18 @@ def main_loop():
                                 industrial_parser(cid)
                             elif data_cb == "force_post":
                                 posted = post_next_app()
-                                msg = f"✅ Отправлено в канал: <b>{posted['name']}</b>" if posted else "⚠️ Очередь пуста! Нажмите кнопку парсинга."
+                                msg = f"Отправлено в канал: <b>{posted['name']}</b>" if posted else "Очередь пуста! Нажмите кнопку парсинга."
                                 urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": msg, "parse_mode": "HTML"}).encode())
                             elif data_cb == "rebuild_site":
                                 rebuild_and_push()
-                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "✅ Сайт принудительно пересобран и отправлен в GitHub!", "parse_mode": "HTML"}).encode())
+                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "Сайт принудительно пересобран и отправлен в GitHub!", "parse_mode": "HTML"}).encode())
                             elif data_cb == "refresh_stats":
                                 send_control_panel(cid)
                             elif data_cb == "reset_queue":
                                 db = load_db()
                                 db["sent"] = []
                                 save_db(db)
-                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "🧹 Очередь сброшена!", "parse_mode": "HTML"}).encode())
+                                urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=urllib.parse.urlencode({"chat_id": cid, "text": "Очередь сброшена!", "parse_mode": "HTML"}).encode())
                                 
                         urllib.request.urlopen(f"https://api.telegram.org/bot{TOKEN}/answerCallbackQuery", data=urllib.parse.urlencode({"callback_query_id": cq["id"]}).encode())
         except Exception as e:
