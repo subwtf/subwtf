@@ -14,12 +14,23 @@ def generate():
     except Exception:
         return
 
+    # Берем только уникальные приложения из ключа 'apps'
     if isinstance(raw_data, dict):
         db = raw_data.get("apps", [])
     elif isinstance(raw_data, list):
         db = raw_data
     else:
         db = []
+
+    # Убираем возможные дубликаты по названию
+    seen_names = set()
+    unique_apps = []
+    for app in db:
+        if isinstance(app, dict):
+            name = app.get("name", "").strip()
+            if name and name not in seen_names:
+                seen_names.add(name)
+                unique_apps.append(app)
 
     html_content = f"""<!DOCTYPE html>
 <html lang="ru">
@@ -109,7 +120,7 @@ def generate():
         <input type="text" class="search-box" id="search" placeholder="Поиск по каталогу..." oninput="filterApps()">
     </div>
 
-    <div class="section-title">🔥 Доступные приложения</div>
+    <div class="section-title">🔥 Уникальные приложения ({len(unique_apps)})</div>
 
     <div class="grid" id="app-grid">
 """
@@ -123,9 +134,7 @@ def generate():
         "linear-gradient(135deg, #06b6d4, #0e7490)"
     ]
 
-    for idx, app in enumerate(db):
-        if not isinstance(app, dict):
-            continue
+    for idx, app in enumerate(unique_apps):
         name = app.get("name", "App")
         category = app.get("category", "Утилиты")
         size = app.get("file_size", "15 MB")
