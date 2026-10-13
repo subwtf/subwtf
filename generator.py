@@ -44,7 +44,7 @@ for app in APPS:
     <a href="{app[slug]}.html" class="card">
         <div>
             <div class="card-top">
-                <div class="icon">{app.get(icon, 📦)}</div>
+                <div class="icon">{app.get(icon, )}</div>
                 <div style="min-width: 0; flex-grow: 1;">
                     <div class="title">{app[name]}</div>
                     <div class="cat">{app[category]} &bull; ★ {app[rating]}</div>
@@ -99,7 +99,7 @@ for app in APPS:
     <main class="container" style="max-width: 600px;">
         <a href="index.html" style="color: #2563eb; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-bottom: 0.75rem;">&larr; На главную</a>
         <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; display: flex; gap: 0.75rem; align-items: center;">
-            <div style="font-size: 2.5rem;">{app.get(icon, 📦)}</div>
+            <div style="font-size: 2.5rem;">{app.get(icon, )}</div>
             <div>
                 <h1 style="font-size: 1.15rem; font-weight: 700; color: #111;">{app[name]}</h1>
                 <div style="font-size: 0.7rem; color: #64748b;">★ {app[rating]} &bull; {app[category]} &bull; 💾 {app[file_size]} &bull; 📅 {app[date]}</div>
