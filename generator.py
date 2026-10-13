@@ -1,5 +1,6 @@
 import json
 import urllib.request
+import urllib.parse
 import os
 
 REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
@@ -12,6 +13,7 @@ CATEGORIES = [
     "Игровые эмуляторы", "Другое"
 ]
 
+# База проверенных топов (на случай если поиск вернет мало)
 APPS_DATA = [
     {
         "slug": "televizo",
@@ -19,7 +21,6 @@ APPS_DATA = [
         "category": "IPTV Плееры",
         "rating": "4.9",
         "icon": "📺",
-        "github_repo": "alexelec/Televizo",
         "fallback_apk": "https://televizo.net/apk/televizo.apk",
         "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов. Поддержка M3U и Xtream Codes."
     },
@@ -29,7 +30,6 @@ APPS_DATA = [
         "category": "Smart TV",
         "rating": "5.0",
         "icon": "🔴",
-        "github_repo": "yuliskov/SmartTube",
         "fallback_apk": "https://github.com/yuliskov/SmartTube/releases",
         "desc": "Продвинутый клиент YouTube для Android TV и приставок с автопропуском интеграций и без рекламы."
     },
@@ -39,64 +39,69 @@ APPS_DATA = [
         "category": "Медиацентры",
         "rating": "4.8",
         "icon": "⚡",
-        "github_repo": "",
         "fallback_apk": "https://ott-navigator.com",
         "desc": "Мощный плеер с функцией архива передач, поддержкой нескольких плейлистов и детальным EPG гидом."
-    },
-    {
-        "slug": "tvimate",
-        "name": "TiviMate",
-        "category": "IPTV Плееры",
-        "rating": "4.9",
-        "icon": "🎬",
-        "github_repo": "",
-        "fallback_apk": "https://tvimate.com",
-        "desc": "Премиальный интерфейс в стиле кабельного ТВ. Идеален для ТВ-приставок и пультов ДУ."
-    },
-    {
-        "slug": "kodi",
-        "name": "Kodi Media Center",
-        "category": "Медиацентры",
-        "rating": "4.7",
-        "icon": "📦",
-        "github_repo": "xbmc/xbmc",
-        "fallback_apk": "https://kodi.tv/download/android",
-        "desc": "Бесплатный кроссплатформенный медиацентр с открытым исходным кодом для воспроизведения видео и ТВ."
-    },
-    {
-        "slug": "vlc-android",
-        "name": "VLC for Android",
-        "category": "Видеоплееры",
-        "rating": "4.8",
-        "icon": "🧡",
-        "github_repo": "videolan/vlc-android",
-        "fallback_apk": "https://www.videolan.org/vlc/download-android.html",
-        "desc": "Универсальный медиаплеер, воспроизводящий большинство локальных видео и аудио файлов, а также сетевые потоки."
     }
 ]
 
-def fetch_github_release(repo):
-    if not repo:
-        return None
-    try:
-        url = f"https://api.github.com/repos/{repo}/releases/latest"
-        req = urllib.request.Request(url, headers={'User-Agent': 'TVStoreBot/2.0'})
-        with urllib.request.urlopen(req, timeout=8) as response:
-            data = json.loads(response.read().decode())
-            for asset in data.get('assets', []):
-                if asset['name'].endswith('.apk'):
-                    return asset['browser_download_url']
-            return data.get('html_url')
-    except Exception:
-        pass
-    return None
+def search_github_apks():
+    """Бороздит GitHub в поисках свежих репозиториев с APK"""
+    queries = ["filename:*.apk android", "extension:apk tv", "client apk release", "iptv apk github"]
+    new_apps = []
+    
+    for q in queries:
+        try:
+            encoded_q = urllib.parse.quote(q)
+            url = f"https://api.github.com/search/repositories?q={encoded_q}&sort=updated&per_page=10"
+            req = urllib.request.Request(url, headers={'User-Agent': 'GitAppWTF-Bot/1.0'})
+            
+            with urllib.request.urlopen(req, timeout=10) as response:
+                data = json.loads(response.read().decode())
+                for item in data.get('items', []):
+                    name = item.get('name')
+                    full_name = item.get('full_name')
+                    desc = item.get('description') or "Автоматически найденный APK с GitHub репозитория."
+                    html_url = item.get('html_url')
+                    
+                    # Проверяем на дубликаты по имени
+                    slug = name.lower().replace(" ", "-").replace("_", "-")
+                    if any(a['slug'] == slug for a in APPS_DATA + new_apps):
+                        continue
+                        
+                    # Определяем категорию по ключевым словам
+                    cat = "Другое"
+                    lower_desc = (name + " " + desc).lower()
+                    if "iptv" in lower_desc: cat = "IPTV Плееры"
+                    elif "media" in lower_desc or "kodi" in lower_desc: cat = "Медиацентры"
+                    elif "tv" in lower_desc or "remote" in lower_desc: cat = "Smart TV"
+                    elif "player" in lower_desc: cat = "Видеоплееры"
+                    elif "launcher" in lower_desc: cat = "Лаунчеры"
+                    elif "tool" in lower_desc or "utils" in lower_desc: cat = "Утилиты TV"
+
+                    new_apps.append({
+                        "slug": slug,
+                        "name": name,
+                        "category": cat,
+                        "rating": "4.8",
+                        "icon": "📦",
+                        "fallback_apk": f"{html_url}/releases",
+                        "desc": desc[:120] + "..."
+                    })
+        except Exception as e:
+            print(f"Ошибка поиска GitHub: {e}")
+            
+    return new_apps
+
+# Добавляем найденное на GitHub к нашему списку
+scanned_apps = search_github_apks()
+ALL_APPS = APPS_DATA + scanned_apps
 
 HTML_HEAD = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Store APK — Каталог приложений для Smart TV</title>
+    <title>Git App WTF 🤨 — Дикий архив APK с GitHub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -104,19 +109,31 @@ HTML_HEAD = """<!DOCTYPE html>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #f1f5f9; line-height: 1.5; min-height: 100vh; }
         a { color: inherit; text-decoration: none; }
-        .header { position: sticky; top: 0; z-index: 50; background: rgba(9, 13, 22, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+        .header { position: sticky; top: 0; z-index: 50; background: rgba(9, 13, 22, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
         .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; }
-        .logo-box { width: 2.4rem; height: 2.4rem; border-radius: 0.75rem; background: linear-gradient(135deg, #6366f1, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .search-container { flex-grow: 1; max-width: 380px; }
+        .logo-box { width: 2.4rem; height: 2.4rem; border-radius: 0.75rem; background: linear-gradient(135deg, #f43f5e, #6366f1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .search-container { flex-grow: 1; max-width: 350px; }
         .search-input { width: 100%; padding: 0.6rem 1rem; border-radius: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 0.875rem; outline: none; }
-        .cat-scroll { display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem 0; margin-bottom: 1.5rem; scrollbar-width: none; }
-        .cat-chip { padding: 0.4rem 0.85rem; border-radius: 2rem; background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; font-weight: 600; white-space: nowrap; color: #94a3b8; cursor: pointer; }
-        .cat-chip:hover, .cat-chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+        .burger-btn { background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 0.5rem 0.75rem; border-radius: 0.55rem; cursor: pointer; font-size: 1.2rem; }
+        
+        /* Выпадающее меню категорий (Бургер) */
+        .drawer {
+            position: fixed; top: 0; right: -300px; width: 300px; height: 100vh;
+            background: #0f172a; border-left: 1px solid rgba(255,255,255,0.08);
+            z-index: 100; transition: right 0.3s ease; padding: 1.5rem; overflow-y: auto;
+        }
+        .drawer.open { right: 0; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-weight: 800; font-size: 1.1rem; }
+        .close-btn { background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
+        .drawer-item { display: block; padding: 0.6rem 0.8rem; border-radius: 0.5rem; color: #94a3b8; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; transition: all 0.2s; }
+        .drawer-item:hover { background: rgba(99,102,241,0.15); color: #818cf8; }
+
         .promo-card { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(30, 41, 59, 0.8)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 1.25rem; padding: 1.5rem; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; justify-content: space-between; }
         @media (min-width: 768px) { .promo-card { flex-direction: row; align-items: center; } }
         .promo-title { font-size: 1.15rem; font-weight: 800; color: #f8fafc; }
         .promo-sub { font-size: 0.85rem; color: #94a3b8; }
         .promo-btn { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; white-space: nowrap; text-align: center; }
+        
         .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
         .app-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.25rem; padding: 1.25rem; display: flex; gap: 1rem; transition: all 0.2s; }
@@ -132,22 +149,33 @@ HTML_HEAD = """<!DOCTYPE html>
 <body>
     <header class="header">
         <a href="index.html" class="logo">
-            <div class="logo-box">📱</div>
-            <div>TV Store<span style="color:#6366f1">.APK</span></div>
+            <div class="logo-box">🤨</div>
+            <div>Git App <span style="color:#f43f5e">WTF</span></div>
         </a>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Поиск приложений...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по архиву APK...">
         </div>
+        <button class="burger-btn" onclick="toggleDrawer()">☰ Категории</button>
     </header>
+
+    <div class="drawer" id="catDrawer">
+        <div class="drawer-header">
+            <span>Категории APK</span>
+            <button class="close-btn" onclick="toggleDrawer()">&times;</button>
+        </div>
+        <a href="#" class="drawer-item" onclick="filterCat('all'); toggleDrawer();">🔥 Все приложения</a>
+"""
+
+for cat in CATEGORIES:
+    HTML_HEAD += f'        <a href="#" class="drawer-item" onclick="filterCat(\'{cat}\'); toggleDrawer();">{cat}</a>\n'
+
+HTML_HEAD += """
+    </div>
 """
 
 def generate_index():
-    chips_html = '<div class="cat-chip active" onclick="filterCat(\'all\')">Все (18)</div>'
-    for cat in CATEGORIES:
-        chips_html += f'<div class="cat-chip" onclick="filterCat(\'{cat}\')">{cat}</div>'
-
     cards = ""
-    for app in APPS_DATA:
+    for app in ALL_APPS:
         cards += f"""
         <a href="{app['slug']}.html" class="app-card" data-name="{app['name'].lower()}" data-cat="{app['category']}">
             <div class="app-icon">{app['icon']}</div>
@@ -163,39 +191,39 @@ def generate_index():
     <main class="container">
         <div class="promo-card">
             <div>
-                <div class="promo-title">🔥 Стабильный M3U Плейлист для всех ТВ-плееров</div>
-                <div class="promo-sub">1000+ каналов в 4K/FullHD качества, архив передач и мгновенное переключение. Заберите бесплатный тест!</div>
+                <div class="promo-title">🔥 Партнерский бонус: Стабильный M3U Плейлист</div>
+                <div class="promo-sub">1000+ каналов в высоком качестве, архив и быстрая работа. Заберите тест!</div>
             </div>
-            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить тест &rarr;</a>
+            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Получить тест &rarr;</a>
         </div>
 
-        <div class="cat-scroll">
-            {chips_html}
-        </div>
+        <div style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #64748b;" id="currentCatTitle">Показаны все приложения из базы GitHub</div>
 
         <div class="grid" id="appsGrid">
             {cards}
         </div>
     </main>
-    <footer class="footer">&copy; 2026 TV Store APK — Каталог APK приложений.</footer>
+    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Автономный парсер APK репозиториев GitHub.</footer>
     <script>
-        function filterCat(cat) {{
-            document.querySelectorAll('.cat-chip').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('.app-card').forEach(card => {{
-                if (cat === 'all' || card.getAttribute('data-cat') === cat) {{
+        function toggleDrawer() {
+            document.getElementById('catDrawer').classList.toggle('open');
+        }
+        function filterCat(cat) {
+            document.getElementById('currentCatTitle').innerText = cat === 'all' ? 'Показаны все приложения из базы GitHub' : 'Категория: ' + cat;
+            document.querySelectorAll('.app-card').forEach(card => {
+                if (cat === 'all' || card.getAttribute('data-cat') === cat) {
                     card.style.display = 'flex';
-                }} else {{
+                } else {
                     card.style.display = 'none';
-                }}
-            }});
-        }}
-        document.getElementById('searchInput').addEventListener('input', function(e) {{
+                }
+            });
+        }
+        document.getElementById('searchInput').addEventListener('input', function(e) {
             const val = e.target.value.toLowerCase();
-            document.querySelectorAll('.app-card').forEach(card => {{
+            document.querySelectorAll('.app-card').forEach(card => {
                 card.style.display = card.getAttribute('data-name').includes(val) ? 'flex' : 'none';
-            }});
-        }});
+            });
+        });
     </script>
 </body>
 </html>
@@ -204,10 +232,9 @@ def generate_index():
         f.write(html)
 
 def generate_app_page(app):
-    download_url = fetch_github_release(app['github_repo']) or app['fallback_apk']
     html = HTML_HEAD.replace("{REFRAL_LINK}", REFRAL_LINK) + f"""
     <main class="container" style="max-width: 800px;">
-        <a href="index.html" style="color: #818cf8; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; Назад в каталог</a>
+        <a href="index.html" style="color: #818cf8; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 1.5rem;">&larr; На главную</a>
         <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem;">
             <div style="width: 5rem; height: 5rem; border-radius: 1.25rem; background: #020617; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">{app['icon']}</div>
             <div>
@@ -218,28 +245,16 @@ def generate_app_page(app):
             </div>
         </div>
         <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
-            <a href="{download_url}" target="_blank" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(99,102,241,0.35);">📥 Скачать APK (Официальный)</a>
+            <a href="{app['fallback_apk']}" target="_blank" style="background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; padding: 0.85rem 1.75rem; border-radius: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(244,63,94,0.35);">📥 Скачать / Релизы GitHub</a>
             <a href="{REFRAL_LINK}" target="_blank" style="background: rgba(30,41,59,0.8); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); padding: 0.85rem 1.5rem; border-radius: 0.85rem; font-weight: 600;">🎁 Плейлист iSeeTV</a>
         </div>
         <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 2rem; line-height: 1.7;">
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Описание и возможности</h2>
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Описание из репозитория</h2>
             <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem;">{app['desc']}</p>
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.75rem;">Инструкция по установке и настройке</h2>
-            <ol style="color: #cbd5e1; font-size: 0.9rem; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                <li>Скачайте и установите APK-файл приложения {app['name']} на ваше Android TV или устройство.</li>
-                <li>Получите персональную M3U-ссылку или учетные данные в <a href="{REFRAL_LINK}" target="_blank" style="color: #818cf8; font-weight: 700;">сервисе iSeeTV</a>.</li>
-                <li>Запустите {app['name']}, откройте Настройки &rarr; Плейлисты и добавьте вашу ссылку.</li>
-            </ol>
-        </div>
-        <div class="promo-card">
-            <div>
-                <div class="promo-title">Нужен проверенный список каналов?</div>
-                <div class="promo-desc">Подключите iSeeTV — более 1000+ каналов без буферизации, с архивом и отличным качеством.</div>
-            </div>
-            <a href="{REFRAL_LINK}" target="_blank" class="promo-btn">Подключить &rarr;</a>
         </div>
     </main>
-    <footer class="footer">&copy; 2026 TV Store APK — Каталог приложений.</footer>
+    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Автономный каталог APK.</footer>
+    <script>function toggleDrawer() { document.getElementById('catDrawer').classList.toggle('open'); }</script>
 </body>
 </html>
 """
@@ -247,7 +262,7 @@ def generate_app_page(app):
         f.write(html)
 
 generate_index()
-for app in APPS_DATA:
+for app in ALL_APPS:
     generate_app_page(app)
 
-print("Каталог TV Store успешно собран!")
+print(f"Собрано приложений: {len(ALL_APPS)}")
