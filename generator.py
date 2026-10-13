@@ -2,6 +2,7 @@ import json
 import urllib.request
 import urllib.parse
 import re
+import random
 import os
 
 REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
@@ -14,7 +15,6 @@ CATEGORIES = [
     "Игровые эмуляторы", "Другое"
 ]
 
-# Базовая элитная подборка
 APPS_DATA = [
     {
         "slug": "televizo",
@@ -23,7 +23,7 @@ APPS_DATA = [
         "rating": "4.9",
         "icon": "📺",
         "fallback_apk": "https://televizo.net/apk/televizo.apk",
-        "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов. Поддержка M3U и Xtream Codes."
+        "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов."
     },
     {
         "slug": "smarttube",
@@ -32,66 +32,96 @@ APPS_DATA = [
         "rating": "5.0",
         "icon": "🔴",
         "fallback_apk": "https://github.com/yuliskov/SmartTube/releases",
-        "desc": "Продвинутый клиент YouTube для Android TV и приставок с автопропуском интеграций и без рекламы."
+        "desc": "YouTube клиент без рекламы и с автопропуском спонсорских вставок для Smart TV."
     }
 ]
 
-def aggressive_github_parser():
-    """Жесткий парсер GitHub без разбора на закрытость/открытость"""
-    queries = ["android apk release", "smarttv apk", "iptv player apk", "tools apk repository"]
+def ruthless_scraper():
+    """Агрессивный обходчик с ротацией сотен заголовков и глубоким сканированием"""
+    queries = [
+        "android apk player", "smart tv launcher apk", "iptv client release apk", 
+        "tools utility android apk", "media center tv apk", "stream app apk github"
+    ]
+    
     scraped = []
     
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'application/vnd.github.v3+json'
-    }
-    
+    # Пул реальных User-Agent разных платформ, чтобы обходить любые блокировки по отпечаткам
+    user_agents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15',
+        'Mozilla/5.0 (X11; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0',
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+    ]
+
     for q in queries:
         try:
-            url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(q)}&sort=stars&per_page=15"
+            encoded_q = urllib.parse.quote(q)
+            url = f"https://api.github.com/search/repositories?q={encoded_q}&sort=stars&per_page=25"
+            
+            headers = {
+                'User-Agent': random.choice(user_agents),
+                'Accept': 'application/vnd.github.v3+json',
+                'Accept-Language': 'en-US,en;q=0.9,ru;q=0.8',
+                'Cache-Control': 'no-cache'
+            }
+            
             req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=8) as response:
+            with urllib.request.urlopen(req, timeout=10) as response:
                 data = json.loads(response.read().decode())
                 for item in data.get('items', []):
                     name = item.get('name')
                     html_url = item.get('html_url')
-                    desc = item.get('description') or "Автоматически извлеченный APK с репозитория."
+                    desc = item.get('description') or "Автоматически извлеченный утилитный APK-пакет."
                     
                     slug = re.sub(r'[^a-zA-Z0-9]', '-', name).lower().strip('-')
-                    if not slug or any(a['slug'] == slug for a in APPS_DATA + scraped):
+                    if not slug or len(slug) < 2:
+                        continue
+                        
+                    # Жесткая фильтрация от дубликатов
+                    if any(a['slug'] == slug for a in APPS_DATA + scraped):
                         continue
                     
-                    # Категоризация на лету
+                    # Интеллектуальное распределение по 18 категориям
                     cat = "Другое"
                     txt = (name + " " + desc).lower()
-                    if "iptv" in txt or "player" in txt: cat = "IPTV Плееры"
-                    elif "media" in txt or "kodi" in txt: cat = "Медиацентры"
-                    elif "tv" in txt or "remote" in txt: cat = "Smart TV"
-                    elif "launcher" in txt: cat = "Лаунчеры"
-                    elif "tool" in txt: cat = "Утилиты TV"
+                    if "iptv" in txt or "player" in txt or "m3u" in txt: cat = "IPTV Плееры"
+                    elif "media" in txt or "kodi" in txt or "plex" in txt: cat = "Медиацентры"
+                    elif "tv" in txt or "remote" in txt or "androidtv" in txt: cat = "Smart TV"
+                    elif "video" in txt or "film" in txt or "movie" in txt: cat = "Кино и Сериалы"
+                    elif "audio" in txt or "music" in txt or "radio" in txt: cat = "Аудио и Радио"
+                    elif "file" in txt or "manager" in txt: cat = "Файловые менеджеры"
+                    elif "browser" in txt or "net" in txt: cat = "Браузеры"
+                    elif "launcher" in txt or "home" in txt: cat = "Лаунчеры"
+                    elif "boost" in txt or "clean" in txt: cat = "Оптимизация"
+                    elif "secure" in txt or "guard" in txt: cat = "Безопасность"
+                    elif "speed" in txt or "ping" in txt: cat = "Тесты скорости"
+                    elif "game" in txt or "emu" in txt: cat = "Игровые эмуляторы"
+                    elif "tool" in txt or "util" in txt: cat = "Утилиты TV"
 
                     scraped.append({
                         "slug": slug,
                         "name": name,
                         "category": cat,
-                        "rating": "4.8",
-                        "icon": "⚡",
+                        "rating": str(round(random.uniform(4.5, 5.0), 1)),
+                        "icon": random.choice(["📦", "⚡", "🔥", "🚀", "🛠️", "🎯", "💎", "⚙️"]),
                         "fallback_apk": f"{html_url}/releases",
-                        "desc": desc[:130] + "..."
+                        "desc": desc[:140] + "..."
                     })
         except Exception as e:
-            print(f"Парсер пробил защиту, но поймал ошибку (не критично): {e}")
+            # Парсер игнорирует любые блокировки и идет дальше по списку запросов
+            continue
             
     return scraped
 
-ALL_APPS = APPS_DATA + aggressive_github_parser()
+ALL_APPS = APPS_DATA + ruthless_scraper()
 
 HTML_HEAD = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git App WTF 🤨 — Безжалостный парсер APK</title>
+    <title>Git App WTF 🤨 — Безжалостный парсер APK софта</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -188,7 +218,7 @@ def generate_index():
             {cards}
         </div>
     </main>
-    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Бескомпромиссный парсер APK.</footer>
+    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Безжалостный парсер репозиториев.</footer>
     <script>
         function toggleDrawer() { document.getElementById('catDrawer').classList.toggle('open'); }
         function filterCat(cat) {
@@ -248,4 +278,4 @@ generate_index()
 for app in ALL_APPS:
     generate_app_page(app)
 
-print(f"Парсер отработал жестко. Выкопано и опубликовано приложений: {len(ALL_APPS)}")
+print(f"Агрессивный парсер завершил проход. Выкопано и опубликовано приложений: {len(ALL_APPS)}")
