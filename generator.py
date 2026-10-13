@@ -11,14 +11,16 @@ def generate():
 
     try:
         with open(DB_FILE, "r", encoding="utf-8") as f:
-            db = json.load(f)
+            raw_data = json.load(f)
     except Exception as e:
         print(f"Ошибка чтения JSON: {e}")
         return
 
-    # Защита от кривой структуры: если элементы не словари, отфильтровываем их
-    if isinstance(db, list):
-        db = [item for item in db if isinstance(item, dict)]
+    # Достаем список приложений из ключа 'apps' или используем корень, если это список
+    if isinstance(raw_data, dict):
+        db = raw_data.get("apps", [])
+    elif isinstance(raw_data, list):
+        db = raw_data
     else:
         db = []
 
@@ -27,7 +29,7 @@ def generate():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git App WTF — Современный каталог APK</title>
+    <title>Git App WTF — Каталог приложений</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -62,15 +64,15 @@ def generate():
         }}
         .search-box:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }}
 
-        .section-title {{ font-size: 18px; font-weight: 600; margin: 20px 16px 12px; }}
+        .section-title {{ font-size: 18px; font-weight: 600; margin: 20px 16px 12px; max-width: 800px; margin-left: auto; margin-right: auto; }}
         
         .grid {{
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 16px; padding: 0 16px; max-width: 800px; margin: 0 auto;
         }}
         .card {{
             background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; padding: 12px; text-align: center;
+            border-radius: 20px; padding: 14px 10px; text-align: center;
             display: flex; flex-direction: column; align-items: center;
             cursor: pointer; transition: transform 0.2s, border-color 0.2s;
             text-decoration: none; color: inherit;
@@ -78,11 +80,14 @@ def generate():
         .card:hover {{ transform: translateY(-3px); border-color: var(--accent); }}
         
         .app-icon {{
-            width: 64px; height: 64px; border-radius: 16px;
-            object-fit: cover; background: #222; margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            width: 64px; height: 64px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; font-weight: 700; color: #fff;
+            margin-bottom: 10px; box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            text-transform: uppercase;
         }}
-        .app-name {{ font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-bottom: 4px; }}
+        .app-name {{ font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-bottom: 4px; }}
         .app-cat {{ font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }}
         .app-size {{ font-size: 11px; background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 600; }}
 
@@ -104,7 +109,7 @@ def generate():
     </header>
 
     <div class="search-container">
-        <input type="text" class="search-box" id="search" placeholder="Поиск приложений и игр..." oninput="filterApps()">
+        <input type="text" class="search-box" id="search" placeholder="Поиск по 159 приложениям..." oninput="filterApps()">
     </div>
 
     <div class="section-title">🔥 Популярные релизы</div>
@@ -112,17 +117,29 @@ def generate():
     <div class="grid" id="app-grid">
 """
 
-    for app in db:
+    gradients = [
+        "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+        "linear-gradient(135deg, #10b981, #047857)",
+        "linear-gradient(135deg, #f59e0b, #b45309)",
+        "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+        "linear-gradient(135deg, #ec4899, #be185d)",
+        "linear-gradient(135deg, #06b6d4, #0e7490)"
+    ]
+
+    for idx, app in enumerate(db):
+        if not isinstance(app, dict):
+            continue
         name = app.get("name", "App")
         category = app.get("category", "Утилиты")
         size = app.get("file_size", "15 MB")
-        icon = app.get("icon_url", "")
-        if not icon or "githubusercontent" in icon or not icon.startswith("http"):
-            icon = "https://cdn-icons-png.flaticon.com/512/1055/1055687.png"
+        
+        # Берем первую букву для стильной иконки-бейджа
+        first_letter = name[0] if name else "A"
+        grad = gradients[idx % len(gradients)]
 
         html_content += f"""
         <a class="card" href="#">
-            <img class="app-icon" src="{icon}" alt="{name}" loading="lazy">
+            <div class="app-icon" style="background: {grad};">{first_letter}</div>
             <div class="app-name">{name}</div>
             <div class="app-cat">{category}</div>
             <div class="app-size">{size}</div>
@@ -164,7 +181,7 @@ def generate():
     output_path = os.path.join(REPO_DIR, "index.html")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print("Современный сайт успешно сгенерирован!")
+    print("Современный каталог успешно сгенерирован (159 приложений)!")
 
 if __name__ == "__main__":
     generate()
