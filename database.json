@@ -1572,7 +1572,9 @@
     "media-download-apk",
     "androidreverse",
     "audiophiles-dream",
-    "naari-os-app"
+    "naari-os-app",
+    "telos-android-test-downloads",
+    "iran-news-apk"
   ],
   "archive": [
     {
@@ -1673,6 +1675,28 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/Abhishek-Ag-1112/Naari-os-app/releases",
       "desc": "ative Android companion application and installable APK for Naari OS : an open-source personal safety ecosystem connecting an ESP3..."
+    },
+    {
+      "slug": "telos-android-test-downloads",
+      "name": "Telos-Android-Test-Downloads",
+      "category": "Smart TV",
+      "rating": "5.0",
+      "icon": "[APP]",
+      "file_size": "44.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/pedrobzn/Telos-Android-Test-Downloads/releases",
+      "desc": "Public Android test APK releases for Télos Finance. The application source remains in a separate repository."
+    },
+    {
+      "slug": "iran-news-apk",
+      "name": "iran-news-apk",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "22.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/nrmnnkkhh-svg/iran-news-apk/releases",
+      "desc": "Native Android shell for the Iran news app"
     }
   ],
   "total_scraped": 142,
