@@ -1,132 +1,121 @@
-import json, urllib.request, urllib.parse, re, random, os
+import json, os, urllib.request, urllib.parse, re, random
 from datetime import datetime
 
-REFRAL_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
-CATEGORIES = ["IPTV Плееры", "Медиацентры", "Smart TV", "Кино и Сериалы", "Видеоплееры", "Аудио и Радио", "Утилиты TV", "Файловые менеджеры", "Браузеры", "Лаунчеры", "Оптимизация", "Безопасность", "Тесты скорости", "Управление ДУ", "Инструменты", "Системные", "Игровые эмуляторы", "Другое"]
+REF_LINK = "https://iseetv.net/welcome/signup/cb26f9e15332cb38"
 
-APPS_DATA = [
-    {"slug": "televizo", "name": "Televizo", "category": "IPTV Плееры", "rating": "4.9", "icon": "📺", "file_size": "18.4 MB", "date": "12.10.2026", "fallback_apk": "https://televizo.net/apk/televizo.apk", "desc": "Современный и мощный IPTV плеер для Android TV и смартфонов. Поддержка M3U и EPG."},
-    {"slug": "smarttube", "name": "SmartTube", "category": "Smart TV", "rating": "5.0", "icon": "🔴", "file_size": "24.1 MB", "date": "13.10.2026", "fallback_apk": "https://github.com/yuliskov/SmartTube/releases", "desc": "YouTube клиент без рекламы и с автопропуском спонсоров для Smart TV."},
-    {"slug": "ott-navigator", "name": "OTT Navigator", "category": "Медиацентры", "rating": "4.8", "icon": "⚡", "file_size": "31.0 MB", "date": "10.10.2026", "fallback_apk": "https://ott-navigator.com", "desc": "Продвинутый просмотрщик IPTV с поддержкой архивов и гибкой настройкой интерфейса."}
-]
+DB_FILE = "database.json"
+if os.path.exists(DB_FILE):
+    with open(DB_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        APPS = data.get("apps", [])
+else:
+    APPS = [
+        {"slug": "televizo", "name": "Televizo", "category": "IPTV Плееры", "rating": "4.9", "icon": "📺", "file_size": "18.4 MB", "date": "12.10.2026", "fallback_apk": "#", "desc": "Мощный IPTV плеер для Android TV."},
+        {"slug": "smarttube", "name": "SmartTube", "category": "Smart TV", "rating": "5.0", "icon": "🔴", "file_size": "24.1 MB", "date": "13.10.2026", "fallback_apk": "#", "desc": "YouTube клиент без рекламы."}
+    ]
 
-def ruthless_scraper():
-    queries = ["android apk player", "smart tv launcher apk", "iptv client release apk"]
-    scraped = []
-    current_date = datetime.now().strftime("%d.%m.%Y")
-    for q in queries:
-        try:
-            url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(q)}&sort=stars&per_page=10"
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/vnd.github.v3+json"})
-            with urllib.request.urlopen(req, timeout=6) as response:
-                data = json.loads(response.read().decode())
-                for item in data.get("items", []):
-                    name = item.get("name")
-                    html_url = item.get("html_url")
-                    desc = item.get("description") or "Автоматически извлеченный APK-пакет из GitHub."
-                    slug = re.sub(r"[^a-zA-Z0-9]", "-", name).lower().strip("-")
-                    if not slug or len(slug) < 2 or any(a["slug"] == slug for a in APPS_DATA + scraped): continue
-                    scraped.append({
-                        "slug": slug, "name": name, "category": "Smart TV", "rating": str(round(random.uniform(4.5, 5.0), 1)),
-                        "icon": random.choice(["📦", "⚡", "🔥", "🚀"]), "file_size": f"{random.randint(8, 45)}.{random.randint(1,9)} MB",
-                        "date": current_date, "fallback_apk": f"{html_url}/releases", "desc": desc[:140] + "..."
-                    })
-        except: continue
-    return scraped
+LIGHT_CSS = """
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f6f8; color: #222; line-height: 1.4; }
+a { text-decoration: none; color: inherit; }
+header { background: #ffffff; border-bottom: 1px solid #e1e4e8; padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-size: 1.1rem; font-weight: 700; color: #111; display: flex; align-items: center; gap: 0.4rem; }
+.logo span { color: #2563eb; }
+.search { background: #f1f3f5; border: 1px solid #dcdfe6; border-radius: 6px; padding: 0.4rem 0.75rem; font-size: 0.85rem; width: 45%; max-width: 250px; outline: none; }
+.container { max-width: 900px; margin: 0 auto; padding: 0.75rem; }
+.banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; }
+.banner h3 { font-size: 0.95rem; color: #1e3a8a; margin-bottom: 0.25srem; }
+.banner p { font-size: 0.75rem; color: #475569; margin-bottom: 0.5rem; }
+.banner a { display: inline-block; background: #2563eb; color: #fff; padding: 0.4rem 0.75rem; border-radius: 5px; font-size: 0.75rem; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+.card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+.card-top { display: flex; gap: 0.5rem; align-items: flex-start; }
+.icon { width: 2.5rem; height: 2.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+.title { font-size: 0.85rem; font-weight: 700; color: #1a202c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cat { font-size: 0.65rem; color: #64748b; font-weight: 600; }
+.desc { font-size: 0.7rem; color: #475569; margin: 0.4rem 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; }
+footer { text-align: center; padding: 1.5rem; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 1.5rem; background: #fff; }
+"""
 
-ALL_APPS = APPS_DATA + ruthless_scraper()
+cards_html = ""
+for app in APPS:
+    cards_html += f"""
+    <a href="{app[slug]}.html" class="card">
+        <div>
+            <div class="card-top">
+                <div class="icon">{app.get(icon, 📦)}</div>
+                <div style="min-width: 0; flex-grow: 1;">
+                    <div class="title">{app[name]}</div>
+                    <div class="cat">{app[category]} &bull; ★ {app[rating]}</div>
+                </div>
+            </div>
+            <div class="desc">{app[desc]}</div>
+        </div>
+        <div class="meta"><span>💾 {app[file_size]}</span><span>📅 {app[date]}</span></div>
+    </a>
+    """
 
-LIGHT_HEAD = """<!DOCTYPE html>
+index_html = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{meta_title}</title>
-    <meta name="description" content="{meta_desc}">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.5; min-height: 100vh; }
-        a { color: inherit; text-decoration: none; }
-        .header { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; padding: 0.85rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-        .logo { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.15rem; color: #0f172a; }
-        .logo-box { width: 2.2rem; height: 2.2rem; border-radius: 0.6rem; background: linear-gradient(135deg, #3b82f6, #6366f1); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; }
-        .search-container { flex-grow: 1; max-width: 320px; }
-        .search-input { width: 100%; padding: 0.5rem 0.85rem; border-radius: 0.6rem; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; font-size: 0.85rem; outline: none; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 1rem 1rem 3rem; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
-        .app-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.85rem; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.6rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .app-card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-        .card-top { display: flex; gap: 0.6rem; align-items: flex-start; }
-        .app-icon { width: 3rem; height: 3rem; border-radius: 0.6rem; background: #f1f5f9; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
-        .app-title { font-size: 0.9rem; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .app-category { font-size: 0.7rem; color: #64748b; font-weight: 600; }
-        .app-desc { font-size: 0.75rem; color: #475569; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; margin-top: auto; }
-        .footer { border-top: 1px solid #e2e8f0; padding: 2rem 1rem; text-align: center; color: #64748b; font-size: 0.8rem; background: #fff; margin-top: 2rem; }
-    </style>
+    <title>Git App WTF 🤨 — Скачать APK</title>
+    <style>{LIGHT_CSS}</style>
 </head>
 <body>
-    <header class="header">
-        <a href="index.html" class="logo"><div class="logo-box">🤨</div><div>Git App <span style="color:#2563eb">WTF</span></div></a>
-        <div class="search-container"><input type="text" id="searchInput" class="search-input" placeholder="Поиск APK..."></div>
+    <header>
+        <a href="index.html" class="logo">🤨 Git App <span>WTF</span></a>
+        <input type="text" class="search" placeholder="Поиск APK...">
     </header>
-"""
-
-def generate_index():
-    cards = ""
-    for app in ALL_APPS:
-        cards += f"""
-        <a href="{app[slug]}.html" class="app-card">
-            <div class="card-top">
-                <div class="app-icon">{app[icon]}</div>
-                <div><div class="app-title">{app[name]}</div><div class="app-category">{app[category]} &bull; ★ {app[rating]}</div></div>
-            </div>
-            <div class="app-desc">{app[desc]}</div>
-            <div class="card-meta"><span>💾 {app[file_size]}</span><span>📅 {app[date]}</span></div>
-        </a>
-        """
-    head = LIGHT_HEAD.format(meta_title="Git App WTF 🤨 — Скачать APK для Android и Smart TV", meta_desc="Каталог полезных Android и Smart TV приложений.")
-    html = head + f"""
     <main class="container">
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.85rem; padding: 1.15rem; margin-bottom: 1.25rem;">
-            <div style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a;">🔥 Партнерский бонус: IPTV Плейлист</div>
-            <div style="font-size: 0.75rem; color: #475569; margin-bottom: 0.5rem;">1000+ каналов в HD/4K качестве.</div>
-            <a href="{REFRAL_LINK}" target="_blank" style="background: #2563eb; color: #fff; padding: 0.55rem 1rem; border-radius: 0.5rem; font-weight: 700; font-size: 0.75rem; display: inline-block;">Получить плейлист &rarr;</a>
+        <div class="banner">
+            <h3>🔥 Партнерский IPTV Плейлист</h3>
+            <p>1000+ каналов в HD/4K качестве.</p>
+            <a href="{REF_LINK}" target="_blank">Получить тест &rarr;</a>
         </div>
-        <div class="grid">{cards}</div>
+        <div class="grid">{cards_html}</div>
     </main>
-    <footer class="footer">&copy; 2026 Git App WTF 🤨 — Каталог APK дистрибутивов.</footer>
+    <footer>&copy; 2026 Git App WTF 🤨 — Каталог APK</footer>
 </body>
 </html>"""
-    open("index.html", "w", encoding="utf-8").write(html)
 
-def generate_app_pages():
-    for app in ALL_APPS:
-        head = LIGHT_HEAD.format(meta_title=f"Скачать {app[name]} APK бесплатно — Git App WTF", meta_desc=f"Скачать последнюю версию {app[name]} ({app[file_size]}).")
-        html = head + f"""
-        <main class="container" style="max-width: 750px;">
-            <a href="index.html" style="color: #2563eb; font-weight: 600; font-size: 0.8rem; display: inline-block; margin-bottom: 1rem;">&larr; На главную</a>
-            <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.85rem; padding: 1.25rem; margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
-                <div style="width: 4rem; height: 4rem; border-radius: 0.75rem; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 2rem;">{app[icon]}</div>
-                <div>
-                    <h1 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">{app[name]}</h1>
-                    <div style="font-size: 0.75rem; color: #64748b;">★ {app[rating]} &bull; {app[category]} &bull; 💾 {app[file_size]} &bull; 📅 {app[date]}</div>
-                </div>
-            </div>
-            <div style="margin-bottom: 1.5rem;">
-                <a href="{app[fallback_apk]}" style="background: #2563eb; color: #fff; padding: 0.85rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">📥 Скачать APK файл ({app[file_size]})</a>
-            </div>
-            <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.85rem; padding: 1.25rem; line-height: 1.6;">
-                <h2 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">Описание</h2>
-                <p style="color: #334155; font-size: 0.85rem;">{app[desc]}</p>
-            </div>
-        </main>
-        <footer class="footer">&copy; 2026 Git App WTF 🤨.</footer>
-    </body>
-    </html>"""
-        open(f"{app[slug]}.html", "w", encoding="utf-8").write(html)
+open("index.html", "w", encoding="utf-8").write(index_html)
 
-generate_index()
-generate_app_pages()
-print("Светлый сайт пересобран!")
+for app in APPS:
+    app_html = f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать {app[name]} APK — Git App WTF</title>
+    <style>{LIGHT_CSS}</style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">🤨 Git App <span>WTF</span></a>
+    </header>
+    <main class="container" style="max-width: 600px;">
+        <a href="index.html" style="color: #2563eb; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-bottom: 0.75rem;">&larr; На главную</a>
+        <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; display: flex; gap: 0.75rem; align-items: center;">
+            <div style="font-size: 2.5rem;">{app.get(icon, 📦)}</div>
+            <div>
+                <h1 style="font-size: 1.15rem; font-weight: 700; color: #111;">{app[name]}</h1>
+                <div style="font-size: 0.7rem; color: #64748b;">★ {app[rating]} &bull; {app[category]} &bull; 💾 {app[file_size]} &bull; 📅 {app[date]}</div>
+            </div>
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <a href="{app[fallback_apk]}" style="background: #2563eb; color: #fff; display: block; text-align: center; padding: 0.75rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">📥 Скачать APK файл ({app[file_size]})</a>
+        </div>
+        <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem;">
+            <h2 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem;">Описание</h2>
+            <p style="font-size: 0.75rem; color: #475569;">{app[desc]}</p>
+        </div>
+    </main>
+    <footer>&copy; 2026 Git App WTF 🤨</footer>
+</body>
+</html>"""
+    open(f"{app[slug]}.html", "w", encoding="utf-8").write(app_html)
+
+print("Генерация завершена успешно!")
