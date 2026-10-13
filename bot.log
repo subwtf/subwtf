@@ -1,5 +1,2 @@
 nohup: ignoring input
-  File "/root/subwtf-repo/bot.py", line 37
-    await asyncio.sleep(5)  мощный старт после запуска
-                            ^^^^^^
-SyntaxError: invalid syntax
+Современный каталог успешно сгенерирован (159 приложений)!

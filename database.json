@@ -1792,7 +1792,20 @@
     "iptv-player-macos",
     "iptvbdlive",
     "tv2u",
-    "bacalhau"
+    "bacalhau",
+    "lazytv-android",
+    "mrstreamer",
+    "iptv-player-android",
+    "iptv-player",
+    "nullsports",
+    "glz-tv",
+    "lume",
+    "iptvnator",
+    "testcard",
+    "mitratv",
+    "couchzap",
+    "signal",
+    "streamflow-tv"
   ],
   "archive": [
     {
@@ -2256,6 +2269,149 @@
       "date": "13.10.2026",
       "fallback_apk": "https://github.com/renfuji12/bacalhau/releases",
       "desc": "🐟 Stream live IPTV with bacalhau, a self-hosted player for NAS and Docker, featuring M3U playlist support and EPG integration for ..."
+    },
+    {
+      "slug": "lazytv-android",
+      "name": "LazyTV-Android",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "16.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/iljazsalihi95-wq/LazyTV-Android/releases",
+      "desc": "LazyTV PRO – Native Android TV & Fire TV IPTV player with M3U, Xtream Codes, Stalker Portal, Live TV, Movies, Series, EPG and secu..."
+    },
+    {
+      "slug": "mrstreamer",
+      "name": "MrStreamer",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "45.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Mr-Streamer-OSS/MrStreamer/releases",
+      "desc": "A clean, fast, open-source IPTV player for macOS, Windows and Linux. Bring your own Xtream Codes or M3U subscription and watch liv..."
+    },
+    {
+      "slug": "iptv-player-android",
+      "name": "iptv-player-android",
+      "category": "Системные",
+      "rating": "4.7",
+      "icon": "[APP]",
+      "file_size": "26.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/phuongnm7/iptv-player-android/releases",
+      "desc": "Профессиональный APK пакет из проверенных источников."
+    },
+    {
+      "slug": "iptv-player",
+      "name": "IPTV-Player",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "16.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/natajrak/IPTV-Player/releases",
+      "desc": "Профессиональный APK пакет из проверенных источников."
+    },
+    {
+      "slug": "nullsports",
+      "name": "NullSports",
+      "category": "Сеть",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "45.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/nulldev85/NullSports/releases",
+      "desc": "A focused, native sports IPTV player for Apple TV."
+    },
+    {
+      "slug": "glz-tv",
+      "name": "glz-tv",
+      "category": "Сеть",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "31.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/yadielglz/glz-tv/releases",
+      "desc": "IPTV File Player"
+    },
+    {
+      "slug": "lume",
+      "name": "Lume",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "53.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/bilipp/Lume/releases",
+      "desc": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean..."
+    },
+    {
+      "slug": "iptvnator",
+      "name": "iptvnator",
+      "category": "Мультимедиа",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "19.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/4gray/iptvnator/releases",
+      "desc": ":tv: Cross-platform IPTV player application with multiple features, such as support of m3u and m3u8 playlists, favorites, TV guide..."
+    },
+    {
+      "slug": "testcard",
+      "name": "testcard",
+      "category": "Smart TV",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "34.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/eVcAlex/testcard/releases",
+      "desc": "A dark, watermark-free IPTV player for Windows."
+    },
+    {
+      "slug": "mitratv",
+      "name": "MitraTV",
+      "category": "Smart TV",
+      "rating": "5.0",
+      "icon": "[APP]",
+      "file_size": "56.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/rock-meister/MitraTV/releases",
+      "desc": "Independent open-source IPTV player for Android TV / Google TV. Player only: no content included. Pre-alpha."
+    },
+    {
+      "slug": "couchzap",
+      "name": "CouchZap",
+      "category": "Утилиты",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "43.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/saeedt20/CouchZap/releases",
+      "desc": "A lightweight IPTV player for Android TV boxes and phones, built with Kotlin and Media3."
+    },
+    {
+      "slug": "signal",
+      "name": "Signal",
+      "category": "Системные",
+      "rating": "4.8",
+      "icon": "[APP]",
+      "file_size": "42.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/jives00/Signal/releases",
+      "desc": "IPTV player for the Nvidia Shield, with an optional NAS companion"
+    },
+    {
+      "slug": "streamflow-tv",
+      "name": "StreamFlow-TV",
+      "category": "Системные",
+      "rating": "4.9",
+      "icon": "[APP]",
+      "file_size": "55.5 MB",
+      "date": "13.10.2026",
+      "fallback_apk": "https://github.com/Getmygity/StreamFlow-TV/releases",
+      "desc": "StreamFlow TV — an IPTV player for Android TV and LG TV (webOS). Download the APK or IPK from Releases."
     }
   ],
   "total_scraped": 159,
