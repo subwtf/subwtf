@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "audiophiles-dream",
-            "name": "audiophiles-dream",
-            "category": "Smart TV",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "9.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Pointcosmologist787/audiophiles-dream/releases",
-            "desc": "Play high-fidelity, bit-perfect local audio files on Android devices through a clean and capable player interface."
-        },
-        {
             "slug": "naari-os-app",
             "name": "Naari-os-app",
             "category": "Системные",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Acousticdevicemercouri734/androidReverse/releases",
             "desc": "Reverse engineer APKs and analyze native binaries directly on your Android device without a PC or ADB."
+        },
+        {
+            "slug": "audiophiles-dream",
+            "name": "audiophiles-dream",
+            "category": "Smart TV",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "9.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Pointcosmologist787/audiophiles-dream/releases",
+            "desc": "Play high-fidelity, bit-perfect local audio files on Android devices through a clean and capable player interface."
         }
     ],
     "total_scraped": 159,

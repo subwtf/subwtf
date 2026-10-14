@@ -1,28 +1,6 @@
 nohup: ignoring input
-[main 8e0ca3d] Mega-daemon: massive sync
- 5 files changed, 247 insertions(+), 231 deletions(-)
-To github.com:subwtf/subwtf.git
-   95a1452..8e0ca3d  main -> main
-[main 66da108] Mega-daemon: massive sync
- 4 files changed, 236 insertions(+), 223 deletions(-)
-To github.com:subwtf/subwtf.git
-   8e0ca3d..66da108  main -> main
-[main 5e94b3e] Mega-daemon: massive sync
- 3 files changed, 177 insertions(+), 178 deletions(-)
-To github.com:subwtf/subwtf.git
-   66da108..5e94b3e  main -> main
-[main 6e19837] Mega-daemon: massive sync
- 3 files changed, 176 insertions(+), 178 deletions(-)
-To github.com:subwtf/subwtf.git
-   5e94b3e..6e19837  main -> main
-ний в копилку: 0. Всего в базе: 158
-2026-10-14 08:30:18 - Успешно опубликовано в канал: Kov-Sec
-2026-10-14 08:40:20 - Запуск масштабного штурма GitHub для сбора сотен приложений...
-2026-10-14 08:40:48 - Добавлено новых приложений в копилку: 0. Всего в базе: 157
-2026-10-14 08:40:49 - Успешно опубликовано в канал: android-mod-apk-security-guide
-2026-10-14 08:50:51 - Запуск масштабного штурма GitHub для сбора сотен приложений...
-2026-10-14 08:51:21 - Добавлено новых приложений в копилку: 0. Всего в базе: 156
-2026-10-14 08:51:22 - Успешно опубликовано в канал: media-download-apk
-2026-10-14 09:01:24 - Запуск масштабного штурма GitHub для сбора сотен приложений...
-2026-10-14 09:01:54 - Добавлено новых приложений в копилку: 0. Всего в базе: 155
-2026-10-14 09:01:54 - Успешно опубликовано в канал: androidReverse
+2026-10-14 09:14:26 - Нативный демон-парсер запущен 24/7.
+2026-10-14 09:14:26 - Штурм 4PDA и GitHub...
+2026-10-14 09:14:26 - Ошибка парсинга 4PDA: HTTP Error 403: Forbidden
+2026-10-14 09:14:31 - Добавлено новых релизов: 0. Всего в базе: 154
+2026-10-14 09:14:32 - Опубликовано в канал: audiophiles-dream
