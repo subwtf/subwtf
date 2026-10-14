@@ -38,10 +38,14 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-�мой IP заблокирован (403), используем резервный пул релизов.
-2026-10-14 10:27:25 - Добавлено новых в базу: 0. Всего в базе: 144
-2026-10-14 10:27:25 - Опубликовано в канал: five-light-apk
-2026-10-14 10:37:28 - Запуск цикла синхронизации...
+[main 4228f94] Sync update
+ 2 files changed, 23 insertions(+), 15 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+14 10:37:28 - Запуск цикла синхронизации...
 2026-10-14 10:37:28 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 10:37:34 - Добавлено новых в базу: 0. Всего в базе: 143
 2026-10-14 10:37:34 - Опубликовано в канал: pw-generator-app
@@ -65,3 +69,7 @@ and the repository exists.
 2026-10-14 11:31:01 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 11:32:04 - Добавлено новых в базу: 0. Всего в базе: 139
 2026-10-14 11:32:17 - Опубликовано в канал: folk-games-app
+2026-10-14 11:42:39 - Запуск цикла синхронизации...
+2026-10-14 11:42:45 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 11:43:51 - Добавлено новых в базу: 0. Всего в базе: 138
+2026-10-14 11:44:00 - Опубликовано в канал: Notekar

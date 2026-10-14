@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "notekar",
-            "name": "Notekar",
-            "category": "Smart TV",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "38.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/dheeraz101/Notekar/releases",
-            "desc": "A tiny, elegant timestamp logger (PWA-ready)/ Android App. Tap to record a moment, long-press to add a note, view history, and adj..."
-        },
-        {
             "slug": "fileadex-mobile-releases",
             "name": "fileadex-mobile-releases",
             "category": "Утилиты",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Nil20/folk-games-app/releases",
             "desc": "Folk Games — Android releases (APK downloads)"
+        },
+        {
+            "slug": "notekar",
+            "name": "Notekar",
+            "category": "Smart TV",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "38.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/dheeraz101/Notekar/releases",
+            "desc": "A tiny, elegant timestamp logger (PWA-ready)/ Android App. Tap to record a moment, long-press to add a note, view history, and adj..."
         }
     ],
     "total_scraped": 159,
