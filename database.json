@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "androidreverse",
-            "name": "androidReverse",
-            "category": "Мультимедиа",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "36.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Acousticdevicemercouri734/androidReverse/releases",
-            "desc": "Reverse engineer APKs and analyze native binaries directly on your Android device without a PC or ADB."
-        },
-        {
             "slug": "audiophiles-dream",
             "name": "audiophiles-dream",
             "category": "Smart TV",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Khhhgh/media-download-apk/releases",
             "desc": "Media Downloader Android App"
+        },
+        {
+            "slug": "androidreverse",
+            "name": "androidReverse",
+            "category": "Мультимедиа",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "36.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Acousticdevicemercouri734/androidReverse/releases",
+            "desc": "Reverse engineer APKs and analyze native binaries directly on your Android device without a PC or ADB."
         }
     ],
     "total_scraped": 159,
