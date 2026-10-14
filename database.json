@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "cmdix",
-            "name": "Cmdix",
-            "category": "Smart TV",
-            "rating": "4.7",
-            "icon": "[APP]",
-            "file_size": "48.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/ANONIMO1234576856/Cmdix/releases",
-            "desc": "🖥️ Run scripts and manage commands easily with Cmdix, a user-friendly Android terminal app designed for Android 9+ devices."
-        },
-        {
             "slug": "dbd-maps",
             "name": "dbd-maps",
             "category": "Мультимедиа",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/2aaleeex2/garmin2peak-apk/releases",
             "desc": "APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase"
+        },
+        {
+            "slug": "cmdix",
+            "name": "Cmdix",
+            "category": "Smart TV",
+            "rating": "4.7",
+            "icon": "[APP]",
+            "file_size": "48.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/ANONIMO1234576856/Cmdix/releases",
+            "desc": "🖥️ Run scripts and manage commands easily with Cmdix, a user-friendly Android terminal app designed for Android 9+ devices."
         }
     ],
     "total_scraped": 159,
