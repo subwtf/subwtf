@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "muhammet-tekin-web",
-            "name": "muhammet-tekin-web",
-            "category": "Мультимедиа",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "18.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Tekin4124/muhammet-tekin-web/releases",
-            "desc": "Muhammet Tekin — Android ve web projeleri, canlı uygulamalar ve APK bağlantıları."
-        },
-        {
             "slug": "massiptv-surumler",
             "name": "massiptv-surumler",
             "category": "Системные",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/nrmnnkkhh-svg/iran-news-apk/releases",
             "desc": "Native Android shell for the Iran news app"
+        },
+        {
+            "slug": "muhammet-tekin-web",
+            "name": "muhammet-tekin-web",
+            "category": "Мультимедиа",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "18.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Tekin4124/muhammet-tekin-web/releases",
+            "desc": "Muhammet Tekin — Android ve web projeleri, canlı uygulamalar ve APK bağlantıları."
         }
     ],
     "total_scraped": 159,
