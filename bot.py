@@ -10,7 +10,7 @@ DB_PATH = os.path.join(REPO_PATH, "database.json")
 
 def get_updates(offset=None):
     try:
-        res = requests.get(f"{URL}/getUpdates", params={"timeout": 20, "offset": offset}, timeout=25)
+        res = requests.get(f"{URL}/getUpdates", params={"timeout": 10, "offset": offset}, timeout=15)
         return res.json().get("result", [])
     except:
         return []
@@ -20,7 +20,7 @@ def send_message(chat_id, text, reply_markup=None):
     if reply_markup:
         data["reply_markup"] = json.dumps(reply_markup)
     try:
-        requests.post(f"{URL}/sendMessage", json=data)
+        requests.post(f"{URL}/sendMessage", json=data, timeout=5)
     except:
         pass
 
@@ -34,9 +34,9 @@ def get_keyboard():
         "is_persistent": True
     }
 
-def handle():
+def main():
     offset = 0
-    print("Бот запущен и готов к работе...")
+    print("Легковесный бот запущен...")
     while True:
         updates = get_updates(offset)
         for u in updates:
@@ -75,7 +75,9 @@ def handle():
                 send_message(chat_id, "⚡ Запуск сканирования...", get_keyboard())
                 os.system(f"python3 {os.path.join(REPO_PATH, 'generator.py')}")
                 send_message(chat_id, "✅ Сканирование и генерация завершены!", get_keyboard())
-        time.sleep(0.5)
+        
+        # Увеличиваем паузу до 2 секунд, чтобы процессор полностью отдыхал
+        time.sleep(2)
 
 if __name__ == "__main__":
-    handle()
+    main()
