@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "syncdewvalley",
-            "name": "SyncdewValley",
-            "category": "Системные",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "33.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/sonofskywalker3/SyncdewValley/releases",
-            "desc": "Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs."
-        },
-        {
             "slug": "apkstv",
             "name": "ApksTV",
             "category": "Системные",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Nova2585nd/Nova-APK-Builder-v2/releases",
             "desc": "Description: Build Android APKs from native Gradle projects on Windows."
+        },
+        {
+            "slug": "syncdewvalley",
+            "name": "SyncdewValley",
+            "category": "Системные",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "33.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/sonofskywalker3/SyncdewValley/releases",
+            "desc": "Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs."
         }
     ],
     "total_scraped": 159,
