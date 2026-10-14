@@ -273,10 +273,14 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-в базе: 129
-2026-10-14 15:13:17 - Ошибка публикации: HTTP Error 400: Bad Request
-2026-10-14 15:23:21 - Запуск цикла синхронизации...
-2026-10-14 15:23:41 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+[main df6a30c] Sync update
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+), используем резервный пул релизов.
 2026-10-14 15:24:35 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 15:24:57 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
 2026-10-14 15:35:19 - Запуск цикла синхронизации...
@@ -307,3 +311,7 @@ and the repository exists.
 2026-10-14 16:48:30 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 16:49:34 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 16:49:57 - Ошибка публикации: HTTP Error 400: Bad Request
+2026-10-14 17:00:18 - Запуск цикла синхронизации...
+2026-10-14 17:00:38 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 17:02:00 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 17:02:06 - Ошибка публикации: HTTP Error 400: Bad Request
