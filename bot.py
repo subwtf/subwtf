@@ -8,15 +8,11 @@ URL = f"https://api.telegram.org/bot{TOKEN}"
 REPO_PATH = "/root/subwtf-repo"
 DB_PATH = os.path.join(REPO_PATH, "database.json")
 
-print("Бот запущен на чистом API...")
-
 def get_updates(offset=None):
-    params = {"timeout": 30, "offset": offset}
     try:
-        response = requests.get(f"{URL}/getUpdates", params=params, timeout=35)
-        return response.json().get("result", [])
-    except Exception as e:
-        print(f"Ошибка получения апдейтов: {e}")
+        res = requests.get(f"{URL}/getUpdates", params={"timeout": 20, "offset": offset}, timeout=25)
+        return res.json().get("result", [])
+    except:
         return []
 
 def send_message(chat_id, text, reply_markup=None):
@@ -25,8 +21,8 @@ def send_message(chat_id, text, reply_markup=None):
         data["reply_markup"] = json.dumps(reply_markup)
     try:
         requests.post(f"{URL}/sendMessage", json=data)
-    except Exception as e:
-        print(f"Ошибка отправки сообщения: {e}")
+    except:
+        pass
 
 def get_keyboard():
     return {
@@ -38,81 +34,48 @@ def get_keyboard():
         "is_persistent": True
     }
 
-def handle_message(message):
-    chat_id = message["chat"]["id"]
-    text = message.get("text", "").strip()
-
-    if text == "/start":
-        send_message(chat_id, "🛠 **Панель управления активирована.**\nВыберите нужный отчет или действие 👇", get_keyboard())
-    
-    elif text == "📊 Состояние сервера":
-        disk = os.popen("df -h / | tail -1").read().split()
-        cpu = os.popen("top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'").read().strip()
-        ram = os.popen("free -m | grep Mem").read().split()
-        uptime = os.popen("uptime -p").read().strip()
-        
-        rep = (
-            f"🖥 **ОТЧЕТ: СОСТОЯНИЕ СЕРВЕРА**\n\n"
-            f"⏱ **Аптайм:** {uptime}\n"
-            f"⚡ **CPU:** {cpu}%\n"
-            f"🧠 **RAM:** {ram[2]} MB / {ram[1]} MB\n"
-            f"💾 **Диск /:** занято {disk[2]} из {disk[1]} ({disk[4]})\n"
-            f"🟢 **Статус:** Штатный"
-        )
-        send_message(chat_id, rep, get_keyboard())
-
-    elif text == "📦 Приложений с GitHub":
-        count = 0
-        categories = {}
-        try:
-            if os.path.exists(DB_PATH):
-                with open(DB_PATH, "r", encoding="utf-8") as f:
-                    db = json.load(f)
-                apps = db.get("apps", []) if isinstance(db, dict) else db
-                count = len(apps) if isinstance(apps, list) else 0
-                for app in apps:
-                    if isinstance(app, dict):
-                        cat = app.get("category", "Без категории")
-                        categories[cat] = categories.get(cat, 0) + 1
-        except Exception as e:
-            count = f"Ошибка: {e}"
-        
-        cat_str = "\n".join([f"  • {c}: {n}" for c, n in categories.items()])
-        rep = f"📦 **БАЗА ДАННЫХ**\n\nВсего приложений: `{count}`\n\n**По категориям:**\n{cat_str}"
-        send_message(chat_id, rep, get_keyboard())
-
-    elif text == "⏳ Очередь публикации":
-        rep = (
-            f"⏳ **ОЧЕРЕДЬ НА ПУБЛИКАЦИЮ**\n\n"
-            f"📬 **Осталось в очереди:** `117` постов\n"
-            f"📢 **Канал:** `@semenkicha`\n"
-            f"🟢 **Состояние:** Активна"
-        )
-        send_message(chat_id, rep, get_keyboard())
-
-    elif text == "⚡ Запустить сканирование GitHub":
-        send_message(chat_id, "⚡ Запуск сканирования и генерации...", get_keyboard())
-        try:
-            res = os.system(f"python3 {os.path.join(REPO_PATH, 'generator.py')}")
-            if res == 0:
-                with open(DB_PATH, "r", encoding="utf-8") as f:
-                    db = json.load(f)
-                apps = db.get("apps", []) if isinstance(db, dict) else db
-                send_message(chat_id, f"✅ **Сканирование завершено успешно!**\nАктуальных приложений в базе: `{len(apps)}`", get_keyboard())
-            else:
-                send_message(chat_id, "⚠️ Ошибка при выполнении скрипта генератора.", get_keyboard())
-        except Exception as e:
-            send_message(chat_id, f"❌ Ошибка: {e}", get_keyboard())
-
-def main():
+def handle():
     offset = 0
+    print("Бот запущен и готов к работе...")
     while True:
         updates = get_updates(offset)
-        for update in updates:
-            offset = update["update_id"] + 1
-            if "message" in update:
-                handle_message(update["message"])
-        time.sleep(1)
+        for u in updates:
+            offset = u["update_id"] + 1
+            if "message" not in u:
+                continue
+            msg = u["message"]
+            chat_id = msg["chat"]["id"]
+            text = msg.get("text", "").strip()
+
+            if text == "/start":
+                send_message(chat_id, "🛠 **Панель управления активна.**", get_keyboard())
+            elif text == "📊 Состояние сервера":
+                disk = os.popen("df -h / | tail -1").read().split()
+                cpu = os.popen("top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'").read().strip()
+                ram = os.popen("free -m | grep Mem").read().split()
+                send_message(chat_id, f"🖥 **Сервер в норме**\n⚡ CPU: {cpu}%\n🧠 RAM: {ram[2]}MB / {ram[1]}MB\n💾 Диск /: {disk[2]} / {disk[1]}", get_keyboard())
+            elif text == "📦 Приложений с GitHub":
+                count = 0
+                try:
+                    with open(DB_PATH, "r", encoding="utf-8") as f:
+                        d = json.load(f)
+                    count = len(d.get("apps", [])) if isinstance(d, dict) else len(d)
+                except:
+                    pass
+                send_message(chat_id, f"📦 Активных приложений в базе: `{count}`", get_keyboard())
+            elif text == "⏳ Очередь публикации":
+                try:
+                    with open(DB_PATH, "r", encoding="utf-8") as f:
+                        d = json.load(f)
+                    q = len(d.get("apps", [])) if isinstance(d, dict) else 0
+                    send_message(chat_id, f"⏳ Осталось в очереди: `{q}` постов\n📢 Канал: `@semenkicha`", get_keyboard())
+                except:
+                    send_message(chat_id, "⏳ Очередь пуста.", get_keyboard())
+            elif text == "⚡ Запустить сканирование GitHub":
+                send_message(chat_id, "⚡ Запуск сканирования...", get_keyboard())
+                os.system(f"python3 {os.path.join(REPO_PATH, 'generator.py')}")
+                send_message(chat_id, "✅ Сканирование и генерация завершены!", get_keyboard())
+        time.sleep(0.5)
 
 if __name__ == "__main__":
-    main()
+    handle()
