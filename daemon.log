@@ -197,12 +197,21 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-�ано в канал: Nova-APK-Builder-v2
-2026-10-14 14:02:16 - Запуск цикла синхронизации...
-2026-10-14 14:02:37 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+[main 7ac045b] Sync update
+ 3 files changed, 154 insertions(+), 152 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+�.
 2026-10-14 14:03:26 - Добавлено новых в базу: 0. Всего в базе: 131
 2026-10-14 14:03:28 - Опубликовано в канал: SyncdewValley
 2026-10-14 14:13:50 - Запуск цикла синхронизации...
 2026-10-14 14:14:11 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 14:15:28 - Добавлено новых в базу: 0. Всего в базе: 130
 2026-10-14 14:15:34 - Опубликовано в канал: ApksTV
+2026-10-14 14:25:57 - Запуск цикла синхронизации...
+2026-10-14 14:26:07 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 14:27:26 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 14:27:43 - Ошибка публикации: HTTP Error 400: Bad Request
