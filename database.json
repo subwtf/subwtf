@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "apkprobe",
-            "name": "apkprobe",
-            "category": "Системные",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "29.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/hrithoy/apkprobe/releases",
-            "desc": "1"
-        },
-        {
             "slug": "github",
             "name": ".github",
             "category": "Сеть",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/edoardosartori/pw-generator-app/releases",
             "desc": "A lightweight password generation app built with Flutter, designed to create strong and customizable passwords locally."
+        },
+        {
+            "slug": "apkprobe",
+            "name": "apkprobe",
+            "category": "Системные",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "29.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/hrithoy/apkprobe/releases",
+            "desc": "1"
         }
     ],
     "total_scraped": 159,
