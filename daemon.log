@@ -211,9 +211,14 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-�иты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
-2026-10-14 14:15:28 - Добавлено новых в базу: 0. Всего в базе: 130
-2026-10-14 14:15:34 - Опубликовано в канал: ApksTV
+[main 00d5912] Sync update
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+нал: ApksTV
 2026-10-14 14:25:57 - Запуск цикла синхронизации...
 2026-10-14 14:26:07 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 14:27:26 - Добавлено новых в базу: 0. Всего в базе: 129
@@ -222,3 +227,7 @@ and the repository exists.
 2026-10-14 14:38:27 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 14:39:54 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 14:40:16 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 14:50:37 - Запуск цикла синхронизации...
+2026-10-14 14:50:58 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 14:52:00 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 14:52:21 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
