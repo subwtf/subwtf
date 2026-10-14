@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "folk-games-app",
-            "name": "folk-games-app",
-            "category": "Системные",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "55.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Nil20/folk-games-app/releases",
-            "desc": "Folk Games — Android releases (APK downloads)"
-        },
-        {
             "slug": "notekar",
             "name": "Notekar",
             "category": "Smart TV",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/2233admin/reverse-skill-evolver/releases",
             "desc": "Reverse-engineering skills for AI coding agents, with IDA/MCP integration, APK and JavaScript workflows, bounded agent swarms, and..."
+        },
+        {
+            "slug": "folk-games-app",
+            "name": "folk-games-app",
+            "category": "Системные",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "55.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Nil20/folk-games-app/releases",
+            "desc": "Folk Games — Android releases (APK downloads)"
         }
     ],
     "total_scraped": 159,

@@ -31,10 +31,14 @@ To github.com:subwtf/subwtf.git
  3 files changed, 161 insertions(+), 162 deletions(-)
 To github.com:subwtf/subwtf.git
    bd83ce4..6968a4c  main -> main
-6 - Добавлено новых в базу: 0. Всего в базе: 145
-2026-10-14 10:17:17 - Опубликовано в канал: Bliss
-2026-10-14 10:27:19 - Запуск цикла синхронизации...
-2026-10-14 10:27:19 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+[main b1b8e07] Sync update
+ 2 files changed, 149 insertions(+), 149 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+�мой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 10:27:25 - Добавлено новых в базу: 0. Всего в базе: 144
 2026-10-14 10:27:25 - Опубликовано в канал: five-light-apk
 2026-10-14 10:37:28 - Запуск цикла синхронизации...
@@ -57,3 +61,7 @@ To github.com:subwtf/subwtf.git
 2026-10-14 11:18:24 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 11:19:47 - Добавлено новых в базу: 0. Всего в базе: 139
 2026-10-14 11:20:19 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 11:30:40 - Запуск цикла синхронизации...
+2026-10-14 11:31:01 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 11:32:04 - Добавлено новых в базу: 0. Всего в базе: 139
+2026-10-14 11:32:17 - Опубликовано в канал: folk-games-app
