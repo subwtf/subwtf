@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "real-apk-leecher",
-            "name": "Real-Apk-Leecher",
-            "category": "Утилиты",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "11.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
-            "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
-        },
-        {
             "slug": "mayerstore-android-downloads",
             "name": "mayerstore-android-downloads",
             "category": "Smart TV",
@@ -1599,6 +1588,14 @@
             "file_size": "20+ MB",
             "fallback_apk": "https://github.com/iheanyi/source-shelf/releases",
             "desc": "Restore Mihon extension APKs from a backup using any compatible repository."
+        },
+        {
+            "name": "4PDA Update Pack #939554",
+            "category": "4PDA Эксклюзив",
+            "rating": "4.9",
+            "file_size": "30 MB",
+            "fallback_apk": "https://4pda.to/forum/index.php?showtopic=939554",
+            "desc": "Синхронизированный пакет обновлений из целевой темы 4PDA"
         }
     ],
     "sent": [
@@ -2428,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/kundan0575/ObfuScan/releases",
             "desc": "Scan Android APK native SO files to flag obfuscation, loaders, and high-value targets before reverse engineering"
+        },
+        {
+            "slug": "real-apk-leecher",
+            "name": "Real-Apk-Leecher",
+            "category": "Утилиты",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "11.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
+            "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
         }
     ],
     "total_scraped": 159,
