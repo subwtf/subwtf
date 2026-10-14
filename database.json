@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "garmin2peak-apk",
-            "name": "garmin2peak-apk",
-            "category": "Системные",
-            "rating": "4.7",
-            "icon": "[APP]",
-            "file_size": "22.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/2aaleeex2/garmin2peak-apk/releases",
-            "desc": "APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase"
-        },
-        {
             "slug": "cmdix",
             "name": "Cmdix",
             "category": "Smart TV",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/LUC4N3X/Levyra-deepsound/releases",
             "desc": "Open-source music player for Android and Windows with no accounts or tracking. Built for quick discovery, synced lyrics, radio, an..."
+        },
+        {
+            "slug": "garmin2peak-apk",
+            "name": "garmin2peak-apk",
+            "category": "Системные",
+            "rating": "4.7",
+            "icon": "[APP]",
+            "file_size": "22.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/2aaleeex2/garmin2peak-apk/releases",
+            "desc": "APK Android nativo de garmin2peak: login Garmin, MFA, actividades, salud y sync Supabase"
         }
     ],
     "total_scraped": 159,
