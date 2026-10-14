@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "nova-apk-builder-v2",
-            "name": "Nova-APK-Builder-v2",
-            "category": "Системные",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "50.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Nova2585nd/Nova-APK-Builder-v2/releases",
-            "desc": "Description: Build Android APKs from native Gradle projects on Windows."
-        },
-        {
             "slug": "syncdewvalley",
             "name": "SyncdewValley",
             "category": "Системные",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Exprimes/dbd-maps/releases",
             "desc": "Telechargement public officiel de DBD MAP Mobile (Android APK)"
+        },
+        {
+            "slug": "nova-apk-builder-v2",
+            "name": "Nova-APK-Builder-v2",
+            "category": "Системные",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "50.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Nova2585nd/Nova-APK-Builder-v2/releases",
+            "desc": "Description: Build Android APKs from native Gradle projects on Windows."
         }
     ],
     "total_scraped": 159,

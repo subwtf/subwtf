@@ -179,6 +179,15 @@ To github.com:subwtf/subwtf.git
 [4PDA-PARSER] Добавлено новых в базу: 0. Всего в базе: 133
 [4PDA-PARSER] Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
 [4PDA-PARSER] Запуск цикла синхронизации...
-2026-10-14 13:40:12 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
-2026-10-14 13:41:24 - Добавлено новых в базу: 0. Всего в базе: 133
-2026-10-14 13:41:35 - Опубликовано в канал: dbd-maps
+[main 8f24b84] Sync update
+ 2 files changed, 100 insertions(+), 58 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+ - Опубликовано в канал: dbd-maps
+2026-10-14 13:51:56 - Запуск цикла синхронизации...
+2026-10-14 13:52:03 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 13:52:11 - Добавлено новых в базу: 0. Всего в базе: 132
+2026-10-14 13:52:12 - Опубликовано в канал: Nova-APK-Builder-v2
