@@ -415,9 +415,11 @@ and the repository exists.
  1 file changed, 12 insertions(+), 5 deletions(-)
 To github.com:subwtf/subwtf.git
    6da1964..ad955e4  main -> main
-зов.
-2026-10-14 18:12:24 - Добавлено новых в базу: 0. Всего в базе: 129
-2026-10-14 18:12:45 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+[main 6a47a19] Sync update
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+To github.com:subwtf/subwtf.git
+   ad955e4..6a47a19  main -> main
+убликации: <urlopen error [Errno -3] Temporary failure in name resolution>
 2026-10-14 18:23:06 - Запуск цикла синхронизации...
 2026-10-14 18:23:10 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 18:24:31 - Добавлено новых в базу: 0. Всего в базе: 129
@@ -438,3 +440,7 @@ To github.com:subwtf/subwtf.git
 2026-10-14 19:11:25 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 19:12:33 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 19:12:54 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 19:23:08 - Запуск цикла синхронизации...
+2026-10-14 19:23:29 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 19:24:54 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 19:25:06 - Ошибка публикации: HTTP Error 400: Bad Request
