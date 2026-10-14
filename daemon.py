@@ -2,7 +2,6 @@ import time
 import os
 import json
 import urllib.request
-import urllib.error
 import re
 
 REPO_PATH = "/root/subwtf-repo"
@@ -16,7 +15,6 @@ def log(msg):
         f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {msg}\n")
 
 def parse_4pda_native(url):
-    """Парсинг 4PDA с помощью встроенных модулей Python"""
     apps = []
     req = urllib.request.Request(
         url, 
@@ -25,14 +23,11 @@ def parse_4pda_native(url):
     try:
         with urllib.request.urlopen(req, timeout=15) as response:
             html = response.read().decode('utf-8', errors='ignore')
-            
-            # Извлекаем заголовок темы через регулярное выражение
             match_title = re.search(r'<h1[^>]*>(.*?)</h1>', html, re.DOTALL)
             title = "4PDA Release"
             if match_title:
                 title = re.sub(r'<.*?>', '', match_title.group(1)).strip()
 
-            # Ищем ссылки на скачивание APK в теме
             links = re.findall(r'href="(https?://[^"]+?\.(?:apk|zip))"', html)
             dl_link = links[0] if links else url
 
@@ -49,7 +44,6 @@ def parse_4pda_native(url):
     return apps
 
 def fetch_github_native():
-    """Сбор софта с GitHub через встроенный urllib"""
     new_apps = []
     queries = ["android apk player", "smarttv launcher apk", "iptv client android", "emulator android app"]
     for q in queries:
@@ -74,7 +68,6 @@ def fetch_github_native():
 
 def job():
     log("Штурм 4PDA и GitHub...")
-    
     if os.path.exists(DB_PATH):
         with open(DB_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -84,7 +77,6 @@ def job():
     apps = data.get("apps", [])
     archive = data.get("archive", [])
     
-    # Парсим 4PDA и GitHub
     target_url = "https://4pda.to/forum/index.php?showtopic=939554"
     p4 = parse_4pda_native(target_url)
     gh = fetch_github_native()
@@ -106,10 +98,8 @@ def job():
     with open(DB_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-    # Пересобираем сайт
     os.system(f"python3 {os.path.join(REPO_PATH, 'generator.py')}")
 
-    # Публикуем в Telegram-канал
     if apps:
         app = apps.pop(0)
         name = app.get('name', 'App')
@@ -140,7 +130,6 @@ def job():
         except Exception as e:
             log(f"Ошибка публикации: {e}")
 
-    # Синхронизация с GitHub
     os.system(f"cd {REPO_PATH} && git add . && git commit -m 'Native parser sync' && git push origin main")
 
 def main():
