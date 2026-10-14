@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "media-download-apk",
-            "name": "media-download-apk",
-            "category": "Smart TV",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "41.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Khhhgh/media-download-apk/releases",
-            "desc": "Media Downloader Android App"
-        },
-        {
             "slug": "androidreverse",
             "name": "androidReverse",
             "category": "Мультимедиа",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/Lorcan8920/android-mod-apk-security-guide/releases",
             "desc": "Analyze the security risks of modded APKs and learn how threat actors inject malicious code to compromise mobile devices."
+        },
+        {
+            "slug": "media-download-apk",
+            "name": "media-download-apk",
+            "category": "Smart TV",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "41.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Khhhgh/media-download-apk/releases",
+            "desc": "Media Downloader Android App"
         }
     ],
     "total_scraped": 159,
