@@ -244,9 +244,14 @@ and the repository exists.
  1 file changed, 12 insertions(+), 3 deletions(-)
 To github.com:subwtf/subwtf.git
    1a09071..9164389  main -> main
- 14:50:58 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
-2026-10-14 14:52:00 - Добавлено новых в базу: 0. Всего в базе: 129
-2026-10-14 14:52:21 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+[main 6428a3e] Sync update
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+�ибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
 2026-10-14 15:02:42 - Запуск цикла синхронизации...
 2026-10-14 15:02:43 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 15:02:49 - Добавлено новых в базу: 0. Всего в базе: 129
@@ -267,3 +272,7 @@ To github.com:subwtf/subwtf.git
 2026-10-14 15:47:38 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 15:48:44 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 15:49:06 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 15:59:28 - Запуск цикла синхронизации...
+2026-10-14 15:59:49 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 16:01:07 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 16:01:28 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
