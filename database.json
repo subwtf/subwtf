@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "ivi-player",
-            "name": "IPTV Pro",
-            "category": "Мультимедиа",
-            "rating": "4.8",
-            "icon": "[IPTV]",
-            "file_size": "18.2 MB",
-            "date": "14.10.2026",
-            "fallback_apk": "https://github.com/search",
-            "desc": "Удобный проигрыватель для пользовательских M3U и M8U плейлистов высокой стабильности."
-        },
-        {
             "slug": "briefklar-android",
             "name": "briefklar-android",
             "category": "Сеть",
@@ -1737,6 +1726,22 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/rthoms334/omatuner/releases",
             "desc": "Keyboard-first IPTV player for Omarchy — M3U, Xtream, XMLTV, catch-up (Rust + libmpv)"
+        },
+        {
+            "name": "kdeconnect-plus",
+            "category": "Утилиты с GitHub",
+            "rating": "4.8",
+            "file_size": "20+ MB",
+            "fallback_apk": "https://github.com/yasuo-ozu/kdeconnect-plus/releases",
+            "desc": "KDE Connect extensions: APK sideload plugin + WiFi credential sharing via QR codes (Android + Desktop)"
+        },
+        {
+            "name": "source-shelf",
+            "category": "Утилиты с GitHub",
+            "rating": "4.8",
+            "file_size": "20+ MB",
+            "fallback_apk": "https://github.com/iheanyi/source-shelf/releases",
+            "desc": "Restore Mihon extension APKs from a backup using any compatible repository."
         }
     ],
     "sent": [
@@ -2412,6 +2417,17 @@
             "date": "14.10.2026",
             "fallback_apk": "https://github.com/yuliskov/SmartTube/releases",
             "desc": "Продвинутый клиент для просмотра видео на Android TV и медиаплеер без рекламы."
+        },
+        {
+            "slug": "ivi-player",
+            "name": "IPTV Pro",
+            "category": "Мультимедиа",
+            "rating": "4.8",
+            "icon": "[IPTV]",
+            "file_size": "18.2 MB",
+            "date": "14.10.2026",
+            "fallback_apk": "https://github.com/search",
+            "desc": "Удобный проигрыватель для пользовательских M3U и M8U плейлистов высокой стабильности."
         }
     ],
     "total_scraped": 159,
