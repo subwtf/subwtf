@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "reverse-skill-evolver",
-            "name": "reverse-skill-evolver",
-            "category": "Сеть",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "39.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/2233admin/reverse-skill-evolver/releases",
-            "desc": "Reverse-engineering skills for AI coding agents, with IDA/MCP integration, APK and JavaScript workflows, bounded agent swarms, and..."
-        },
-        {
             "slug": "folk-games-app",
             "name": "folk-games-app",
             "category": "Системные",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/neo-backup-root/.github/releases",
             "desc": "Neo Backup copies app data and APKs on a rooted phone so you can restore them later. It is the maintained line that followed OAndB..."
+        },
+        {
+            "slug": "reverse-skill-evolver",
+            "name": "reverse-skill-evolver",
+            "category": "Сеть",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "39.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/2233admin/reverse-skill-evolver/releases",
+            "desc": "Reverse-engineering skills for AI coding agents, with IDA/MCP integration, APK and JavaScript workflows, bounded agent swarms, and..."
         }
     ],
     "total_scraped": 159,
