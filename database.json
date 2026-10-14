@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "pw-generator-app",
-            "name": "pw-generator-app",
-            "category": "Сеть",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "50.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/edoardosartori/pw-generator-app/releases",
-            "desc": "A lightweight password generation app built with Flutter, designed to create strong and customizable passwords locally."
-        },
-        {
             "slug": "apkprobe",
             "name": "apkprobe",
             "category": "Системные",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/justtmehfoozz/five-light-apk/releases",
             "desc": "FiveLight — A modern Android application built with thoughtful design and purposeful functionality."
+        },
+        {
+            "slug": "pw-generator-app",
+            "name": "pw-generator-app",
+            "category": "Сеть",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "50.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/edoardosartori/pw-generator-app/releases",
+            "desc": "A lightweight password generation app built with Flutter, designed to create strong and customizable passwords locally."
         }
     ],
     "total_scraped": 159,
