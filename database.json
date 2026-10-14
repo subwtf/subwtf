@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "bliss",
-            "name": "Bliss",
-            "category": "Сеть",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "28.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/godofchaos1998/Bliss/releases",
-            "desc": "Download Bliss — an Android emulator for Windows with free download. Experience a fully operational Android environment, install A..."
-        },
-        {
             "slug": "five-light-apk",
             "name": "five-light-apk",
             "category": "Мультимедиа",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/mayerstore/mayerstore-android-downloads/releases",
             "desc": "Public Android APK releases for Mayer Stores NG"
+        },
+        {
+            "slug": "bliss",
+            "name": "Bliss",
+            "category": "Сеть",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "28.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/godofchaos1998/Bliss/releases",
+            "desc": "Download Bliss — an Android emulator for Windows with free download. Experience a fully operational Android environment, install A..."
         }
     ],
     "total_scraped": 159,
