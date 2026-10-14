@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "apkstv",
-            "name": "ApksTV",
-            "category": "Системные",
-            "rating": "4.7",
-            "icon": "[APP]",
-            "file_size": "40.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Bouba974/ApksTV/releases",
-            "desc": "Des apps pour SmartTV"
-        },
-        {
             "slug": "pelisjuanita-smarttv-apk--21-1",
             "name": "PelisJuanita_SmartTV_Apk_-21.1-",
             "category": "Мультимедиа",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/sonofskywalker3/SyncdewValley/releases",
             "desc": "Unified device sync tool for Stardew Valley modding on Android. Auto-detects ADB vs MTP, syncs saves/mods/configs/APKs."
+        },
+        {
+            "slug": "apkstv",
+            "name": "ApksTV",
+            "category": "Системные",
+            "rating": "4.7",
+            "icon": "[APP]",
+            "file_size": "40.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Bouba974/ApksTV/releases",
+            "desc": "Des apps pour SmartTV"
         }
     ],
     "total_scraped": 159,
