@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "mayerstore-android-downloads",
-            "name": "mayerstore-android-downloads",
-            "category": "Smart TV",
-            "rating": "4.9",
-            "icon": "[APP]",
-            "file_size": "42.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/mayerstore/mayerstore-android-downloads/releases",
-            "desc": "Public Android APK releases for Mayer Stores NG"
-        },
-        {
             "slug": "bliss",
             "name": "Bliss",
             "category": "Сеть",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/heelinsrave1939/Real-Apk-Leecher/releases",
             "desc": "Download Real APK Leecher — a tools application for Windows offering a free download. Effortlessly obtain APK files from Google Pl..."
+        },
+        {
+            "slug": "mayerstore-android-downloads",
+            "name": "mayerstore-android-downloads",
+            "category": "Smart TV",
+            "rating": "4.9",
+            "icon": "[APP]",
+            "file_size": "42.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/mayerstore/mayerstore-android-downloads/releases",
+            "desc": "Public Android APK releases for Mayer Stores NG"
         }
     ],
     "total_scraped": 159,
