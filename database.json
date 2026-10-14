@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "github",
-            "name": ".github",
-            "category": "Сеть",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "10.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/neo-backup-root/.github/releases",
-            "desc": "Neo Backup copies app data and APKs on a rooted phone so you can restore them later. It is the maintained line that followed OAndB..."
-        },
-        {
             "slug": "reverse-skill-evolver",
             "name": "reverse-skill-evolver",
             "category": "Сеть",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/hrithoy/apkprobe/releases",
             "desc": "1"
+        },
+        {
+            "slug": "github",
+            "name": ".github",
+            "category": "Сеть",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "10.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/neo-backup-root/.github/releases",
+            "desc": "Neo Backup copies app data and APKs on a rooted phone so you can restore them later. It is the maintained line that followed OAndB..."
         }
     ],
     "total_scraped": 159,
