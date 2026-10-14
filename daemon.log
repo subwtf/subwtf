@@ -393,8 +393,11 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-�ено новых в базу: 0. Всего в базе: 129
-2026-10-14 17:48:40 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+[main 6da1964] Sync update
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+To github.com:subwtf/subwtf.git
+   6efb408..6da1964  main -> main
+3] Temporary failure in name resolution>
 2026-10-14 17:58:44 - Запуск цикла синхронизации...
 2026-10-14 17:59:04 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 18:00:12 - Добавлено новых в базу: 0. Всего в базе: 129
@@ -407,3 +410,7 @@ and the repository exists.
 2026-10-14 18:23:10 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 18:24:31 - Добавлено новых в базу: 0. Всего в базе: 129
 2026-10-14 18:24:32 - Ошибка публикации: HTTP Error 400: Bad Request
+2026-10-14 18:34:36 - Запуск цикла синхронизации...
+2026-10-14 18:34:56 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 18:36:18 - Добавлено новых в базу: 0. Всего в базе: 129
+2026-10-14 18:36:43 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
