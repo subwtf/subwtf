@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "five-light-apk",
-            "name": "five-light-apk",
-            "category": "Мультимедиа",
-            "rating": "4.7",
-            "icon": "[APP]",
-            "file_size": "58.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/justtmehfoozz/five-light-apk/releases",
-            "desc": "FiveLight — A modern Android application built with thoughtful design and purposeful functionality."
-        },
-        {
             "slug": "pw-generator-app",
             "name": "pw-generator-app",
             "category": "Сеть",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/godofchaos1998/Bliss/releases",
             "desc": "Download Bliss — an Android emulator for Windows with free download. Experience a fully operational Android environment, install A..."
+        },
+        {
+            "slug": "five-light-apk",
+            "name": "five-light-apk",
+            "category": "Мультимедиа",
+            "rating": "4.7",
+            "icon": "[APP]",
+            "file_size": "58.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/justtmehfoozz/five-light-apk/releases",
+            "desc": "FiveLight — A modern Android application built with thoughtful design and purposeful functionality."
         }
     ],
     "total_scraped": 159,
