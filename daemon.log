@@ -89,8 +89,11 @@ To github.com:subwtf/subwtf.git
  2 files changed, 143 insertions(+), 143 deletions(-)
 To github.com:subwtf/subwtf.git
    a289a64..d0c741e  main -> main
-зации...
-2026-10-14 11:18:24 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+[main 2f9703d] Sync update
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+To github.com:subwtf/subwtf.git
+   d0c741e..2f9703d  main -> main
+м резервный пул релизов.
 2026-10-14 11:19:47 - Добавлено новых в базу: 0. Всего в базе: 139
 2026-10-14 11:20:19 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
 2026-10-14 11:30:40 - Запуск цикла синхронизации...
@@ -133,3 +136,7 @@ To github.com:subwtf/subwtf.git
 2026-10-14 13:15:53 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 13:17:04 - Добавлено новых в базу: 0. Всего в базе: 133
 2026-10-14 13:17:26 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 13:27:47 - Запуск цикла синхронизации...
+2026-10-14 13:28:08 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 13:29:21 - Добавлено новых в базу: 0. Всего в базе: 133
+2026-10-14 13:29:43 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
