@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "obfuscan",
-            "name": "ObfuScan",
-            "category": "Мультимедиа",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "34.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/kundan0575/ObfuScan/releases",
-            "desc": "Scan Android APK native SO files to flag obfuscation, loaders, and high-value targets before reverse engineering"
-        },
-        {
             "slug": "real-apk-leecher",
             "name": "Real-Apk-Leecher",
             "category": "Утилиты",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/kenyawriters/Bingwa-Bot-APK/releases",
             "desc": ": Bingwa Bot Android Application"
+        },
+        {
+            "slug": "obfuscan",
+            "name": "ObfuScan",
+            "category": "Мультимедиа",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "34.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/kundan0575/ObfuScan/releases",
+            "desc": "Scan Android APK native SO files to flag obfuscation, loaders, and high-value targets before reverse engineering"
         }
     ],
     "total_scraped": 159,

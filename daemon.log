@@ -7,9 +7,11 @@ To github.com:subwtf/subwtf.git
  3 files changed, 169 insertions(+), 169 deletions(-)
 To github.com:subwtf/subwtf.git
    70447e2..ef8a6f0  main -> main
-�сего в базе: 150
-2026-10-14 09:18:30 - Опубликовано в канал: muhammet-tekin-web
-2026-10-14 09:28:32 - Запуск совместного штурма 4PDA и GitHub...
+[main 131b843] 4PDA and GitHub sync
+ 3 files changed, 169 insertions(+), 170 deletions(-)
+To github.com:subwtf/subwtf.git
+   ef8a6f0..131b843  main -> main
+�ного штурма 4PDA и GitHub...
 2026-10-14 09:28:33 - Ошибка доступа к 4PDA: HTTP Error 403: Forbidden
 2026-10-14 09:28:38 - Добавлено новых в базу: 0. Всего в базе: 149
 2026-10-14 09:28:38 - Опубликовано в канал: massiptv-surumler
@@ -17,3 +19,7 @@ To github.com:subwtf/subwtf.git
 2026-10-14 09:38:40 - Ошибка доступа к 4PDA: HTTP Error 403: Forbidden
 2026-10-14 09:38:46 - Добавлено новых в базу: 0. Всего в базе: 148
 2026-10-14 09:38:46 - Опубликовано в канал: Bingwa-Bot-APK
+2026-10-14 09:48:48 - Запуск совместного штурма 4PDA и GitHub...
+2026-10-14 09:48:49 - Ошибка доступа к 4PDA: HTTP Error 403: Forbidden
+2026-10-14 09:48:54 - Добавлено новых в базу: 0. Всего в базе: 147
+2026-10-14 09:48:54 - Опубликовано в канал: ObfuScan
