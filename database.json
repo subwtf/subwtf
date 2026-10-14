@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "fileadex-mobile-releases",
-            "name": "fileadex-mobile-releases",
-            "category": "Утилиты",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "26.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/Fardin7864/fileadex-mobile-releases/releases",
-            "desc": "Official public Android APK releases for FileadeX"
-        },
-        {
             "slug": "levyra-deepsound",
             "name": "Levyra-deepsound",
             "category": "Мультимедиа",
@@ -2436,6 +2425,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/dheeraz101/Notekar/releases",
             "desc": "A tiny, elegant timestamp logger (PWA-ready)/ Android App. Tap to record a moment, long-press to add a note, view history, and adj..."
+        },
+        {
+            "slug": "fileadex-mobile-releases",
+            "name": "fileadex-mobile-releases",
+            "category": "Утилиты",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "26.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/Fardin7864/fileadex-mobile-releases/releases",
+            "desc": "Official public Android APK releases for FileadeX"
         }
     ],
     "total_scraped": 159,
