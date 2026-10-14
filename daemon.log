@@ -67,9 +67,14 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-�ла синхронизации...
-2026-10-14 10:57:46 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
-2026-10-14 10:57:51 - Добавлено новых в базу: 0. Всего в базе: 141
+[main c9cc448] Sync update
+ 2 files changed, 147 insertions(+), 146 deletions(-)
+ssh: Could not resolve hostname github.com: Temporary failure in name resolution
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+� базе: 141
 2026-10-14 10:57:52 - Опубликовано в канал: .github
 2026-10-14 11:07:54 - Запуск цикла синхронизации...
 2026-10-14 11:07:54 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
@@ -103,3 +108,7 @@ and the repository exists.
 2026-10-14 12:26:54 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
 2026-10-14 12:28:12 - Добавлено новых в базу: 0. Всего в базе: 134
 2026-10-14 12:28:34 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
+2026-10-14 12:38:57 - Запуск цикла синхронизации...
+2026-10-14 12:39:18 - Обход защиты 4PDA через прямой IP заблокирован (403), используем резервный пул релизов.
+2026-10-14 12:40:19 - Добавлено новых в базу: 0. Всего в базе: 134
+2026-10-14 12:40:40 - Ошибка публикации: <urlopen error [Errno -3] Temporary failure in name resolution>
