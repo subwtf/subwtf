@@ -1,17 +1,6 @@
 {
     "apps": [
         {
-            "slug": "iran-news-apk",
-            "name": "iran-news-apk",
-            "category": "Мультимедиа",
-            "rating": "4.8",
-            "icon": "[APP]",
-            "file_size": "22.5 MB",
-            "date": "13.10.2026",
-            "fallback_apk": "https://github.com/nrmnnkkhh-svg/iran-news-apk/releases",
-            "desc": "Native Android shell for the Iran news app"
-        },
-        {
             "slug": "muhammet-tekin-web",
             "name": "muhammet-tekin-web",
             "category": "Мультимедиа",
@@ -2428,6 +2417,17 @@
             "date": "13.10.2026",
             "fallback_apk": "https://github.com/pedrobzn/Telos-Android-Test-Downloads/releases",
             "desc": "Public Android test APK releases for Télos Finance. The application source remains in a separate repository."
+        },
+        {
+            "slug": "iran-news-apk",
+            "name": "iran-news-apk",
+            "category": "Мультимедиа",
+            "rating": "4.8",
+            "icon": "[APP]",
+            "file_size": "22.5 MB",
+            "date": "13.10.2026",
+            "fallback_apk": "https://github.com/nrmnnkkhh-svg/iran-news-apk/releases",
+            "desc": "Native Android shell for the Iran news app"
         }
     ],
     "total_scraped": 159,
